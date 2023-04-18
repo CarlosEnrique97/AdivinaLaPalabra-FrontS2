@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Palabra } from './palabra';
+import { GameService } from 'src/app/services/game.service';
 
 @Component({
   selector: 'app-main',
@@ -11,13 +12,17 @@ export class MainComponent implements OnInit {
     nombre: '',
   };
 
-  constructor() {}
+  constructor(private gameService: GameService) {}
 
   ngOnInit() {}
 
   formularioEnviado() {
-    console.log('El formulario fue enviado y la palabra es: ');
+    console.log(
+      'El formulario fue enviado y la palabra es: ',
+      this.palabraModel
+    );
     alert('Enviado');
+    this.gameService.getWordIfExist('duelo');
   }
 
   Teclado: string[] = [
