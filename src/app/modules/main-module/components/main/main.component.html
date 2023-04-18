@@ -1,1 +1,18 @@
+<h1>Registrar palabra</h1>
 
+<br /><br />
+<form #formularioPalabra="ngForm" (ngSubmit)="formularioEnviado()">
+  <input
+    type="text"
+    name="nombre"
+    placeholder="Escribe una palabra "
+    [(ngModel)]="palabraModel.nombre"
+    required
+  />
+
+  <br /><br />
+  <button type="submit">Guardar</button>
+</form>
+
+<h2>Depurando palabra:</h2>
+{{ palabraModel | json }}
