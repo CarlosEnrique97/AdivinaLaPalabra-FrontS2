@@ -1,42 +1,42 @@
-<div class="container-fluid">
-  <div class="row justify-content-center">
-    <div class="col-md-12 text-center">
-      <br /><br />
-      <form #formularioPalabra="ngForm" (ngSubmit)="formularioEnviado()">
+<form #formularioPalabra="ngForm" (ngSubmit)="formularioEnviado()">
+  <div class="container-fluid body">
+    <div class="row justify-content-center">
+      <div class="col-md-12 text-center">
+        <h1>Bienvenido a Adivina la palabra</h1>
+        <br /><br />
         <input
           type="text"
           name="nombre"
-          placeholder="Escribe una palabra "
+          maxlength="5"
+          placeholder="Escribe una palabra"
+          style="text-transform: uppercase"
           [(ngModel)]="palabraModel.nombre"
           required
         />
-      
         <br /><br />
-        <button type="submit">Guardar</button>
-      </form>
-      
-      <h2>Depurando palabra:</h2>
-      {{ palabraModel | json }}
-    </div>
-    
-  </div>
-  </div>
-  
-
-
-<div class="container-fluid">
-  <div class="row justify-content-center">
-    <div class="col-md-4 text-center">
-      <button
-        type="button"
-        class="btn btn-light btn-lg"
-        *ngFor="let Tecla of Teclado"
-        (click)="EnviarLetra(Tecla)"
-      >
-        {{ Tecla }}
-      </button>
-      <button type="button" class="btn btn-light btn-lg">⌫</button>
-      <button type="button" class="btn btn-light btn-lg">Enviar</button>
+      </div>
     </div>
   </div>
-</div>
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-md-4 text-center">
+        <button
+          type="button"
+          class="btn btn-light btn-lg"
+          *ngFor="let Tecla of Teclado"
+          (click)="EnviarLetra(Tecla)"
+        >
+          {{ Tecla }}
+        </button>
+        <button type="button" class="btn btn-light btn-lg">⌫</button>
+        <button
+          type="submit"
+          class="btn btn-light btn-lg"
+          [disabled]="palabraModel.nombre.length < 5"
+        >
+          Enviar
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
