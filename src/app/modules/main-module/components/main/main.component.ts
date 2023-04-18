@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Palabra } from './palabra';
+import { Palabra } from '../../../../interfaces/palabra';
 
 @Component({
   selector: 'app-main',
