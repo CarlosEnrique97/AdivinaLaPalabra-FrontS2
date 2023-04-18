@@ -12,6 +12,7 @@ export class MainComponent implements OnInit {
     nombre: '',
   };
 
+  azucar: boolean = false;
   constructor(private gameService: GameService) {}
 
   ngOnInit() {}
@@ -22,7 +23,8 @@ export class MainComponent implements OnInit {
       this.palabraModel
     );
     alert('Enviado');
-    this.gameService.getWordIfExist('duelo');
+    this.azucar = this.gameService.wordIfExist;
+    console.log(this.gameService.wordIfExist);
   }
 
   Teclado: string[] = [
