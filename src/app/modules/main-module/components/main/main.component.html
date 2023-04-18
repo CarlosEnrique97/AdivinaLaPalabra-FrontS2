@@ -1,1 +1,16 @@
-<p>main works!</p>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-md-4 text-center">
+        <button
+          type="button"
+          class="btn btn-light btn-lg"
+          *ngFor="let Tecla of Teclado"
+          (click)="EnviarLetra(Tecla)"
+        >
+          {{ Tecla }}
+        </button>
+        <button type="button" class="btn btn-light btn-lg">⌫</button>
+        <button type="button" class="btn btn-light btn-lg">Enviar</button>
+      </div>
+    </div>
+  </div>
