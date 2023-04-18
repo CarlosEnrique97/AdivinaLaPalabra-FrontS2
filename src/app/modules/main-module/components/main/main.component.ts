@@ -51,6 +51,8 @@ export class MainComponent implements OnInit {
   ];
 
   EnviarLetra(Tecla: string) {
-    console.log(Tecla);
+    if (this.palabraModel.nombre.length < 5) {
+      this.palabraModel.nombre += Tecla;
+    }
   }
 }
