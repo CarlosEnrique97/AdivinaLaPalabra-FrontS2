@@ -62,4 +62,8 @@ export class MainComponent implements OnInit {
       this.palabraModel.nombre += Tecla;
     }
   }
+
+  BorrarLetra(){
+    this.palabraModel.nombre = this.palabraModel.nombre.slice(0,-1);
+  }
 }
