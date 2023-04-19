@@ -12,23 +12,20 @@ export class MainComponent implements OnInit {
     nombre: '',
   };
 
-  $wordExist: Boolean = false;
-
+  variableWord: any;
   constructor(private gameService: GameService) {}
 
   ngOnInit() {
+    this.gameService.$respuesta.subscribe({
+      next: (response) => {
+        this.variableWord = response;
+      },
+    });
     
   }
 
   formularioEnviado() {
-    console.log('El formulario fue enviado y la palabra es: ');
-    alert('Enviado');
-    this.gameService.getInfoWord(this.palabraModel.nombre.toLocaleLowerCase())
-  }
-  
-  setBoolean(data: any){
-    this.$wordExist = data;
-    console.log(this.$wordExist)
+    this.gameService.getWordIfExist(this.palabraModel.nombre);
   }
 
   Teclado: string[] = [
@@ -67,7 +64,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  deleteCharacter() {
+  BorrarLetra() {
     this.palabraModel.nombre = this.palabraModel.nombre.slice(0, -1);
   }
 }
