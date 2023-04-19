@@ -56,13 +56,22 @@ export class MainComponent implements OnInit {
     'Z',
   ];
 
+<<<<<<< HEAD
+  enviarLetra(Tecla: string) {
+    console.log(Tecla);
+=======
   EnviarLetra(Tecla: string) {
+>>>>>>> d87256c6cf92c8cd4ebf59312a19c36b033a6b6a
     if (this.palabraModel.nombre.length < 5) {
       this.palabraModel.nombre += Tecla;
     }
   }
 
+<<<<<<< HEAD
+  deleteCharacter() {
+=======
   BorrarLetra() {
+>>>>>>> d87256c6cf92c8cd4ebf59312a19c36b033a6b6a
     this.palabraModel.nombre = this.palabraModel.nombre.slice(0, -1);
   }
 }
