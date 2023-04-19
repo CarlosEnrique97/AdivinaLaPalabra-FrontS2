@@ -6,9 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class GameService {
+  wordExist: any = null;
   baseURL = 'http://10.102.31.7:8080/';
-  wordIfExist: any = null;
-
   constructor(private http: HttpClient) {}
 
   getWordIfExist(wordInsert: string) {
@@ -17,9 +16,9 @@ export class GameService {
       .subscribe({
         next: (response) => {
           if (!response) return;
-          this.wordIfExist = response;
+          this.wordExist = response;
         },
       });
-    console.log(this.wordIfExist);
+    console.log(this.wordExist);
   }
 }

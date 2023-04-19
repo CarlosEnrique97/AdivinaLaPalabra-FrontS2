@@ -1,4 +1,4 @@
-<form #formularioPalabra="ngForm" (ngSubmit)="formularioEnviado()">
+<form #formularioPalabra="ngForm" (ngSubmit)="formularioEnviado()" autocomplete="off">
   <div class="container-fluid body">
     <div class="row justify-content-center">
       <div class="col-md-12 text-center">
@@ -10,6 +10,7 @@
           maxlength="5"
           placeholder="Escribe una palabra"
           style="text-transform: uppercase"
+          [ngStyle]="{'background-color':palabraModel.nombre.length==5?'red':'green'}"
           [(ngModel)]="palabraModel.nombre"
           required
         />
