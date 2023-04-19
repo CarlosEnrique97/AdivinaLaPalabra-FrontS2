@@ -22,4 +22,4 @@ import { MainModuleModule } from './modules/main-module/main-module.module';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
