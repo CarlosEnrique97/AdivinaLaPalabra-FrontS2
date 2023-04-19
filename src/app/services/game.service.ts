@@ -9,11 +9,7 @@ export class GameService {
   wordExist: any= null;
   BASEURL = './assets/data/palabras.json';
   constructor(private http : HttpClient) {}
-
-  setInfoWord(wordInsert: string){
-    this.http.post(this.BASEURL).subscribe
-  }
-
+  
   getInfoWord(){
    
     this.http.get(this.BASEURL).subscribe({
