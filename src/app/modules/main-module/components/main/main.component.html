@@ -24,11 +24,18 @@
         type="button"
         class="btn btn-light btn-lg"
         *ngFor="let Tecla of Teclado"
-        (click)="EnviarLetra(Tecla)"
+        (click)="enviarLetra(Tecla)"
       >
         {{ Tecla }}
       </button>
       <button type="button" class="btn btn-light btn-lg">⌫</button>
+      <button
+        type="button"
+        class="btn btn-light btn-lg"
+        (click)="deleteCharacter()"
+      >
+        ⌫
+      </button>
       <button type="button" class="btn btn-light btn-lg">Enviar</button>
     </div>
   </div>
