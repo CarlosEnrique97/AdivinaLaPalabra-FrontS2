@@ -11,13 +11,9 @@
           maxlength="5"
           placeholder="Escribe una palabra"
           style="text-transform: uppercase"
-          [ngStyle]="{
-            'background-color':
-              variableWord == true
-                ? 'green'
-                : variableWord == false
-                ? 'red'
-                : 'white'
+          [ngClass]="{
+            success: variableWord == true,
+            error: variableWord == false
           }"
           [(ngModel)]="palabraModel.nombre"
           required
