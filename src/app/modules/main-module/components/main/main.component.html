@@ -1,15 +1,12 @@
-<form
-  #formularioPalabra="ngForm"
-  (ngSubmit)="formularioEnviado()"
-  autocomplete="off"
->
+<form #formularioPalabra="ngForm" (ngSubmit)="sendWord()" autocomplete="off">
   <div class="container-fluid">
     <div class="row justify-content-center">
-      <div class="col-md-12 text-center">
-        <h1>Bienvenido a Adivina la palabra</h1>
+      <div class="col d-flex flex-column align-items-center">
+        <h1>BIENVENIDO A ADIVINA LA PALABRA</h1>
         <br /><br />
         <input
           type="text"
+          class="input-group-sm form-control w-25"
           name="nombre"
           maxlength="5"
           placeholder="Escribe una palabra"
@@ -20,7 +17,7 @@
                 ? 'green'
                 : variableWord == false
                 ? 'red'
-                : 'grey'
+                : 'white'
           }"
           [(ngModel)]="palabraModel.nombre"
           required
@@ -31,27 +28,51 @@
   </div>
   <div class="container-fluid">
     <div class="row justify-content-center">
-      <div class="col-md-4 text-center">
+      <div class="col-md-6 text-center">
         <button
           type="button"
-          class="btn btn-light btn-lg"
-          *ngFor="let Tecla of Teclado"
-          (click)="EnviarLetra(Tecla)"
+          class="btn btn-light btn-lg m-1 px-4 py-3"
+          *ngFor="let tecla of teclado"
+          (click)="sendLetter(tecla)"
         >
-          {{ Tecla }}
+          {{ tecla }}
         </button>
         <button
           type="button"
-          class="btn btn-light btn-lg"
-          (click)="BorrarLetra()"
+          class="btn btn-light btn-lg m-1 px-4 py-3"
+          (click)="deleteLetter()"
         >
-          ⌫
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="25"
+            fill="currentColor"
+            class="bi bi-arrow-bar-left"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5ZM10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5Z"
+            />
+          </svg>
         </button>
         <button
           type="submit"
-          class="btn btn-primary btn-lg"
+          class="btn btn-primary btn-l m-1 px-4 py-3"
           [disabled]="palabraModel.nombre.length < 5"
         >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-send-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"
+            />
+          </svg>
           Enviar
         </button>
       </div>

@@ -1,70 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Palabra } from '../../../../interfaces/palabra';
 import { GameService } from 'src/app/services/game.service';
+import { TECLADO } from 'src/assets/datos/datos';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements OnInit {
+export class MainComponent {
   palabraModel: Palabra = {
     nombre: '',
   };
 
+  teclado: string[] = TECLADO;
   variableWord: any;
   constructor(private gameService: GameService) {}
 
-  ngOnInit() {
-    this.gameService.$respuesta.subscribe({
+  sendWord() {
+    this.gameService.getWordIfExist(this.palabraModel.nombre).subscribe({
       next: (response) => {
         this.variableWord = response;
       },
     });
-    
   }
 
-  formularioEnviado() {
-    this.gameService.getWordIfExist(this.palabraModel.nombre);
+  sendLetter(tecla: string) {
+    if (this.palabraModel.nombre.length >= 5) return;
+    this.palabraModel.nombre += tecla;
   }
 
-  Teclado: string[] = [
-    'A',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'H',
-    'I',
-    'J',
-    'K',
-    'L',
-    'M',
-    'N',
-    'Ñ',
-    'O',
-    'P',
-    'Q',
-    'R',
-    'S',
-    'T',
-    'U',
-    'V',
-    'W',
-    'X',
-    'Y',
-    'Z',
-  ];
-
-  EnviarLetra(Tecla: string) {
-    if (this.palabraModel.nombre.length < 5) {
-      this.palabraModel.nombre += Tecla;
-    }
-  }
-
-  BorrarLetra() {
+  deleteLetter() {
     this.palabraModel.nombre = this.palabraModel.nombre.slice(0, -1);
   }
 }
