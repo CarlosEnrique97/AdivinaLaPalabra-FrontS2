@@ -12,17 +12,23 @@ export class MainComponent implements OnInit {
     nombre: '',
   };
 
-  wordExist: Boolean = false;
+  $wordExist: Boolean = false;
 
   constructor(private gameService: GameService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    
+  }
 
   formularioEnviado() {
     console.log('El formulario fue enviado y la palabra es: ');
     alert('Enviado');
-    this.gameService.getInfoWord(this.palabraModel.nombre);
-    this.wordExist = this.gameService.wordExist;
+    this.gameService.getInfoWord(this.palabraModel.nombre.toLocaleLowerCase())
+  }
+  
+  setBoolean(data: any){
+    this.$wordExist = data;
+    console.log(this.$wordExist)
   }
 
   Teclado: string[] = [
