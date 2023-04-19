@@ -12,7 +12,7 @@ export class MainComponent implements OnInit {
     nombre: '',
   };
 
-  azucar: boolean = false;
+  variableWord: boolean = false;
   constructor(private gameService: GameService) {}
 
   ngOnInit() {}
@@ -23,8 +23,8 @@ export class MainComponent implements OnInit {
       this.palabraModel
     );
     alert('Enviado');
-    this.azucar = this.gameService.wordIfExist;
-    console.log(this.gameService.wordIfExist);
+    this.variableWord = this.gameService.wordIfExist;
+    console.log('esto es lo que peta', this.gameService.wordIfExist);
   }
 
   Teclado: string[] = [
@@ -63,7 +63,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  BorrarLetra(){
-    this.palabraModel.nombre = this.palabraModel.nombre.slice(0,-1);
+  BorrarLetra() {
+    this.palabraModel.nombre = this.palabraModel.nombre.slice(0, -1);
   }
 }
