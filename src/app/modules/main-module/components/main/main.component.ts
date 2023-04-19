@@ -61,7 +61,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  BorrarLetra(){
-    this.palabraModel.nombre = this.palabraModel.nombre.slice(0,-1);
+  BorrarLetra() {
+    this.palabraModel.nombre = this.palabraModel.nombre.slice(0, -1);
   }
 }

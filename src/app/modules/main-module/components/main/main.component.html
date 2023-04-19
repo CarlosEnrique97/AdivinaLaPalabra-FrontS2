@@ -10,6 +10,7 @@
           maxlength="5"
           placeholder="Escribe una palabra"
           style="text-transform: uppercase"
+          [ngStyle]="{'background-color':palabraModel.nombre.length==5?'red':'green'}"
           [(ngModel)]="palabraModel.nombre"
           required
         />
