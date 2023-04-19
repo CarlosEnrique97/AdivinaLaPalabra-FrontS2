@@ -21,11 +21,11 @@ export class MainComponent implements OnInit {
         this.variableWord = response;
       },
     });
-    
   }
 
   formularioEnviado() {
     this.gameService.getWordIfExist(this.palabraModel.nombre);
+    alert('Enviado');
   }
 
   Teclado: string[] = [
