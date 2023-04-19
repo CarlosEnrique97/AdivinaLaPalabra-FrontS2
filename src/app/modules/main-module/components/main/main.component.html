@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <h1>Registrar palabra</h1>
 
 <br /><br />
@@ -37,6 +38,54 @@
         ⌫
       </button>
       <button type="button" class="btn btn-light btn-lg">Enviar</button>
+=======
+<form #formularioPalabra="ngForm" (ngSubmit)="formularioEnviado()" autocomplete="off">
+  <div class="container-fluid body">
+    <div class="row justify-content-center">
+      <div class="col-md-12 text-center">
+        <h1>Bienvenido a Adivina la palabra</h1>
+        <br /><br />
+        <input
+          type="text"
+          name="nombre"
+          maxlength="5"
+          placeholder="Escribe una palabra"
+          style="text-transform: uppercase"
+          [ngStyle]="{'background-color':palabraModel.nombre.length==5?'red':'green'}"
+          [(ngModel)]="palabraModel.nombre"
+          required
+        />
+        <br /><br />
+      </div>
+>>>>>>> d87256c6cf92c8cd4ebf59312a19c36b033a6b6a
     </div>
   </div>
-</div>
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-md-4 text-center">
+        <button
+          type="button"
+          class="btn btn-light btn-lg"
+          *ngFor="let Tecla of Teclado"
+          (click)="EnviarLetra(Tecla)"
+        >
+          {{ Tecla }}
+        </button>
+        <button
+          type="button"
+          class="btn btn-light btn-lg"
+          (click)="BorrarLetra()"
+        >
+          ⌫
+        </button>
+        <button
+          type="submit"
+          class="btn btn-light btn-lg"
+          [disabled]="palabraModel.nombre.length < 5"
+        >
+          Enviar
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
