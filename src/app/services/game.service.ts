@@ -5,19 +5,19 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class GameService {
+  wordExist: any = null;
+  baseURL = 'http://10.102.31.7:8080/';
+  constructor(private http: HttpClient) {}
 
-  wordExist: any= null;
-  BASEURL = './assets/data/palabras.json';
-  constructor(private http : HttpClient) {}
-  
-  getInfoWord(){
-   
-    this.http.get(this.BASEURL).subscribe({
-      next: (response) => {
-        if(!response) return;
-        this.wordExist = response ;
-      }
-    })
+  getWordIfExist(wordInsert: string) {
+    this.http
+      .get<any>(this.baseURL.concat(`checkIfWordExists/${wordInsert}`))
+      .subscribe({
+        next: (response) => {
+          if (!response) return;
+          this.wordExist = response;
+        },
+      });
+    console.log(this.wordExist);
   }
-
 }
