@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class GameService {
 
-  wordExist: any;
+  wordExist: any= null;
   BASEURL = './assets/data/palabras.json';
   constructor(private http : HttpClient) {}
 
