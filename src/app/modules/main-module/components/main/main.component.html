@@ -2,8 +2,7 @@
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-md-12 text-center">
-        <h1>Bienvenido a Adivina la palabra</h1>
-        <br /><br />
+        <h1 class="my-4">Bienvenido a Adivina la palabra</h1>
         <input
           type="text"
           name="nombre"
@@ -13,6 +12,7 @@
           [ngStyle]="{'background-color':variableWord==true?'green':variableWord==false?'red':'grey'}"
           [(ngModel)]="palabraModel.nombre"
           required
+          disabled=""
         />
         <br /><br />
       </div>
@@ -20,7 +20,7 @@
   </div>
   <div class="container-fluid">
     <div class="row justify-content-center">
-      <div class="col-md-4 text-center">
+      <div class="col-md-4 text-center my-5">
         <button
           type="button"
           class="btn btn-light btn-lg"

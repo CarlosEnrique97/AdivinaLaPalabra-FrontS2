@@ -8,11 +8,13 @@ import { GameService } from 'src/app/services/game.service';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
+
   palabraModel: Palabra = {
     nombre: '',
   };
 
   variableWord: any;
+
   constructor(private gameService: GameService) {}
 
   ngOnInit() {
@@ -20,8 +22,7 @@ export class MainComponent implements OnInit {
       next: (response) => {
         this.variableWord = response;
       },
-    });
-    
+    }); 
   }
 
   formularioEnviado() {

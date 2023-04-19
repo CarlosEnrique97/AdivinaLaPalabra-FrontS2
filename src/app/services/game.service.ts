@@ -14,11 +14,14 @@ export class GameService {
 
   getWordIfExist(wordInsert: string) {
     this.http
-      .get<boolean>(this.baseURL.concat('checkIfWordExists/' + wordInsert))
+      .get<boolean>(this.baseURL.concat(wordInsert))
       .subscribe({
         next: (response) => {
           this.$respuesta.next(response);
         },
+        error: () =>{
+          alert("Ha habido un error en la Conexión a la BBDD "+ console.error())
+        }
       });
       return this.$respuesta;
   }
