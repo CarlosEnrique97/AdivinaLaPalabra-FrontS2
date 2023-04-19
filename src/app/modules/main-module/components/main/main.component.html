@@ -10,7 +10,7 @@
           maxlength="5"
           placeholder="Escribe una palabra"
           style="text-transform: uppercase"
-          [ngStyle]="{'background-color':variableWord==false?'red':'green'}"
+          [ngStyle]="{'background-color':variableWord==true?'green':variableWord==false?'red':'grey'}"
           [(ngModel)]="palabraModel.nombre"
           required
         />

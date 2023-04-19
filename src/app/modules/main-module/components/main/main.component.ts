@@ -15,15 +15,17 @@ export class MainComponent implements OnInit {
   variableWord: any;
   constructor(private gameService: GameService) {}
 
-  ngOnInit(
+  ngOnInit() {
+    this.gameService.$respuesta.subscribe({
+      next: (response) => {
+        this.variableWord = response;
+      },
+    });
     
-  ) {}
+  }
 
   formularioEnviado() {
-    
-    this.variableWord=this.gameService.getWordIfExist(this.palabraModel.nombre.toLowerCase());
-    console.log(this.variableWord)
-
+    this.gameService.getWordIfExist(this.palabraModel.nombre);
   }
 
   Teclado: string[] = [
