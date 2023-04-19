@@ -10,16 +10,16 @@ export class GameService {
   baseURL = 'http://10.102.30.50:8080/';
   constructor(private http: HttpClient) {}
 
-  $id: BehaviorSubject<Number> = new BehaviorSubject<any>(Number);
+  $id: BehaviorSubject<number> = new BehaviorSubject<any>(null);
 
-  getWordIfExist(wordInsert: String): Observable<Boolean> {
-    return this.http.get<Boolean>(
+  getWordIfExist(wordInsert: string): Observable<boolean> {
+    return this.http.get<boolean>(
       this.baseURL.concat('checkIfWordExists/' + wordInsert)
     );
   }
 
   newGame() {
-    this.http.get<Number>(this.baseURL.concat('newGame')).subscribe({
+    this.http.get<number>(this.baseURL.concat('newGame')).subscribe({
       next: (response) => {
         this.$id.next(response);
       },
