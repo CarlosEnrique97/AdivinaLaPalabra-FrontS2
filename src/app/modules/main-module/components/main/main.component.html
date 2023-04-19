@@ -1,44 +1,3 @@
-<<<<<<< HEAD
-<h1>Registrar palabra</h1>
-
-<br /><br />
-<form #formularioPalabra="ngForm" (ngSubmit)="formularioEnviado()">
-  <input
-    type="text"
-    name="nombre"
-    placeholder="Escribe una palabra "
-    [(ngModel)]="palabraModel.nombre"
-    required
-  />
-
-  <br /><br />
-  <button type="submit">Guardar</button>
-</form>
-
-<h2>Depurando palabra:</h2>
-{{ palabraModel | json }}
-
-<div class="container-fluid">
-  <div class="row justify-content-center">
-    <div class="col-md-4 text-center">
-      <button
-        type="button"
-        class="btn btn-light btn-lg"
-        *ngFor="let Tecla of Teclado"
-        (click)="enviarLetra(Tecla)"
-      >
-        {{ Tecla }}
-      </button>
-      <button type="button" class="btn btn-light btn-lg">⌫</button>
-      <button
-        type="button"
-        class="btn btn-light btn-lg"
-        (click)="deleteCharacter()"
-      >
-        ⌫
-      </button>
-      <button type="button" class="btn btn-light btn-lg">Enviar</button>
-=======
 <form #formularioPalabra="ngForm" (ngSubmit)="formularioEnviado()" autocomplete="off">
   <div class="container-fluid">
     <div class="row justify-content-center">
@@ -57,7 +16,6 @@
         />
         <br /><br />
       </div>
->>>>>>> d87256c6cf92c8cd4ebf59312a19c36b033a6b6a
     </div>
   </div>
   <div class="container-fluid">
