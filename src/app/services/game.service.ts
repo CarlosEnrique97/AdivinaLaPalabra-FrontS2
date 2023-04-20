@@ -20,7 +20,7 @@ export class GameService {
           this.$respuesta.next(response);
         },
         error: () =>{
-          alert("Ha habido un error en la Conexión a la BBDD "+ console.error())
+          alert("Ha habido un error en la Conexión a la BBDD ")
         }
       });
       return this.$respuesta;
