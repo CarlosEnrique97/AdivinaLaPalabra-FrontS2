@@ -13,16 +13,14 @@ export class GameService {
   $respuesta: BehaviorSubject<Boolean> = new BehaviorSubject<any>(Boolean);
 
   getWordIfExist(wordInsert: string) {
-    this.http
-      .get<boolean>(this.baseURL.concat(wordInsert))
-      .subscribe({
-        next: (response) => {
-          this.$respuesta.next(response);
-        },
-        error: () =>{
-          alert("Ha habido un error en la Conexión a la BBDD ")
-        }
-      });
-      return this.$respuesta;
+    this.http.get<boolean>(this.baseURL.concat(wordInsert)).subscribe({
+      next: (response) => {
+        this.$respuesta.next(response);
+      },
+      error: () => {
+        alert('Ha habido un error en la Conexión a la BBDD ');
+      },
+    });
+    return this.$respuesta;
   }
 }
