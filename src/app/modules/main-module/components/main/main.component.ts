@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Palabra } from '../../../../interfaces/palabra';
 import { GameService } from 'src/app/services/game.service';
 import { TECLADO } from 'src/assets/datos/datos';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 
 @Component({
   selector: 'app-main',
@@ -14,17 +16,16 @@ export class MainComponent {
   };
 
   teclado: string[] = TECLADO;
-  variableWord = false;
   inicioPalabra: number = 0;
   finPalabra: number = -1;
 
-  constructor(private gameService: GameService) {}
+  constructor(private gameService: GameService, private dialog: MatDialog) {}
 
   sendWord() {
     this.gameService.getWordIfExist(this.palabraModel.nombre).subscribe({
       next: (response: boolean) => {
         if (response) return;
-        this.variableWord = true;
+        this.openDialog();
       },
     });
   }
@@ -39,5 +40,11 @@ export class MainComponent {
       this.inicioPalabra,
       this.finPalabra
     );
+  }
+
+  openDialog() {
+    this.dialog.open(DialogComponent, {
+      data: 'La palabra no existe',
+    });
   }
 }
