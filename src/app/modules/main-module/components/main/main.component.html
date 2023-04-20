@@ -21,6 +21,7 @@
           }"
           [(ngModel)]="palabraModel.nombre"
           required
+          disabled
         />
         <br /><br />
       </div>
@@ -34,6 +35,7 @@
           class="btn btn-light btn-lg m-1 px-4 py-3"
           *ngFor="let tecla of teclado"
           (click)="sendLetter(tecla)"
+          [disabled]="block"
         >
           {{ tecla }}
         </button>
@@ -41,6 +43,7 @@
           type="button"
           class="btn btn-light btn-lg m-1 px-4 py-3"
           (click)="deleteLetter()"
+          [disabled]="block"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

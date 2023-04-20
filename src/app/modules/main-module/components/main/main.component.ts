@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Palabra } from '../../../../interfaces/palabra';
 import { GameService } from 'src/app/services/game.service';
 import { TECLADO } from 'src/assets/datos/datos';
@@ -8,14 +8,23 @@ import { TECLADO } from 'src/assets/datos/datos';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent {
+export class MainComponent implements OnInit {
   palabraModel: Palabra = {
     nombre: '',
   };
 
   teclado: string[] = TECLADO;
   variableWord: any;
+  block: Boolean = false;
+
   constructor(private gameService: GameService) {}
+  ngOnInit(): void {
+    this.gameService.$blockKeyboard.subscribe({
+      next: (response) => {
+        this.block = response;
+      },
+    });
+  }
 
   sendWord() {
     this.gameService.getWordIfExist(this.palabraModel.nombre).subscribe({

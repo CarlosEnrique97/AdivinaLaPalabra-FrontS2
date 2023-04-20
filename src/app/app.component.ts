@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { GameService } from './services/game.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,20 @@ import { GameService } from './services/game.service';
 })
 export class AppComponent {
   title = 'AdivinaLaPalabra-Front';
+  mostrarModal: Boolean = false;
 
   constructor(private gameService: GameService) {}
 
   ngOnInit() {
-    this.gameService.newGame();
+    this.gameService.newGame().subscribe({
+      next: () => {
+        this.gameService.$blockKeyboard.next(false);
+      },
+      error: () => {
+        this.mostrarModal = true;
+
+        this.gameService.$blockKeyboard.next(true);
+      },
+    });
   }
 }

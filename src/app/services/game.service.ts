@@ -8,9 +8,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class GameService {
   wordExist: any;
   baseURL = 'http://10.102.30.50:8080/';
+
   constructor(private http: HttpClient) {}
 
   $id: BehaviorSubject<Number> = new BehaviorSubject<any>(Number);
+  $blockKeyboard: BehaviorSubject<Boolean> = new BehaviorSubject<any>(Boolean);
 
   getWordIfExist(wordInsert: String): Observable<Boolean> {
     return this.http.get<Boolean>(
@@ -18,14 +20,7 @@ export class GameService {
     );
   }
 
-  newGame() {
-    this.http.get<Number>(this.baseURL.concat('newGame')).subscribe({
-      next: (response) => {
-        this.$id.next(response);
-      },
-      error: () => {
-        alert('No se ha podido crear una nueva partida');
-      },
-    });
+  newGame(): Observable<number> {
+    return this.http.get<number>(this.baseURL.concat('newGame'));
   }
 }
