@@ -23,9 +23,9 @@ export class MainComponent {
 
   sendWord() {
     this.gameService.getWordIfExist(this.palabraModel.nombre).subscribe({
-      next: (response: boolean) => {
-        if (response) return;
-        this.openDialog();
+      next: (response:any) => {
+        if (response.wordExists) return;
+        this.openDialog("La palabra no existe");
       },
     });
   }
@@ -42,9 +42,9 @@ export class MainComponent {
     );
   }
 
-  openDialog() {
+  openDialog(frase: string) {
     this.dialog.open(DialogComponent, {
-      data: 'La palabra no existe',
+      data: frase,
     });
   }
 }

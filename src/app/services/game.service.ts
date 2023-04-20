@@ -9,7 +9,7 @@ import { MatDialog} from '@angular/material/dialog';
 })
 export class GameService {
   wordExist: any;
-  baseURL = 'http://10.102.30.50:8080/';
+  baseURL = 'http://10.102.31.7:8080/';
   constructor(private http: HttpClient, private dialog: MatDialog) {}
 
   $id: BehaviorSubject<number> = new BehaviorSubject<any>(null);
