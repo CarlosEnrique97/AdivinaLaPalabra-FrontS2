@@ -11,13 +11,10 @@
           maxlength="5"
           placeholder="Escribe una palabra"
           style="text-transform: uppercase"
-          [ngClass]="{
-            success: variableWord == true,
-            error: variableWord == false
-          }"
           [(ngModel)]="palabraModel.nombre"
           required
         />
+        <div *ngIf="variableWord">La palabra no existe</div>
         <br /><br />
       </div>
     </div>

@@ -14,13 +14,17 @@ export class MainComponent {
   };
 
   teclado: string[] = TECLADO;
-  variableWord: any;
+  variableWord = false;
+  inicioPalabra: number = 0;
+  finPalabra: number = -1;
+
   constructor(private gameService: GameService) {}
 
   sendWord() {
     this.gameService.getWordIfExist(this.palabraModel.nombre).subscribe({
-      next: (response) => {
-        this.variableWord = response;
+      next: (response: boolean) => {
+        if (response) return;
+        this.variableWord = true;
       },
     });
   }
@@ -31,6 +35,9 @@ export class MainComponent {
   }
 
   deleteLetter() {
-    this.palabraModel.nombre = this.palabraModel.nombre.slice(0, -1);
+    this.palabraModel.nombre = this.palabraModel.nombre.slice(
+      this.inicioPalabra,
+      this.finPalabra
+    );
   }
 }
