@@ -27,13 +27,13 @@ export class GameService {
   }
 
   newGame() {
-    this.http.get<number>(this.baseURL.concat('newGame')).subscribe({
+    this.http.get<number>(this.baseURL.concat('newGameasdas')).subscribe({
       next: (response) => {
         this.$id.next(response);
       },
       error: () => {
         this.dialog.open(DialogComponent, {
-          data: {text: 'Ha habido un fallo al generar la partida, ya se ve lo looser que eres, recarga anda', createbutton: false}});
+          data: {text: 'Ha habido un fallo al generar la partida, ya se ve lo looser que eres, recarga anda', createButton: false}});
         this.$disable.next(true);
       },
     });

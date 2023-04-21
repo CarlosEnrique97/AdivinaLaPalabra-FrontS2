@@ -53,7 +53,7 @@ export class MainComponent implements OnInit{
 
   openDialog() {
     this.dialog.open(DialogComponent, {
-      data: {text: 'La palabra no existe', createbutton: true}});
+      data: {text: 'La palabra no existe', createButton: true}});
   };
 
 }

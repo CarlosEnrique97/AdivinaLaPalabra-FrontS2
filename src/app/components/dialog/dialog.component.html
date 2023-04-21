@@ -2,6 +2,6 @@
 <div mat-dialog-content>
   {{text}}
 </div>
-<div *ngIf="createbutton===false" mat-dialog-actions  align="end">
+<div *ngIf="!createButton" mat-dialog-actions  align="end">
   <button class="btn btn-primary" mat-button mat-dialog-close (click)="refresh()">Recarga <i class="bi bi-arrow-clockwise"></i></button>
 </div>
