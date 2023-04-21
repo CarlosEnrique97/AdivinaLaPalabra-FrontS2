@@ -21,7 +21,7 @@ export class GameService {
   }
 
   newGame() {
-    this.http.get<number>(this.baseURL.concat('newGameasdasd')).subscribe({
+    this.http.get<number>(this.baseURL.concat('newGame')).subscribe({
       next: (response) => {
         this.$id.next(response);
       },
