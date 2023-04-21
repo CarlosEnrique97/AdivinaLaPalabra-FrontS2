@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { DialogComponent } from '../components/dialog/dialog.component';
 import { MatDialog} from '@angular/material/dialog';
 
 @Injectable({
@@ -10,7 +9,7 @@ import { MatDialog} from '@angular/material/dialog';
 export class GameService {
   wordExist: any;
   baseURL = 'http://10.102.31.7:8080/';
-  constructor(private http: HttpClient, private dialog: MatDialog) {}
+  constructor(private http: HttpClient) {}
 
   $id: BehaviorSubject<number> = new BehaviorSubject<any>(null);
 
@@ -20,16 +19,7 @@ export class GameService {
     );
   }
 
-  newGame() {
-    this.http.get<number>(this.baseURL.concat('newGame')).subscribe({
-      next: (response) => {
-        this.$id.next(response);
-      },
-      error: () => {
-        this.dialog.open(DialogComponent, {
-          data: 'La partida no se ha creado',
-        });
-      },
-    });
+  newGame(): Observable<number>{
+    return this.http.get<number>(this.baseURL.concat('newGame'))
   }
 }
