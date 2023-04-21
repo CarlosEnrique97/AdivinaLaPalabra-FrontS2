@@ -13,6 +13,8 @@ export class GameService {
   constructor(private http: HttpClient, private dialog: MatDialog) {}
 
   $id: BehaviorSubject<number> = new BehaviorSubject<any>(null);
+  $disable: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
 
   getWordIfExist(wordInsert: string): Observable<boolean> {
     return this.http.get<boolean>(
@@ -20,15 +22,19 @@ export class GameService {
     );
   }
 
+  getDisable(){
+    return this.$disable
+  }
+
   newGame() {
-    this.http.get<number>(this.baseURL.concat('newGame')).subscribe({
+    this.http.get<number>(this.baseURL.concat('newGameasdas')).subscribe({
       next: (response) => {
         this.$id.next(response);
       },
       error: () => {
         this.dialog.open(DialogComponent, {
-          data: 'La partida no se ha creado',
-        });
+          data: {text: 'Ha habido un fallo al generar la partida, ya se ve lo looser que eres, recarga anda', createButton: false}});
+        this.$disable.next(true);
       },
     });
   }
