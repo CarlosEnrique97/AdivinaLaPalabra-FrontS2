@@ -13,11 +13,17 @@ export class GameService {
   constructor(private http: HttpClient, private dialog: MatDialog) {}
 
   $id: BehaviorSubject<number> = new BehaviorSubject<any>(null);
+  $disable: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
 
   getWordIfExist(wordInsert: string): Observable<boolean> {
     return this.http.get<boolean>(
       this.baseURL.concat('checkIfWordExists/' + wordInsert)
     );
+  }
+
+  getDisable(){
+    return this.$disable
   }
 
   newGame() {
@@ -28,6 +34,7 @@ export class GameService {
       error: () => {
         this.dialog.open(DialogComponent, {
           data: {text: 'Ha habido un fallo al generar la partida, ya se ve lo looser que eres, recarga anda', createbutton: false}});
+        this.$disable.next(true);
       },
     });
   }

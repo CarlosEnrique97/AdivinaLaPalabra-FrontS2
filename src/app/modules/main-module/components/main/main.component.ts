@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Palabra } from '../../../../interfaces/palabra';
 import { GameService } from 'src/app/services/game.service';
 import { TECLADO } from 'src/assets/datos/datos';
@@ -10,22 +10,31 @@ import { DialogComponent } from 'src/app/components/dialog/dialog.component';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent {
+export class MainComponent implements OnInit{
   palabraModel: Palabra = {
     nombre: '',
   };
 
+  disable: boolean=false;
   teclado: string[] = TECLADO;
   inicioPalabra: number = 0;
   finPalabra: number = -1;
 
   constructor(private gameService: GameService, private dialog: MatDialog) {}
 
+  ngOnInit(){
+    this.gameService.getDisable().subscribe({
+      next: (response:any) => {
+        this.disable= response
+      }
+    })
+  }
+
   sendWord() {
     this.gameService.getWordIfExist(this.palabraModel.nombre).subscribe({
       next: (response:any) => {
         if (response.wordExists) return;
-        this.openDialog("La palabra no existe");
+        this.openDialog();
       },
     });
   }
@@ -42,7 +51,7 @@ export class MainComponent {
     );
   }
 
-  openDialog(frase: string) {
+  openDialog() {
     this.dialog.open(DialogComponent, {
       data: {text: 'La palabra no existe', createbutton: true}});
   };
