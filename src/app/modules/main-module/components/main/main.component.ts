@@ -10,29 +10,29 @@ import { DialogComponent } from 'src/app/components/dialog/dialog.component';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements OnInit{
+export class MainComponent implements OnInit {
   palabraModel: Palabra = {
     nombre: '',
   };
 
-  disable: boolean=false;
+  disableKeyboard: boolean = false;
   teclado: string[] = TECLADO;
   inicioPalabra: number = 0;
   finPalabra: number = -1;
 
   constructor(private gameService: GameService, private dialog: MatDialog) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.gameService.getDisable().subscribe({
-      next: (response:any) => {
-        this.disable= response
-      }
-    })
+      next: (response: any) => {
+        this.disableKeyboard = response;
+      },
+    });
   }
 
   sendWord() {
     this.gameService.getWordIfExist(this.palabraModel.nombre).subscribe({
-      next: (response:any) => {
+      next: (response: any) => {
         if (response.wordExists) return;
         this.openDialog();
       },
@@ -53,7 +53,7 @@ export class MainComponent implements OnInit{
 
   openDialog() {
     this.dialog.open(DialogComponent, {
-      data: {text: 'La palabra no existe', createButton: true}});
-  };
-
+      data: { text: 'La palabra no existe', createButton: true },
+    });
+  }
 }

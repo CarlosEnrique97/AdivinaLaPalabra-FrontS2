@@ -26,7 +26,7 @@
           class="btn btn-light btn-lg m-1 px-4 py-3"
           *ngFor="let tecla of teclado"
           (click)="sendLetter(tecla)"
-          [disabled]="disable"
+          [disabled]="disableKeyboard"
         >
           {{ tecla }}
         </button>
@@ -34,7 +34,7 @@
           type="button"
           class="btn btn-light btn-lg m-1 px-4 py-3"
           (click)="deleteLetter()"
-          [disabled]="disable"
+          [disabled]="disableKeyboard"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +53,7 @@
         <button
           type="submit"
           class="btn btn-primary btn-l m-1 px-4 py-3"
-          [disabled]="palabraModel.nombre.length < 5 || disable"
+          [disabled]="palabraModel.nombre.length < 5 || disableKeyboard"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
