@@ -21,14 +21,13 @@ export class GameService {
   }
 
   newGame() {
-    this.http.get<number>(this.baseURL.concat('newGame')).subscribe({
+    this.http.get<number>(this.baseURL.concat('newGameasdasd')).subscribe({
       next: (response) => {
         this.$id.next(response);
       },
       error: () => {
         this.dialog.open(DialogComponent, {
-          data: 'La partida no se ha creado',
-        });
+          data: {text: 'Ha habido un fallo al generar la partida, ya se ve lo looser que eres, recarga anda', createbutton: false}});
       },
     });
   }

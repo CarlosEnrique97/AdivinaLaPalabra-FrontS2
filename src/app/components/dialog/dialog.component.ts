@@ -4,8 +4,20 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.scss']
+  styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent {
+  text = '';
+  createbutton = true;
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogComponent) {}
+
+  ngOnInit() {
+    this.text = this.data.text;
+    this.createbutton = this.data.createbutton;
+  }
+
+  refresh() {
+    window.location.reload();
+    location.reload();
+  }
 }

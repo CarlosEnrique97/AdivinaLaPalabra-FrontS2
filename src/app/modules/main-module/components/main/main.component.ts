@@ -44,7 +44,7 @@ export class MainComponent {
 
   openDialog(frase: string) {
     this.dialog.open(DialogComponent, {
-      data: frase,
-    });
-  }
+      data: {text: 'La partida no se ha creado', createbutton: true}});
+  };
+
 }
