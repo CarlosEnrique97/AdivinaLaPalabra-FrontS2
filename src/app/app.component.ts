@@ -15,11 +15,6 @@ export class AppComponent {
   constructor(private gameService: GameService,private dialog: MatDialog) {}
 
   ngOnInit() {
-    
-    this.gameService.newGame().subscribe({
-      next: (response) => {
-          this.gameService.$id.next(response);
-      },
-    });
+    this.gameService.newGame()
   }
 }
