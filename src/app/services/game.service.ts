@@ -1,7 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { MatDialog} from '@angular/material/dialog';
+import { DialogComponent } from '../components/dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { GameID, Palabra } from '../interfaces/palabra';
 
 @Injectable({
   providedIn: 'root',
@@ -9,9 +11,11 @@ import { MatDialog} from '@angular/material/dialog';
 export class GameService {
   wordExist: any;
   baseURL = 'http://10.102.31.7:8080/';
-  constructor(private http: HttpClient) {}
+  id= 0;
+  constructor(private http: HttpClient, private dialog: MatDialog) {}
 
-  $id: BehaviorSubject<number> = new BehaviorSubject<any>(null);
+  $id: BehaviorSubject<GameID> = new BehaviorSubject<GameID>({game_id: 0});
+  $disableKeyboard: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   getWordIfExist(wordInsert: string): Observable<boolean> {
     return this.http.get<boolean>(
@@ -19,7 +23,44 @@ export class GameService {
     );
   }
 
-  newGame(): Observable<number>{
-    return this.http.get<number>(this.baseURL.concat('newGame'))
+  getValidatePosition(wordInsert: Palabra): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json; charset=utf-8',
+    });
+    return this.http.post<any>(
+      this.baseURL.concat('validatePositions/' + this.id),
+      wordInsert,
+      { headers }
+    );
+  }
+
+  getId() {
+    this.$id.subscribe({
+      next: (response: GameID) => {
+        this.id = response.game_id;
+      },
+    });
+  }
+
+  getDisable() {
+    return this.$disableKeyboard;
+  }
+
+  newGame() {
+    this.getId();
+    this.http.get<GameID>(this.baseURL.concat('newGame')).subscribe({
+      next: (response: GameID) => {
+        this.$id.next(response);
+      },
+      error: () => {
+        this.dialog.open(DialogComponent, {
+          data: {
+            text: 'Ha habido un fallo al generar la partida, ya se ve lo looser que eres, recarga anda',
+            createButton: false,
+          },
+        });
+        this.$disableKeyboard.next(true);
+      },
+    });
   }
 }

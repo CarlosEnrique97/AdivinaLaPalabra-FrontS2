@@ -1,7 +1,11 @@
 export type Palabra = {
-  nombre: string;
+  pos1: string;
+  pos2: string;
+  pos3: string;
+  pos4: string;
+  pos5: string;
 };
 
-export interface NewGame{
-  game_id: number;
+export type GameID = {
+ game_id: number;
 }
