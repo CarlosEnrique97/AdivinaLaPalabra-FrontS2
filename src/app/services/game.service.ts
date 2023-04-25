@@ -50,6 +50,7 @@ export class GameService {
     this.getId();
     this.http.get<GameID>(this.baseURL.concat('newGame')).subscribe({
       next: (response: GameID) => {
+        if(!response)return;
         this.$id.next(response);
       }
     });
