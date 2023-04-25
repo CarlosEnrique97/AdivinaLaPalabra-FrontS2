@@ -12,10 +12,15 @@ import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 })
 export class MainComponent implements OnInit{
   palabraModel: Palabra = {
-    nombre: '',
+    pos1: '',
+    pos2: '',
+    pos3: '',
+    pos4: '',
+    pos5: '',
   };
 
-  disable: boolean=false;
+  wordSend="";
+  disableKeyboard: boolean=false;
   teclado: string[] = TECLADO;
   inicioPalabra: number = 0;
   finPalabra: number = -1;
@@ -25,30 +30,54 @@ export class MainComponent implements OnInit{
   ngOnInit(){
     this.gameService.getDisable().subscribe({
       next: (response:any) => {
-        this.disable= response
+        this.disableKeyboard= response
       }
     })
   }
 
   sendWord() {
-    this.gameService.getWordIfExist(this.palabraModel.nombre).subscribe({
+    this.wordSend=this.palabraModel.pos1+this.palabraModel.pos2+this.palabraModel.pos3+this.palabraModel.pos4+this.palabraModel.pos5;
+    this.gameService.getWordIfExist(this.wordSend).subscribe({
       next: (response:any) => {
-        if (response.wordExists) return;
-        this.openDialog();
+        if (response.wordExists){
+          this.gameService.getValidatePosition(this.palabraModel).subscribe({
+            next: (response:any) =>{
+              console.log(response);
+            }
+          });
+        } else{
+          this.openDialog();
+        }
       },
     });
   }
 
   sendLetter(tecla: string) {
-    if (this.palabraModel.nombre.length >= 5) return;
-    this.palabraModel.nombre += tecla;
+    if(this.palabraModel.pos1===""){
+      this.palabraModel.pos1=tecla
+    } else if(this.palabraModel.pos2===""){
+      this.palabraModel.pos2=tecla
+    }else if(this.palabraModel.pos3===""){
+      this.palabraModel.pos3=tecla
+    }else if(this.palabraModel.pos4===""){
+      this.palabraModel.pos4=tecla
+    }else if(this.palabraModel.pos5===""){
+      this.palabraModel.pos5=tecla
+    }
   }
 
   deleteLetter() {
-    this.palabraModel.nombre = this.palabraModel.nombre.slice(
-      this.inicioPalabra,
-      this.finPalabra
-    );
+    if(this.palabraModel.pos5){
+      this.palabraModel.pos5="";
+    }else if(this.palabraModel.pos4){
+      this.palabraModel.pos4="";
+    }else if(this.palabraModel.pos3){
+      this.palabraModel.pos3="";
+    }else if(this.palabraModel.pos2){
+      this.palabraModel.pos2="";
+    }else if(this.palabraModel.pos1){
+      this.palabraModel.pos1="";
+    }
   }
 
   openDialog() {

@@ -4,17 +4,59 @@
       <div class="col d-flex flex-column align-items-center">
         <h1>BIENVENIDO A ADIVINA LA PALABRA</h1>
         <br /><br />
+        <div class="row">
         <input
           type="text"
-          class="input-group-sm form-control w-25"
-          name="nombre"
-          maxlength="5"
-          placeholder="Escribe una palabra"
-          style="text-transform: uppercase"
-          [(ngModel)]="palabraModel.nombre"
+          name="pos1"
+          maxlength="1"
+          class="input-group-sm form-control"
+          style="text-transform: uppercase; width: 50px"
+          [ngModel]="palabraModel.pos1"
+          onkeydown="if (this.value.length == this.getAttribute('maxlength')) input2.focus()"
           required
-          disabled
         />
+
+        <input
+          type="text"
+          name="pos2"
+          maxlength="1"
+          class="input-group-sm form-control"
+          style="text-transform: uppercase; width: 50px"
+          [ngModel]="palabraModel.pos2"
+          onkeydown="if (this.value.length == this.getAttribute('maxlength')) input3.focus(); else input1.focus()"
+        />
+
+        <input
+          type="text"
+          name="pos3"
+          maxlength="1"
+          class="input-group-sm form-control"
+          style="text-transform: uppercase; width: 50px"
+          [ngModel]="palabraModel.pos3"
+          onkeydown="if (this.value.length == this.getAttribute('maxlength')) input4.focus(); else input2.focus()"
+        />
+
+        <input
+        
+          type="text"
+          name="pos4"
+          maxlength="1"
+          class="input-group-sm form-control"
+          style="text-transform: uppercase; width: 50px"
+          [ngModel]="palabraModel.pos4"
+          onkeydown="if (this.value.length == this.getAttribute('maxlength')) input5.focus(); else input3.focus()"
+        />
+
+        <input
+          type="text"
+          name="pos5"
+          maxlength="1"
+          class="input-group-sm form-control"
+          style="text-transform: uppercase; width: 50px"
+          [ngModel]="palabraModel.pos5"
+          onkeydown="if (this.value.length == 0) input4.focus()"
+        />
+      </div>
         <br /><br />
       </div>
     </div>
@@ -27,7 +69,7 @@
           class="btn btn-light btn-lg m-1 px-4 py-3"
           *ngFor="let tecla of teclado"
           (click)="sendLetter(tecla)"
-          [disabled]="disable"
+          [disabled]="disableKeyboard"
         >
           {{ tecla }}
         </button>
@@ -35,7 +77,7 @@
           type="button"
           class="btn btn-light btn-lg m-1 px-4 py-3"
           (click)="deleteLetter()"
-          [disabled]="disable"
+          [disabled]="disableKeyboard"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +96,6 @@
         <button
           type="submit"
           class="btn btn-primary btn-l m-1 px-4 py-3"
-          [disabled]="palabraModel.nombre.length < 5 || disable"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
