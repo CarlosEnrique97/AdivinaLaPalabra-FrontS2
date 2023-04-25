@@ -10,7 +10,7 @@ import { DialogComponent } from 'src/app/components/dialog/dialog.component';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements OnInit{
+export class MainComponent implements OnInit {
   palabraModel: Palabra = {
     pos1: '',
     pos2: '',
@@ -19,70 +19,75 @@ export class MainComponent implements OnInit{
     pos5: '',
   };
 
-  wordSend="";
-  disableKeyboard: boolean=false;
+  wordSend = '';
+  disableKeyboard: boolean = false;
   teclado: string[] = TECLADO;
   inicioPalabra: number = 0;
   finPalabra: number = -1;
 
   constructor(private gameService: GameService, private dialog: MatDialog) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.gameService.getDisable().subscribe({
-      next: (response:any) => {
-        this.disableKeyboard= response
-      }
-    })
+      next: (response: any) => {
+        this.disableKeyboard = response;
+      },
+    });
   }
 
   sendWord() {
-    this.wordSend=this.palabraModel.pos1+this.palabraModel.pos2+this.palabraModel.pos3+this.palabraModel.pos4+this.palabraModel.pos5;
+    this.wordSend =
+      this.palabraModel.pos1 +
+      this.palabraModel.pos2 +
+      this.palabraModel.pos3 +
+      this.palabraModel.pos4 +
+      this.palabraModel.pos5;
     this.gameService.getWordIfExist(this.wordSend).subscribe({
-      next: (response:any) => {
-        if (response.wordExists){
+      next: (response: any) => {
+        if (response.wordExists) {
           this.gameService.getValidatePosition(this.palabraModel).subscribe({
-            next: (response:any) =>{
+            next: (response: any) => {
               console.log(response);
-            }
+            },
           });
-        } else{
+        } else {
           this.openDialog();
         }
       },
     });
   }
 
-  sendLetter(tecla: string) {
-    if(this.palabraModel.pos1===""){
-      this.palabraModel.pos1=tecla
-    } else if(this.palabraModel.pos2===""){
-      this.palabraModel.pos2=tecla
-    }else if(this.palabraModel.pos3===""){
-      this.palabraModel.pos3=tecla
-    }else if(this.palabraModel.pos4===""){
-      this.palabraModel.pos4=tecla
-    }else if(this.palabraModel.pos5===""){
-      this.palabraModel.pos5=tecla
+  writeLetter(tecla: string) {
+    if (this.palabraModel.pos1 === '') {
+      this.palabraModel.pos1 = tecla;
+    } else if (this.palabraModel.pos2 === '') {
+      this.palabraModel.pos2 = tecla;
+    } else if (this.palabraModel.pos3 === '') {
+      this.palabraModel.pos3 = tecla;
+    } else if (this.palabraModel.pos4 === '') {
+      this.palabraModel.pos4 = tecla;
+    } else if (this.palabraModel.pos5 === '') {
+      this.palabraModel.pos5 = tecla;
     }
   }
 
   deleteLetter() {
-    if(this.palabraModel.pos5){
-      this.palabraModel.pos5="";
-    }else if(this.palabraModel.pos4){
-      this.palabraModel.pos4="";
-    }else if(this.palabraModel.pos3){
-      this.palabraModel.pos3="";
-    }else if(this.palabraModel.pos2){
-      this.palabraModel.pos2="";
-    }else if(this.palabraModel.pos1){
-      this.palabraModel.pos1="";
+    if (this.palabraModel.pos5) {
+      this.palabraModel.pos5 = '';
+    } else if (this.palabraModel.pos4) {
+      this.palabraModel.pos4 = '';
+    } else if (this.palabraModel.pos3) {
+      this.palabraModel.pos3 = '';
+    } else if (this.palabraModel.pos2) {
+      this.palabraModel.pos2 = '';
+    } else if (this.palabraModel.pos1) {
+      this.palabraModel.pos1 = '';
     }
   }
 
   openDialog() {
     this.dialog.open(DialogComponent, {
-      data: {text: 'La palabra no existe', createButton: true}});
-  };
-
+      data: { text: 'La palabra no existe', createButton: true },
+    });
+  }
 }

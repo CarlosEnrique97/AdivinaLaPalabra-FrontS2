@@ -12,10 +12,8 @@
           class="input-group-sm form-control"
           style="text-transform: uppercase; width: 50px"
           [ngModel]="palabraModel.pos1"
-          onkeydown="if (this.value.length == this.getAttribute('maxlength')) input2.focus()"
-          required
+          onkeydown="return false"
         />
-
         <input
           type="text"
           name="pos2"
@@ -23,9 +21,8 @@
           class="input-group-sm form-control"
           style="text-transform: uppercase; width: 50px"
           [ngModel]="palabraModel.pos2"
-          onkeydown="if (this.value.length == this.getAttribute('maxlength')) input3.focus(); else input1.focus()"
+          onkeydown="return false"
         />
-
         <input
           type="text"
           name="pos3"
@@ -33,20 +30,17 @@
           class="input-group-sm form-control"
           style="text-transform: uppercase; width: 50px"
           [ngModel]="palabraModel.pos3"
-          onkeydown="if (this.value.length == this.getAttribute('maxlength')) input4.focus(); else input2.focus()"
+          onkeydown="return false"
         />
-
         <input
-        
           type="text"
           name="pos4"
           maxlength="1"
           class="input-group-sm form-control"
           style="text-transform: uppercase; width: 50px"
           [ngModel]="palabraModel.pos4"
-          onkeydown="if (this.value.length == this.getAttribute('maxlength')) input5.focus(); else input3.focus()"
+          onkeydown="return false"
         />
-
         <input
           type="text"
           name="pos5"
@@ -54,7 +48,7 @@
           class="input-group-sm form-control"
           style="text-transform: uppercase; width: 50px"
           [ngModel]="palabraModel.pos5"
-          onkeydown="if (this.value.length == 0) input4.focus()"
+          onkeydown="return false"
         />
       </div>
         <br /><br />
@@ -68,7 +62,7 @@
           type="button"
           class="btn btn-light btn-lg m-1 px-4 py-3"
           *ngFor="let tecla of teclado"
-          (click)="sendLetter(tecla)"
+          (click)="writeLetter(tecla)"
           [disabled]="disableKeyboard"
         >
           {{ tecla }}

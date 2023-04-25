@@ -23,8 +23,10 @@ export class GameService {
   }
 
   getValidatePosition(wordInsert: Palabra): Observable<any> {
-    return this.http.get<any>(
-      this.baseURL.concat('validatePosition/' + JSON.stringify(wordInsert))
+    console.log(JSON.stringify(wordInsert));
+    return this.http.post<any>(
+      this.baseURL.concat('validatePositions'),
+      JSON.stringify(wordInsert)
     );
   }
 
