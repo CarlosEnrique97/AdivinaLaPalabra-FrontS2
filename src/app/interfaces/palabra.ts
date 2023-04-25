@@ -9,3 +9,6 @@ export type Palabra = {
 export type GameID = {
  game_id: number;
 }
+=======
+  nombre: string;
+};
