@@ -4,17 +4,19 @@
       <div class="col d-flex flex-column align-items-center">
         <h1>BIENVENIDO A ADIVINA LA PALABRA</h1>
         <br /><br />
-        <div class="row">
-        <input *ngFor="let letter of word; let index=index"
-          type="text"
-          name="pos.{{index}}"
-          maxlength="1"
-          class="input-group-sm form-control m-1"
-          style="text-transform: uppercase; width: 50px"
-          [ngModel]="letter"
-          onkeydown="alert('hola'); return false"
-        />
-      </div>
+        <div class="row" id="hola">
+          <input
+            *ngFor="let letter of word; let index = index"
+            type="text"
+            name="pos.{{ index }}"
+            maxlength="1"
+            class="input-group-sm form-control m-1"
+            style="text-transform: uppercase; width: 50px"
+            [ngModel]="letter"
+            (click)="getPosition(index)"
+            onkeydown="return false"
+          />
+        </div>
         <br /><br />
       </div>
     </div>
@@ -51,10 +53,7 @@
             />
           </svg>
         </button>
-        <button
-          type="submit"
-          class="btn btn-primary btn-l m-1 px-4 py-3"
-        >
+        <button type="submit" class="btn btn-primary btn-l m-1 px-4 py-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"

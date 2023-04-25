@@ -12,15 +12,16 @@ import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 })
 export class MainComponent implements OnInit {
   palabraModel: Palabra = {
+    pos0: '',
     pos1: '',
     pos2: '',
     pos3: '',
     pos4: '',
-    pos5: '',
   };
 
   word = Object.values(this.palabraModel);
 
+  posicionInput = 0;
   wordSend = '';
   disableKeyboard: boolean = false;
   teclado: string[] = TECLADO;
@@ -55,33 +56,31 @@ export class MainComponent implements OnInit {
 
   buildWord() {
     return (this.wordSend =
+      this.palabraModel.pos0 +
       this.palabraModel.pos1 +
       this.palabraModel.pos2 +
       this.palabraModel.pos3 +
-      this.palabraModel.pos4 +
-      this.palabraModel.pos5);
+      this.palabraModel.pos4);
   }
 
   writeLetter(tecla: string) {
-    if (this.palabraModel.pos1 === '') {
+    if (!this.palabraModel.pos0 && this.posicionInput === 0) {
+      this.palabraModel.pos0 = tecla;
+    } else if (!this.palabraModel.pos1 && this.posicionInput === 1) {
       this.palabraModel.pos1 = tecla;
-    } else if (this.palabraModel.pos2 === '') {
+    } else if (!this.palabraModel.pos2 && this.posicionInput === 2) {
       this.palabraModel.pos2 = tecla;
-    } else if (this.palabraModel.pos3 === '') {
+    } else if (!this.palabraModel.pos3 && this.posicionInput === 3) {
       this.palabraModel.pos3 = tecla;
-    } else if (this.palabraModel.pos4 === '') {
+    } else if (!this.palabraModel.pos4 && this.posicionInput === 4) {
       this.palabraModel.pos4 = tecla;
-    } else if (this.palabraModel.pos5 === '') {
-      this.palabraModel.pos5 = tecla;
     }
 
     this.word = Object.values(this.palabraModel);
   }
 
   deleteLetter() {
-    if (this.palabraModel.pos5) {
-      this.palabraModel.pos5 = '';
-    } else if (this.palabraModel.pos4) {
+    if (this.palabraModel.pos4) {
       this.palabraModel.pos4 = '';
     } else if (this.palabraModel.pos3) {
       this.palabraModel.pos3 = '';
@@ -89,6 +88,8 @@ export class MainComponent implements OnInit {
       this.palabraModel.pos2 = '';
     } else if (this.palabraModel.pos1) {
       this.palabraModel.pos1 = '';
+    } else if (this.palabraModel.pos0) {
+      this.palabraModel.pos0 = '';
     }
 
     this.word = Object.values(this.palabraModel);
@@ -100,17 +101,7 @@ export class MainComponent implements OnInit {
     });
   }
 
-  focus() {
-    alert('hola');
+  getPosition(position: number) {
+    this.posicionInput = position;
   }
-
- buildWord(){
-  return  (this.wordSend =
-  this.palabraModel.pos1 +
-  this.palabraModel.pos2 +
-  this.palabraModel.pos3 +
-  this.palabraModel.pos4 +
-  this.palabraModel.pos5);
- }
- 
 }

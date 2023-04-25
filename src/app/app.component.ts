@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { GameService } from './services/game.service';
-import { MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-root',
@@ -12,14 +11,9 @@ export class AppComponent {
 
 
 
-  constructor(private gameService: GameService,private dialog: MatDialog) {}
+  constructor(private gameService: GameService) {}
 
   ngOnInit() {
-    
-    this.gameService.newGame().subscribe({
-      next: (response) => {
-          this.gameService.$id.next(response);
-      },
-    });
+    this.gameService.newGame();
   }
 }
