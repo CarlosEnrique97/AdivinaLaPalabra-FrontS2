@@ -19,6 +19,8 @@ export class MainComponent implements OnInit {
     pos5: '',
   };
 
+  word = Object.values(this.palabraModel);
+
   wordSend = '';
   disableKeyboard: boolean = false;
   teclado: string[] = TECLADO;
@@ -69,6 +71,8 @@ export class MainComponent implements OnInit {
     } else if (this.palabraModel.pos5 === '') {
       this.palabraModel.pos5 = tecla;
     }
+    
+    this.word = Object.values(this.palabraModel);
   }
 
   deleteLetter() {
@@ -83,11 +87,17 @@ export class MainComponent implements OnInit {
     } else if (this.palabraModel.pos1) {
       this.palabraModel.pos1 = '';
     }
+
+    this.word = Object.values(this.palabraModel);
   }
 
   openDialog() {
     this.dialog.open(DialogComponent, {
       data: { text: 'La palabra no existe', createButton: true },
     });
+  }
+
+  focus() {
+    alert('hola');
   }
 }

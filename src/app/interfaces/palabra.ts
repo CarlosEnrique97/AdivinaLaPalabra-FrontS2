@@ -5,3 +5,7 @@ export type Palabra = {
   pos4: string;
   pos5: string;
 };
+
+export type GameID = {
+ game_id: number;
+}

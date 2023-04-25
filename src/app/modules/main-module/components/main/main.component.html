@@ -5,49 +5,13 @@
         <h1>BIENVENIDO A ADIVINA LA PALABRA</h1>
         <br /><br />
         <div class="row">
-        <input
+        <input *ngFor="let letter of word; let index=index"
           type="text"
-          name="pos1"
+          name="pos.{{index}}"
           maxlength="1"
-          class="input-group-sm form-control"
+          class="input-group-sm form-control m-1"
           style="text-transform: uppercase; width: 50px"
-          [ngModel]="palabraModel.pos1"
-          onkeydown="return false"
-        />
-        <input
-          type="text"
-          name="pos2"
-          maxlength="1"
-          class="input-group-sm form-control"
-          style="text-transform: uppercase; width: 50px"
-          [ngModel]="palabraModel.pos2"
-          onkeydown="return false"
-        />
-        <input
-          type="text"
-          name="pos3"
-          maxlength="1"
-          class="input-group-sm form-control"
-          style="text-transform: uppercase; width: 50px"
-          [ngModel]="palabraModel.pos3"
-          onkeydown="return false"
-        />
-        <input
-          type="text"
-          name="pos4"
-          maxlength="1"
-          class="input-group-sm form-control"
-          style="text-transform: uppercase; width: 50px"
-          [ngModel]="palabraModel.pos4"
-          onkeydown="return false"
-        />
-        <input
-          type="text"
-          name="pos5"
-          maxlength="1"
-          class="input-group-sm form-control"
-          style="text-transform: uppercase; width: 50px"
-          [ngModel]="palabraModel.pos5"
+          [ngModel]="letter"
           onkeydown="return false"
         />
       </div>
