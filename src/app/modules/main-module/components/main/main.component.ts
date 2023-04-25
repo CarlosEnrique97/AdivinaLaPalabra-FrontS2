@@ -103,4 +103,14 @@ export class MainComponent implements OnInit {
   focus() {
     alert('hola');
   }
+
+ buildWord(){
+  return  (this.wordSend =
+  this.palabraModel.pos1 +
+  this.palabraModel.pos2 +
+  this.palabraModel.pos3 +
+  this.palabraModel.pos4 +
+  this.palabraModel.pos5);
+ }
+ 
 }
