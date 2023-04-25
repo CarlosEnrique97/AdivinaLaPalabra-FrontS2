@@ -40,13 +40,7 @@ export class MainComponent implements OnInit {
   }
 
   sendWord() {
-    this.wordSend =
-      this.palabraModel.pos1 +
-      this.palabraModel.pos2 +
-      this.palabraModel.pos3 +
-      this.palabraModel.pos4 +
-      this.palabraModel.pos5;
-    this.gameService.getWordIfExist(this.wordSend).subscribe({
+    this.gameService.getWordIfExist(this.buildWorld()).subscribe({
       next: (response: any) => {
         if (response.wordExists) {
           this.gameService.getValidatePosition(this.palabraModel).subscribe({
@@ -101,5 +95,13 @@ export class MainComponent implements OnInit {
 
   focus() {
     alert('hola');
+  }
+  buildWorld() {
+    return (this.wordSend =
+      this.palabraModel.pos1 +
+      this.palabraModel.pos2 +
+      this.palabraModel.pos3 +
+      this.palabraModel.pos4 +
+      this.palabraModel.pos5);
   }
 }
