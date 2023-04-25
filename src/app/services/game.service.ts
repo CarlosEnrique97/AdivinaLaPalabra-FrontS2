@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DialogComponent } from '../components/dialog/dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog} from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root',
@@ -10,10 +10,12 @@ import { MatDialog } from '@angular/material/dialog';
 export class GameService {
   wordExist: any;
   baseURL = 'http://10.102.31.7:8080/';
-  constructor(private http: HttpClient, private dialog: MatDialog) {}
+  id= 0;
+  constructor(private http: HttpClient) {}
 
   $id: BehaviorSubject<number> = new BehaviorSubject<any>(null);
-  $disableKeyboard: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  $disable: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
 
   getWordIfExist(wordInsert: string): Observable<boolean> {
     return this.http.get<boolean>(
@@ -21,23 +23,19 @@ export class GameService {
     );
   }
 
-  getDisable() {
-    return this.$disableKeyboard;
+  getDisable(){
+    return this.$disable
   }
 
   newGame() {
-    this.http.get<number>(this.baseURL.concat('newGame')).subscribe({
+    this.http.get<number>(this.baseURL.concat('newGameasdas')).subscribe({
       next: (response) => {
         this.$id.next(response);
       },
       error: () => {
         this.dialog.open(DialogComponent, {
-          data: {
-            text: 'Ha habido un fallo al generar la partida, ya se ve lo looser que eres, recarga anda',
-            createButton: false,
-          },
-        });
-        this.$disableKeyboard.next(true);
+          data: {text: 'Ha habido un fallo al generar la partida, ya se ve lo looser que eres, recarga anda', createButton: false}});
+        this.$disable.next(true);
       },
     });
   }

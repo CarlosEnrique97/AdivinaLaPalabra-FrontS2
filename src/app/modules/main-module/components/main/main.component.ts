@@ -12,9 +12,20 @@ import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 })
 export class MainComponent implements OnInit {
   palabraModel: Palabra = {
-    nombre: '',
+    pos0: '',
+    pos1: '',
+    pos2: '',
+    pos3: '',
+    pos4: '',
   };
 
+<<<<<<< HEAD
+=======
+  word = Object.values(this.palabraModel);
+
+  posicionInput = 0;
+  wordSend = '';
+>>>>>>> d0b2bf5d37d0ef964eb59f6831c544ec371d7709
   disableKeyboard: boolean = false;
   teclado: string[] = TECLADO;
   inicioPalabra: number = 0;
@@ -31,29 +42,69 @@ export class MainComponent implements OnInit {
   }
 
   sendWord() {
-    this.gameService.getWordIfExist(this.palabraModel.nombre).subscribe({
+    this.gameService.getWordIfExist(this.buildWord()).subscribe({
       next: (response: any) => {
-        if (response.wordExists) return;
-        this.openDialog();
+        if (response.wordExists) {
+          this.gameService.getValidatePosition(this.palabraModel).subscribe({
+            next: (response: any) => {
+              console.log(response);
+            },
+          });
+        } else {
+          this.openDialog();
+        }
       },
     });
   }
 
-  sendLetter(tecla: string) {
-    if (this.palabraModel.nombre.length >= 5) return;
-    this.palabraModel.nombre += tecla;
+  buildWord() {
+    return (this.wordSend =
+      this.palabraModel.pos0 +
+      this.palabraModel.pos1 +
+      this.palabraModel.pos2 +
+      this.palabraModel.pos3 +
+      this.palabraModel.pos4);
+  }
+
+  writeLetter(tecla: string) {
+    if (!this.palabraModel.pos0 && this.posicionInput === 0) {
+      this.palabraModel.pos0 = tecla;
+    } else if (!this.palabraModel.pos1 && this.posicionInput === 1) {
+      this.palabraModel.pos1 = tecla;
+    } else if (!this.palabraModel.pos2 && this.posicionInput === 2) {
+      this.palabraModel.pos2 = tecla;
+    } else if (!this.palabraModel.pos3 && this.posicionInput === 3) {
+      this.palabraModel.pos3 = tecla;
+    } else if (!this.palabraModel.pos4 && this.posicionInput === 4) {
+      this.palabraModel.pos4 = tecla;
+    }
+
+    this.word = Object.values(this.palabraModel);
   }
 
   deleteLetter() {
-    this.palabraModel.nombre = this.palabraModel.nombre.slice(
-      this.inicioPalabra,
-      this.finPalabra
-    );
+    if (this.palabraModel.pos4) {
+      this.palabraModel.pos4 = '';
+    } else if (this.palabraModel.pos3) {
+      this.palabraModel.pos3 = '';
+    } else if (this.palabraModel.pos2) {
+      this.palabraModel.pos2 = '';
+    } else if (this.palabraModel.pos1) {
+      this.palabraModel.pos1 = '';
+    } else if (this.palabraModel.pos0) {
+      this.palabraModel.pos0 = '';
+    }
+
+    this.word = Object.values(this.palabraModel);
   }
 
   openDialog() {
     this.dialog.open(DialogComponent, {
       data: { text: 'La palabra no existe', createButton: true },
     });
+  }
+
+  getPosition(position: number) {
+    this.posicionInput = position;
   }
 }
