@@ -19,13 +19,10 @@ export class MainComponent implements OnInit {
     pos4: '',
   };
 
-<<<<<<< HEAD
-=======
   word = Object.values(this.palabraModel);
 
   posicionInput = 0;
   wordSend = '';
->>>>>>> d0b2bf5d37d0ef964eb59f6831c544ec371d7709
   disableKeyboard: boolean = false;
   teclado: string[] = TECLADO;
   inicioPalabra: number = 0;
