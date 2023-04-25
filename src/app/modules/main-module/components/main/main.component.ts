@@ -12,34 +12,65 @@ import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 })
 export class MainComponent {
   palabraModel: Palabra = {
-    nombre: '',
+    pos1: '',
+    pos2: '',
+    pos3: '',
+    pos4: '',
+    pos5: '',
   };
 
+  word = Object.values(this.palabraModel);
+  wordSend = '';
   teclado: string[] = TECLADO;
   inicioPalabra: number = 0;
   finPalabra: number = -1;
 
+  wordComplete = this.palabraModel.toString();
+
   constructor(private gameService: GameService, private dialog: MatDialog) {}
 
   sendWord() {
-    this.gameService.getWordIfExist(this.palabraModel.nombre).subscribe({
-      next: (response:any) => {
+    this.wordSend =
+      this.palabraModel.pos1 +
+      this.palabraModel.pos2 +
+      this.palabraModel.pos3 +
+      this.palabraModel.pos4 +
+      this.palabraModel.pos5;
+    this.gameService.getWordIfExist(this.wordSend).subscribe({
+      next: (response: any) => {
+        console.log(this.wordSend);
         if (response.wordExists) return;
-        this.openDialog("La palabra no existe");
+        this.openDialog('La palabra no existe');
       },
     });
   }
 
   sendLetter(tecla: string) {
-    if (this.palabraModel.nombre.length >= 5) return;
-    this.palabraModel.nombre += tecla;
+    if (this.palabraModel.pos1 === '') {
+      this.palabraModel.pos1 = tecla;
+    } else if (this.palabraModel.pos2 === '') {
+      this.palabraModel.pos2 = tecla;
+    } else if (this.palabraModel.pos3 === '') {
+      this.palabraModel.pos3 = tecla;
+    } else if (this.palabraModel.pos4 === '') {
+      this.palabraModel.pos4 = tecla;
+    } else if (this.palabraModel.pos5 === '') {
+      this.palabraModel.pos5 = tecla;
+    }
   }
 
   deleteLetter() {
-    this.palabraModel.nombre = this.palabraModel.nombre.slice(
-      this.inicioPalabra,
-      this.finPalabra
-    );
+    if (this.palabraModel.pos5) {
+      this.palabraModel.pos5 = '';
+    } else if (this.palabraModel.pos4) {
+      this.palabraModel.pos4 = '';
+    } else if (this.palabraModel.pos3) {
+      this.palabraModel.pos3 = '';
+    } else if (this.palabraModel.pos2) {
+      this.palabraModel.pos2 = '';
+    } else if (this.palabraModel.pos1) {
+      this.palabraModel.pos1 = '';
+    }
   }
 
   openDialog(frase: string) {
