@@ -20,11 +20,11 @@ constructor(private dialog: MatDialog){}
     return next.handle(request).pipe(
       catchError((error) => {
         console.log(error)
-        let data = ""
+        let data = "";
         if(error.url === "http://10.102.31.7:8080/newGame"){
-          data = "Ha habido un fallo al generar la partida, ya se ve lo looser que eres, recarga anda"
+          data = "Ha habido un fallo al generar la partida, ya se ve lo looser que eres, recarga anda";
         }else if (error.url === "http://10.102.31.7:8080/checkIfWordExists"){
-          data="bbbbb"
+          data="UPS, algo ha ido mal, no podremos saber lo looser que eres...";
         }
         return throwError(
          this.dialog.open(DialogComponent, {
