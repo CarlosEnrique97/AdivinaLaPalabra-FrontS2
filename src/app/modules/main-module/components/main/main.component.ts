@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Palabra } from '../../../../interfaces/palabra';
+import { LetterStatus } from '../../../../interfaces/palabra';
 import { GameService } from 'src/app/services/game.service';
 import { TECLADO } from 'src/assets/datos/datos';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,16 +11,9 @@ import { DialogComponent } from 'src/app/components/dialog/dialog.component';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  palabraModel: Palabra = {
-    pos0: '',
-    pos1: '',
-    pos2: '',
-    pos3: '',
-    pos4: '',
-  };
-
-  word = Object.values(this.palabraModel);
-
+  word = ['', '', '', '', ''];
+  letterStatus: LetterStatus[] = [];
+  wordStatus: number[] = [];
   posicionInput = 0;
   wordSend = '';
   disableKeyboard: boolean = false;
@@ -31,77 +24,63 @@ export class MainComponent implements OnInit {
   constructor(private gameService: GameService, private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.gameService.getDisable().subscribe({
-      next: (response: any) => {
+    this.gameService.$disableKeyboard.subscribe({
+      next: (response: boolean) => {
         this.disableKeyboard = response;
       },
     });
   }
 
   sendWord() {
-    this.gameService.getWordIfExist(this.buildWord()).subscribe({
+    this.gameService.getWordIfExist(this.word).subscribe({
       next: (response: any) => {
-        if (response.wordExists) {
-          this.gameService.getValidatePosition(this.palabraModel).subscribe({
-            next: (response: any) => {
-              console.log(response);
-            },
-          });
-        } else {
-          this.openDialog();
-        }
+        if (!response.wordExists) this.openDialog();
+        this.validatePosition();
       },
     });
   }
 
-  buildWord() {
-    return (this.wordSend =
-      this.palabraModel.pos0 +
-      this.palabraModel.pos1 +
-      this.palabraModel.pos2 +
-      this.palabraModel.pos3 +
-      this.palabraModel.pos4);
+  validatePosition() {
+    this.gameService.getValidatePosition().subscribe({
+      next: (response: LetterStatus[]) => {
+        console.log(response);
+      },
+    });
   }
 
   writeLetter(tecla: string) {
-    if (!this.palabraModel.pos0 && this.posicionInput === 0) {
-      this.palabraModel.pos0 = tecla;
-    } else if (!this.palabraModel.pos1 && this.posicionInput === 1) {
-      this.palabraModel.pos1 = tecla;
-    } else if (!this.palabraModel.pos2 && this.posicionInput === 2) {
-      this.palabraModel.pos2 = tecla;
-    } else if (!this.palabraModel.pos3 && this.posicionInput === 3) {
-      this.palabraModel.pos3 = tecla;
-    } else if (!this.palabraModel.pos4 && this.posicionInput === 4) {
-      this.palabraModel.pos4 = tecla;
+    for (let index = 0; index <= 4; index++) {
+      if (this.word[index] === '' && this.posicionInput === index) {
+        this.word[index] = tecla;
+        for (let index = 0; index <= 4; index++) {
+          if (this.word[index] === '') {
+            this.posicionInput = index;
+            break;
+          }
+        }
+        break;
+      }
     }
-
-    this.word = Object.values(this.palabraModel);
+    if (this.posicionInput > 4) {
+      this.posicionInput = 4;
+    }
   }
 
   deleteLetter() {
-    if (this.palabraModel.pos4) {
-      this.palabraModel.pos4 = '';
-    } else if (this.palabraModel.pos3) {
-      this.palabraModel.pos3 = '';
-    } else if (this.palabraModel.pos2) {
-      this.palabraModel.pos2 = '';
-    } else if (this.palabraModel.pos1) {
-      this.palabraModel.pos1 = '';
-    } else if (this.palabraModel.pos0) {
-      this.palabraModel.pos0 = '';
+    this.word[this.posicionInput] = '';
+    this.posicionInput--;
+    if (this.posicionInput < 0) {
+      this.posicionInput = 0;
     }
+  }
 
-    this.word = Object.values(this.palabraModel);
+  getPosition(position: number) {
+    this.posicionInput = position;
   }
 
   openDialog() {
     this.dialog.open(DialogComponent, {
       data: { text: 'La palabra no existe', createButton: true },
     });
-  }
-
-  getPosition(position: number) {
-    this.posicionInput = position;
   }
 }

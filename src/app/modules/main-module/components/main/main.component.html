@@ -4,7 +4,7 @@
       <div class="col d-flex flex-column align-items-center">
         <h1>BIENVENIDO A ADIVINA LA PALABRA</h1>
         <br /><br />
-        <div class="row" id="hola">
+        <div class="row">
           <input
             *ngFor="let letter of word; let index = index"
             type="text"
@@ -13,6 +13,7 @@
             class="input-group-sm form-control m-1"
             style="text-transform: uppercase; width: 50px"
             [ngModel]="letter"
+            [ngClass]="{yellow: wordStatus[index]===2 , green: wordStatus[index]===1 , grey: wordStatus[index]===0}"
             (click)="getPosition(index)"
             onkeydown="return false"
           />
@@ -53,7 +54,7 @@
             />
           </svg>
         </button>
-        <button type="submit" class="btn btn-primary btn-l m-1 px-4 py-3">
+        <button type="submit" class="btn btn-primary btn-l m-1 px-4 py-3" [disabled]="word.length===5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"

@@ -16,33 +16,40 @@ export class MainInterceptor implements HttpInterceptor {
 
   intercept(
     request: HttpRequest<any>,
+
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error) => {
-        let errorMessage = '';
-        if (error.status === 0) {
-          errorMessage = 'UPS, algo ha ido mal.';
-        } else if (
-          error.status === 500 &&
-          error.url === 'http://10.102.31.7:8080/newGame'
-        ) {
-          errorMessage =
-            'Ha habido un fallo al generar la partida, ya se ve lo looser que eres, recarga anda';
-        } else if (error.status === 500) {
-          errorMessage =
-            'UPS, algo ha ido mal, no podremos saber lo looser que eres...';
-        }
-
-        return throwError(this.dialogError(errorMessage));
+        return throwError(this.MessageError(error));
       })
     );
   }
 
-  dialogError(error: string) {
+  MessageError(error: any) {
+    let errorMessage = '';
+
+    if (
+      error.status === 500 &&
+      error.url === 'http://10.102.31.7:8080/newGame'
+    ) {
+      errorMessage =
+        'Ha habido un fallo al generar la partida, ya se ve lo looser que eres, recarga anda';
+    } else if (
+      error.status === 500 &&
+      error.url ===
+        'http://10.102.31.7:8080/checkIfWordExists/' +
+          this.gameService.id.toString()
+    ) {
+      errorMessage =
+        'UPS, algo ha ido mal, no podremos saber lo looser que eres...';
+    }
+
+    errorMessage = 'UPS, algo ha ido mal.';
+
     this.dialog.open(DialogComponent, {
       data: {
-        text: error,
+        text: errorMessage,
 
         createButton: false,
       },
