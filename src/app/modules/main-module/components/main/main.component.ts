@@ -1,25 +1,50 @@
 import { Component, OnInit } from '@angular/core';
-import { LetterStatus } from '../../../../interfaces/palabra';
+
+import { LetterStatus, Palabra } from '../../../../interfaces/palabra';
+
 import { GameService } from 'src/app/services/game.service';
+
 import { TECLADO } from 'src/assets/datos/datos';
+
 import { MatDialog } from '@angular/material/dialog';
+
 import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 
 @Component({
   selector: 'app-main',
+
   templateUrl: './main.component.html',
+
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
   word = ['', '', '', '', ''];
+
   letterStatus: LetterStatus[] = [];
-  wordStatus: number[] = [];
-  posicionInput = 0;
-  wordSend = '';
+
+  wordStatus: string[] = [];
+
+  positionInput = 0;
+
+  wordSend: Palabra = {
+    pos0: '',
+
+    pos1: '',
+
+    pos2: '',
+
+    pos3: '',
+
+    pos4: '',
+  };
+
   disableKeyboard: boolean = false;
+
   teclado: string[] = TECLADO;
-  inicioPalabra: number = 0;
-  finPalabra: number = -1;
+
+  isDelete = true;
+
+  emptyLetter = '';
 
   constructor(private gameService: GameService, private dialog: MatDialog) {}
 
@@ -32,55 +57,88 @@ export class MainComponent implements OnInit {
   }
 
   sendWord() {
-    this.gameService.getWordIfExist(this.word).subscribe({
+    this.gameService.getWordIfExist(this.word.join('')).subscribe({
       next: (response: any) => {
         if (!response.wordExists) this.openDialog();
+
         this.validatePosition();
       },
     });
   }
 
-  validatePosition() {
-    this.gameService.getValidatePosition().subscribe({
+  writeLetter(tecla: string) {
+    this.word[this.positionInput] = tecla;
+
+    this.positionInput = this.findCorrectIndex();
+  }
+
+  getPosition(position: number) {
+    this.positionInput = position;
+  }
+
+  private openDialog() {
+    this.dialog.open(DialogComponent, {
+      data: { text: 'La palabra no existe', createButton: true },
+    });
+  }
+
+  private validatePosition() {
+    this.setValuesWord();
+
+    this.gameService.getValidatePosition(this.wordSend).subscribe({
       next: (response: LetterStatus[]) => {
-        console.log(response);
+        this.letterStatus = response;
+
+        this.setStatus();
       },
     });
   }
 
-  writeLetter(tecla: string) {
-    for (let index = 0; index <= 4; index++) {
-      if (this.word[index] === '' && this.posicionInput === index) {
-        this.word[index] = tecla;
-        for (let index = 0; index <= 4; index++) {
-          if (this.word[index] === '') {
-            this.posicionInput = index;
-            break;
-          }
-        }
-        break;
-      }
+  private setStatus() {
+    for (let i = 0; i < this.letterStatus.length; i++) {
+      this.wordStatus[i] = this.letterStatus[i].status;
     }
-    if (this.posicionInput > 4) {
-      this.posicionInput = 4;
+  }
+
+  private findCorrectIndex() {
+    return this.word.findIndex((value) => {
+      return value === '';
+    });
+  }
+
+  changePositionWhenDelete() {
+    if (this.word[this.positionInput] !== '') {
+      return;
+    }
+
+    if (this.positionInput > this.word.length - 1 || this.positionInput < 0) {
+      this.positionInput = this.word.length - 1;
+
+      return;
+    }
+
+    if (this.positionInput > 0) {
+      this.positionInput--;
+
+      return;
     }
   }
 
   deleteLetter() {
-    this.word[this.posicionInput] = '';
-    this.posicionInput--;
-    if (this.posicionInput < 0) {
-      this.posicionInput = 0;
-    }
+    this.changePositionWhenDelete();
+
+    this.word[this.positionInput] = '';
   }
 
-  getPosition(position: number) {
-    this.posicionInput = position;
-  }
+  setValuesWord() {
+    this.wordSend.pos0 = this.word[0];
 
-  openDialog() {
-    this.dialog.open(DialogComponent, {
-      data: { text: 'La palabra no existe', createButton: true },
-    });
+    this.wordSend.pos1 = this.word[1];
+
+    this.wordSend.pos2 = this.word[2];
+
+    this.wordSend.pos3 = this.word[3];
+
+    this.wordSend.pos4 = this.word[4];
   }
 }

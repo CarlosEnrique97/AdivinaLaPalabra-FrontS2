@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { GameID} from '../interfaces/palabra';
+import { GameID, LetterStatus, Palabra } from '../interfaces/palabra';
 
 @Injectable({
   providedIn: 'root',
@@ -15,14 +15,10 @@ export class GameService {
   $id: BehaviorSubject<GameID> = new BehaviorSubject<GameID>({ game_id: 0 });
   $disableKeyboard: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  getWordIfExist(wordInsert: string[]): Observable<boolean> {
+  getWordIfExist(wordInsert: string): Observable<boolean> {
     return this.http.get<boolean>(
       this.baseURL.concat('checkIfWordExists/' + wordInsert)
     );
-  }
-
-  getValidatePosition(){
-    return this.http.get<any>('http://localhost:3000/validatePosition');
   }
 
   getId() {
@@ -32,7 +28,7 @@ export class GameService {
       },
     });
   }
-  
+
   newGame() {
     this.getId();
     this.http.get<GameID>(this.baseURL.concat('newGame')).subscribe({
@@ -42,14 +38,14 @@ export class GameService {
     });
   }
 
-  // getValidatePosition(wordInsert: Palabra): Observable<any> {
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json; charset=utf-8',
-  //   });
-  //   return this.http.post<any>(
-  //     this.baseURL.concat('validatePositions/' + this.id),
-  //     wordInsert,
-  //     { headers }
-  //   );
-  // }
+  getValidatePosition(wordInsert: Palabra): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json; charset=utf-8',
+    });
+    return this.http.post<LetterStatus>(
+      this.baseURL.concat('validatePositions/' + this.id),
+      wordInsert,
+      { headers }
+    );
+  }
 }
