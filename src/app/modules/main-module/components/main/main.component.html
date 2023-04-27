@@ -4,17 +4,22 @@
       <div class="col d-flex flex-column align-items-center">
         <h1>BIENVENIDO A ADIVINA LA PALABRA</h1>
         <br /><br />
-        <input
-          type="text"
-          class="input-group-sm form-control w-25"
-          name="nombre"
-          maxlength="5"
-          placeholder="Escribe una palabra"
-          style="text-transform: uppercase"
-          [(ngModel)]="palabraModel.nombre"
-          required
-          disabled
-        />
+        <div class="row">
+          <div
+            class="casilla"
+            *ngFor="let letter of word; let index = index"
+            [ngClass]="{
+              yellow: wordStatus[index] === 'CONTAINED' ,
+              green: wordStatus[index] === 'MATCHED' ,
+              selected: positionInput === index,
+              grey: true
+            }"
+            (click)="getPosition(index)"
+          >
+            {{ letter }}
+          </div>
+        </div>
+        <br /><br />
       </div>
     </div>
   </div>
@@ -25,8 +30,8 @@
           type="button"
           class="btn btn-light btn-lg m-1 px-4 py-3"
           *ngFor="let tecla of teclado"
-          (click)="sendLetter(tecla)"
-          [disabled]="disable"
+          (click)="writeLetter(tecla)"
+          [disabled]="disableKeyboard"
         >
           {{ tecla }}
         </button>
@@ -34,7 +39,7 @@
           type="button"
           class="btn btn-light btn-lg m-1 px-4 py-3"
           (click)="deleteLetter()"
-          [disabled]="disable"
+          [disabled]="disableKeyboard"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +58,7 @@
         <button
           type="submit"
           class="btn btn-primary btn-l m-1 px-4 py-3"
-          [disabled]="palabraModel.nombre.length < 5 || disable"
+          [disabled]="word[4] === '' || disableKeyboard"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

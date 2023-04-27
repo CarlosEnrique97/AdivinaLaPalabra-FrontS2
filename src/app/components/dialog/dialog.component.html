@@ -1,7 +1,7 @@
-<h1 mat-dialog-title>Error</h1>
+<h1 mat-dialog-title role="dialog">Error</h1>
 <div mat-dialog-content>
   {{text}}
 </div>
 <div *ngIf="!createButton" mat-dialog-actions  align="end">
-  <button class="btn btn-primary" mat-button mat-dialog-close (click)="refresh()">Recarga <i class="bi bi-arrow-clockwise"></i></button>
+  <button class="btn btn-primary" mat-button mat-dialog-close (click)="refresh()">Recargar <i class="bi bi-arrow-clockwise"></i></button>
 </div>
