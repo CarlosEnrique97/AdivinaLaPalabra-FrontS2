@@ -1,13 +1,20 @@
 import { Component, OnInit } from '@angular/core';
+
 import { LetterStatus, Palabra } from '../../../../interfaces/palabra';
+
 import { GameService } from 'src/app/services/game.service';
+
 import { TECLADO } from 'src/assets/datos/datos';
+
 import { MatDialog } from '@angular/material/dialog';
+
 import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 
 @Component({
   selector: 'app-main',
+
   templateUrl: './main.component.html',
+
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
@@ -92,7 +99,7 @@ export class MainComponent implements OnInit {
 
   private findCorrectIndex() {
     return this.word.findIndex((value) => {
-      return value==='';
+      return value === '';
     });
   }
 
@@ -100,18 +107,23 @@ export class MainComponent implements OnInit {
     if (this.word[this.positionInput] !== '') {
       return;
     }
+
     if (this.positionInput > this.word.length - 1 || this.positionInput < 0) {
       this.positionInput = this.word.length - 1;
+
       return;
     }
+
     if (this.positionInput > 0) {
       this.positionInput--;
+
       return;
     }
   }
 
-  deleteLetter2() {
+  deleteLetter() {
     this.changePositionWhenDelete();
+
     this.word[this.positionInput] = '';
   }
 

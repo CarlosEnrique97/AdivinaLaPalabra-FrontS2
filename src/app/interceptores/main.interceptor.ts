@@ -16,23 +16,24 @@ export class MainInterceptor implements HttpInterceptor {
 
   intercept(
     request: HttpRequest<any>,
+
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error) => {
-        console.log(error.error.message)
-        return throwError(this.MessageError(error))
+        return throwError(this.MessageError(error));
       })
     );
   }
 
-  MessageError(error: any){
+  MessageError(error: any) {
     this.dialog.open(DialogComponent, {
       data: {
         text: error.error.message,
         createButton: true,
       },
     });
+
     this.gameService.$disableKeyboard.next(false);
   }
 }

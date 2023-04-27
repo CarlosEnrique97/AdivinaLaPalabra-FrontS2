@@ -11,13 +11,10 @@
             class="casilla"
             *ngFor="let letter of word; let index = index"
             [ngClass]="{
-              yellow: wordStatus[index] === 'CONTAINED',
-
-              green: wordStatus[index] === 'MATCHED',
-
-              grey: wordStatus[index] === 'NOT_MATCHED',
-              
-              selected: positionInput === index
+              yellow: wordStatus[index] === 'CONTAINED' ,
+              green: wordStatus[index] === 'MATCHED' ,
+              selected: positionInput === index,
+              grey: true
             }"
             (click)="getPosition(index)"
           >
@@ -46,7 +43,7 @@
         <button
           type="button"
           class="btn btn-light btn-lg m-1 px-4 py-3"
-          (click)="deleteLetter2()"
+          (click)="deleteLetter()"
           [disabled]="disableKeyboard"
         >
           <svg
@@ -63,7 +60,6 @@
             />
           </svg>
         </button>
-
         <button
           type="submit"
           class="btn btn-primary btn-l m-1 px-4 py-3"
