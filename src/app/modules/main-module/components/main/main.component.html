@@ -3,24 +3,33 @@
     <div class="row justify-content-center">
       <div class="col d-flex flex-column align-items-center">
         <h1>BIENVENIDO A ADIVINA LA PALABRA</h1>
+
         <br /><br />
+
         <div class="row">
-          <input
+          <div
+            class="casilla"
             *ngFor="let letter of word; let index = index"
-            type="text"
-            name="pos.{{ index }}"
-            maxlength="1"
-            class="input-group-sm form-control m-1"
-            style="text-transform: uppercase; width: 50px"
-            [ngModel]="letter"
+            [ngClass]="{
+              yellow: wordStatus[index] === 'CONTAINED',
+
+              green: wordStatus[index] === 'MATCHED',
+
+              grey: wordStatus[index] === 'NOT_MATCHED',
+              
+              selected: positionInput === index
+            }"
             (click)="getPosition(index)"
-            onkeydown="return false"
-          />
+          >
+            {{ letter }}
+          </div>
         </div>
+
         <br /><br />
       </div>
     </div>
   </div>
+
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-md-6 text-center">
@@ -33,10 +42,11 @@
         >
           {{ tecla }}
         </button>
+
         <button
           type="button"
           class="btn btn-light btn-lg m-1 px-4 py-3"
-          (click)="deleteLetter()"
+          (click)="deleteLetter2()"
           [disabled]="disableKeyboard"
         >
           <svg
@@ -53,7 +63,12 @@
             />
           </svg>
         </button>
-        <button type="submit" class="btn btn-primary btn-l m-1 px-4 py-3">
+
+        <button
+          type="submit"
+          class="btn btn-primary btn-l m-1 px-4 py-3"
+          [disabled]="word[4] === '' || disableKeyboard"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -66,6 +81,7 @@
               d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"
             />
           </svg>
+
           Enviar
         </button>
       </div>
