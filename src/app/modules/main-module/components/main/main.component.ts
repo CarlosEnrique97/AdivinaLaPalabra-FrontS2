@@ -4,11 +4,13 @@ import { LetterStatus, Palabra } from '../../../../interfaces/palabra';
 
 import { GameService } from 'src/app/services/game.service';
 
-import { TECLADO } from 'src/assets/datos/datos';
+import { TECLADO, WINVALUE } from 'src/assets/datos/datos';
 
 import { MatDialog } from '@angular/material/dialog';
 
 import { DialogComponent } from 'src/app/components/dialog/dialog.component';
+
+import { DialogWinComponent } from 'src/app/components/dialog-win/dialog-win.component';
 
 @Component({
   selector: 'app-main',
@@ -23,6 +25,8 @@ export class MainComponent implements OnInit {
   letterStatus: LetterStatus[] = [];
 
   wordStatus: string[] = [];
+
+  winValue = WINVALUE;
 
   positionInput = 0;
 
@@ -42,6 +46,8 @@ export class MainComponent implements OnInit {
 
   teclado: string[] = TECLADO;
 
+  tecladoStatus: string[] = [];
+
   isDelete = true;
 
   emptyLetter = '';
@@ -54,13 +60,16 @@ export class MainComponent implements OnInit {
         this.disableKeyboard = response;
       },
     });
+    this.checkWin();
   }
 
   sendWord() {
     this.gameService.getWordIfExist(this.word.join('')).subscribe({
       next: (response: any) => {
-        if (!response.wordExists) this.openDialog();
-
+        if (!response.wordExists) {
+          this.openDialog();
+          return;
+        }
         this.validatePosition();
       },
     });
@@ -68,7 +77,6 @@ export class MainComponent implements OnInit {
 
   writeLetter(tecla: string) {
     this.word[this.positionInput] = tecla;
-
     this.positionInput = this.findCorrectIndex();
   }
 
@@ -84,12 +92,12 @@ export class MainComponent implements OnInit {
 
   private validatePosition() {
     this.setValuesWord();
-
     this.gameService.getValidatePosition(this.wordSend).subscribe({
       next: (response: LetterStatus[]) => {
         this.letterStatus = response;
-
         this.setStatus();
+        this.setTecladoStatus();
+        this.checkWin();
       },
     });
   }
@@ -98,6 +106,17 @@ export class MainComponent implements OnInit {
     for (let i = 0; i < this.letterStatus.length; i++) {
       this.wordStatus[i] = this.letterStatus[i].status;
     }
+  }
+
+  private setTecladoStatus() {
+    this.letterStatus.forEach((posicion) => {
+      const index = this.teclado.findIndex((value) => {
+        return value === posicion.letter;
+      });
+      if (this.tecladoStatus[index] !== 'MATCHED') {
+        this.tecladoStatus[index] = posicion.status;
+      }
+    });
   }
 
   private findCorrectIndex() {
@@ -110,35 +129,46 @@ export class MainComponent implements OnInit {
     if (this.word[this.positionInput] !== '') {
       return;
     }
-
     if (this.positionInput > this.word.length - 1 || this.positionInput < 0) {
       this.positionInput = this.word.length - 1;
-
       return;
     }
-
     if (this.positionInput > 0) {
       this.positionInput--;
-
       return;
     }
   }
 
   deleteLetter() {
     this.changePositionWhenDelete();
-
     this.word[this.positionInput] = '';
   }
 
   setValuesWord() {
     this.wordSend.pos0 = this.word[0];
-
     this.wordSend.pos1 = this.word[1];
-
     this.wordSend.pos2 = this.word[2];
-
     this.wordSend.pos3 = this.word[3];
-
     this.wordSend.pos4 = this.word[4];
+  }
+
+  checkWin() {
+    let resultado = this.wordStatus.join(',');
+
+    if (resultado.toLocaleUpperCase() === this.winValue) {
+      this.openDialogWin(
+        'Enhorabuena has acertado la palabra, pero... ¿podrás con la siguiente?'
+      );
+    }
+  }
+
+  private openDialogWin(data: string) {
+    this.dialog.open(DialogWinComponent, {
+      data: {
+        text: data,
+        createButton: true,
+        textBtn: '¿Te atreves a otra partida piltrafilla?',
+      },
+    });
   }
 }

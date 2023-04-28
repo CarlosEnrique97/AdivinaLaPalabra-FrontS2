@@ -4,32 +4,37 @@
       <div class="col d-flex flex-column align-items-center">
         <h1>BIENVENIDO A ADIVINA LA PALABRA</h1>
         <br /><br />
-        <div class="row">
+        <div class="row mb-5">
           <div
             class="casilla"
             *ngFor="let letter of word; let index = index"
             [ngClass]="{
               yellow: wordStatus[index] === 'CONTAINED' ,
               green: wordStatus[index] === 'MATCHED' ,
+              grey: wordStatus[index] === 'NOT_MATCHED',
               selected: positionInput === index,
-              grey: true
+              
             }"
             (click)="getPosition(index)"
           >
             {{ letter }}
           </div>
         </div>
-        <br /><br />
       </div>
     </div>
   </div>
   <div class="container-fluid">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mb-5">
       <div class="col-md-6 text-center">
         <button
           type="button"
           class="btn btn-light btn-lg m-1 px-4 py-3"
-          *ngFor="let tecla of teclado"
+          *ngFor="let tecla of teclado; let index = index"
+          [ngClass]="{
+            yellow: tecladoStatus[index] === 'CONTAINED' ,
+            green: tecladoStatus[index] === 'MATCHED' ,
+            grey: tecladoStatus[index] === 'NOT_MATCHED',
+          }"
           (click)="writeLetter(tecla)"
           [disabled]="disableKeyboard"
         >
