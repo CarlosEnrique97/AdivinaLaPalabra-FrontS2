@@ -10,11 +10,11 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./dialog-win.component.scss'],
 })
 export class DialogWinComponent {
-  text = '';
+  text:string = 'Enhorabuena has acertado la palabra, pero... ¿podrás con la siguiente?';
 
   createButton = true;
 
-  textBtn = '';
+  textBtn:string = '¿Te atreves a otra partida piltrafilla?';
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogWinComponent) {}
 
