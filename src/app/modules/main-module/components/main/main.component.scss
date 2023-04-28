@@ -1,25 +1,5 @@
-.green {
-  background-color: green !important;
-  text-align: center;
-  color: white;
-  font-size: 25px;
-}
-
-.yellow {
-  background-color: rgb(255, 221, 0);
-  text-align: center;
-  color: white;
-  font-size: 25px;
-}
-
-.grey{
-  background-color: rgb(78, 78, 78);
-  text-align: center;
-  color: white;
-  font-size: 25px;
-}
-
 .casilla {
+  background-color: white;
   height: 50px;
   width: 50px;
   border-radius: 5px;
@@ -31,7 +11,22 @@
   display: flex;
   align-items: center;
 
-  &.selected{
-    border: 3px solid yellow;
+  &.selected {
+    border: 3px solid blue;
   }
+}
+
+.green {
+  background-color: green;
+  color: white;
+}
+
+.yellow {
+  background-color: rgb(255, 221, 0);
+  color: white;
+}
+
+.grey {
+  background-color: rgb(78, 78, 78);
+  color: white;
 }
