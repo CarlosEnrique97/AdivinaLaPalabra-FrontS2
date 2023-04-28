@@ -12,6 +12,7 @@ export class GameService {
   wordExist: any;
   baseURL = 'http://10.102.31.7:8080/';
   id = 0;
+  status = 0;
   constructor(private http: HttpClient, private dialog: MatDialog) {}
 
   $id: BehaviorSubject<GameID> = new BehaviorSubject<GameID>({ game_id: 0 });
@@ -27,11 +28,12 @@ export class GameService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
     });
-    return this.http.post<any>(
-      this.baseURL.concat('validatePositions/' + this.id),
-      wordInsert,
-      { headers }
-    );
+    // return this.http.post<any>(
+    //   this.baseURL.concat('validatePositions/' + this.id),
+    //   wordInsert,
+    //   { headers }
+    // );
+    return this.http.get<any>('http://localhost:3000/validatePosition');
   }
 
   getId() {
@@ -51,22 +53,6 @@ export class GameService {
     this.http.get<GameID>(this.baseURL.concat('newGame')).subscribe({
       next: (response: GameID) => {
         this.$id.next(response);
-      },
-      error: () => {
-        this.dialog.open(DialogComponent, {
-          data: {
-            text: 'Ha habido un fallo al generar la partida, ya se ve lo looser que eres, recarga anda',
-            createButton: false,
-          },
-        });
-        this.$disableKeyboard.next(true);
-      },
-    });
-  }
-  getID() {
-    this.$id.subscribe({
-      next: (reponse: GameID) => {
-        this.id = reponse.game_id;
       },
     });
   }

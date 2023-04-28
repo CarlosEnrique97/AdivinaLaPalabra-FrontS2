@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Palabra } from '../../../../interfaces/palabra';
+import { LetterStatus, Palabra } from '../../../../interfaces/palabra';
 import { GameService } from 'src/app/services/game.service';
 import { TECLADO } from 'src/assets/datos/datos';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/components/dialog/dialog.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-main',
@@ -12,15 +13,16 @@ import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 })
 export class MainComponent implements OnInit {
   palabraModel: Palabra = {
+    pos0: '',
     pos1: '',
     pos2: '',
     pos3: '',
     pos4: '',
-    pos5: '',
   };
 
   word = Object.values(this.palabraModel);
-
+  letterStatus: LetterStatus[] = [];
+  wordStatus: number[] = [];
   wordSend = '';
   disableKeyboard: boolean = false;
   teclado: string[] = TECLADO;
@@ -40,12 +42,12 @@ export class MainComponent implements OnInit {
   }
 
   sendWord() {
-    this.gameService.getWordIfExist(this.buildWorld()).subscribe({
+    this.gameService.getWordIfExist(this.buildWord()).subscribe({
       next: (response: any) => {
         if (response.wordExists) {
           this.gameService.getValidatePosition(this.palabraModel).subscribe({
-            next: (response: any) => {
-              console.log(response);
+            next: (response: LetterStatus[]) => {
+              this.letterStatus = response;
             },
           });
         } else {
@@ -53,10 +55,13 @@ export class MainComponent implements OnInit {
         }
       },
     });
+    this.letterStatus.forEach((x) => this.wordStatus.push(x.status));
   }
 
   writeLetter(tecla: string) {
-    if (this.palabraModel.pos1 === '') {
+    if (this.palabraModel.pos0 === '') {
+      this.palabraModel.pos0 = tecla;
+    } else if (this.palabraModel.pos1 === '') {
       this.palabraModel.pos1 = tecla;
     } else if (this.palabraModel.pos2 === '') {
       this.palabraModel.pos2 = tecla;
@@ -64,17 +69,13 @@ export class MainComponent implements OnInit {
       this.palabraModel.pos3 = tecla;
     } else if (this.palabraModel.pos4 === '') {
       this.palabraModel.pos4 = tecla;
-    } else if (this.palabraModel.pos5 === '') {
-      this.palabraModel.pos5 = tecla;
     }
 
     this.word = Object.values(this.palabraModel);
   }
 
   deleteLetter() {
-    if (this.palabraModel.pos5) {
-      this.palabraModel.pos5 = '';
-    } else if (this.palabraModel.pos4) {
+    if (this.palabraModel.pos4) {
       this.palabraModel.pos4 = '';
     } else if (this.palabraModel.pos3) {
       this.palabraModel.pos3 = '';
@@ -82,6 +83,8 @@ export class MainComponent implements OnInit {
       this.palabraModel.pos2 = '';
     } else if (this.palabraModel.pos1) {
       this.palabraModel.pos1 = '';
+    } else if (this.palabraModel.pos0) {
+      this.palabraModel.pos0 = '';
     }
 
     this.word = Object.values(this.palabraModel);
@@ -96,12 +99,19 @@ export class MainComponent implements OnInit {
   focus() {
     alert('hola');
   }
-  buildWorld() {
+
+  buildWord() {
     return (this.wordSend =
+      this.palabraModel.pos0 +
       this.palabraModel.pos1 +
       this.palabraModel.pos2 +
       this.palabraModel.pos3 +
-      this.palabraModel.pos4 +
-      this.palabraModel.pos5);
+      this.palabraModel.pos4);
   }
+
+  // getInputColor {
+  //   if (status == 1) return 'green';
+  //   else if (status == 2) return 'yellow';
+  //   else return 'grey';
+  // }
 }

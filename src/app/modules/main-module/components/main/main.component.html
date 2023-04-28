@@ -7,6 +7,15 @@
         <div class="row">
           <input
             *ngFor="let letter of word; let index = index"
+            [ngClass]="{
+              letter: true,
+             
+              vacio: letter.length === 0,
+              letter_grey: wordStatus[index] === 0,
+              letter_green: wordStatus[index] === 1,
+              letter_yellow: wordStatus[index] === 2,
+              
+            }"
             type="text"
             name="pos.{{ index }}"
             maxlength="1"

@@ -1,0 +1,43 @@
+{
+  "validatePosition": [
+    {
+      "letter": "a",
+
+      "status": 1,
+
+      "pos": 0
+    },
+
+    {
+      "letter": "b",
+
+      "status": 1,
+
+      "pos": 1
+    },
+
+    {
+      "letter": "a",
+
+      "status": 1,
+
+      "pos": 2
+    },
+
+    {
+      "letter": "c",
+
+      "status": 2,
+
+      "pos": 3
+    },
+
+    {
+      "letter": "a",
+
+      "status": 0,
+
+      "pos": 4
+    }
+  ]
+}
