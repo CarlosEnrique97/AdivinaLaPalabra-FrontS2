@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { GameService } from './services/game.service';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +9,9 @@ import { MatDialog } from '@angular/material/dialog';
 export class AppComponent {
   title = 'AdivinaLaPalabra-Front';
 
-  constructor(private gameService: GameService, private dialog: MatDialog) {}
+  constructor(private gameService: GameService) {}
 
   ngOnInit() {
-    this.gameService.newGame();
+    // this.gameService.newGame();
   }
 }

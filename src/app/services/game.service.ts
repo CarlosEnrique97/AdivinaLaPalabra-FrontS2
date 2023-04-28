@@ -1,19 +1,16 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { DialogComponent } from '../components/dialog/dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { GameID, Palabra } from '../interfaces/palabra';
+import { GameID, LetterStatus, Palabra } from '../interfaces/palabra';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
   wordExist: any;
-  baseURL = 'http://10.102.31.7:8080/';
+  baseURL = 'http://10.102.30.50:8080/';
   id = 0;
-  status = 0;
-  constructor(private http: HttpClient, private dialog: MatDialog) {}
+  constructor(private http: HttpClient) {}
 
   $id: BehaviorSubject<GameID> = new BehaviorSubject<GameID>({ game_id: 0 });
   $disableKeyboard: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -24,28 +21,12 @@ export class GameService {
     );
   }
 
-  getValidatePosition(wordInsert: Palabra): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json; charset=utf-8',
-    });
-    // return this.http.post<any>(
-    //   this.baseURL.concat('validatePositions/' + this.id),
-    //   wordInsert,
-    //   { headers }
-    // );
-    return this.http.get<any>('http://localhost:3000/validatePosition');
-  }
-
   getId() {
     this.$id.subscribe({
       next: (response: GameID) => {
         this.id = response.game_id;
       },
     });
-  }
-
-  getDisable() {
-    return this.$disableKeyboard;
   }
 
   newGame() {
@@ -55,5 +36,16 @@ export class GameService {
         this.$id.next(response);
       },
     });
+  }
+
+  getValidatePosition(wordInsert: Palabra): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json; charset=utf-8',
+    });
+    return this.http.post<LetterStatus>(
+      this.baseURL.concat('validatePositions/' + this.id),
+      wordInsert,
+      { headers }
+    );
   }
 }

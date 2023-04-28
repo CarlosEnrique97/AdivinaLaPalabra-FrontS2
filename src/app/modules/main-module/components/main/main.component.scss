@@ -1,23 +1,47 @@
-::placeholder {
-  color: rgb(12, 12, 12);
+.green {
+  background-color: green;
+  color: white;
 }
 
-.letter {
-  text-align: center;
+.yellow {
+  background-color: rgb(255, 221, 0);
+  color: white;
+}
+
+.grey {
+  background-color: rgb(78, 78, 78);
+  color: white;
+}
+
+.casilla {
+  background-color: white;
+  height: 50px;
+  width: 50px;
+  border-radius: 5px;
+  border: 1px solid black;
+  margin: 5px;
+  text-transform: uppercase;
+  justify-content: center;
   font-size: 25px;
+  display: flex;
+  align-items: center;
 
-  &_green {
-    background-color: rgb(81, 188, 45);
+  &.selected {
+    border: 3px solid blue;
+  }
+
+  &.green {
+    background-color: green;
     color: white;
   }
 
-  &_yellow {
-    background-color: rgb(234, 207, 30);
+  &.yellow {
+    background-color: rgb(255, 221, 0);
     color: white;
   }
 
-  &_grey {
-    background-color: rgb(116, 116, 116);
+  &.grey {
+    background-color: rgb(78, 78, 78);
     color: white;
   }
 }

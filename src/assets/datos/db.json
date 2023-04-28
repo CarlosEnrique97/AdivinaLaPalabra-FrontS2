@@ -1,43 +1,29 @@
 {
   "validatePosition": [
     {
-      "letter": "a",
-
-      "status": 1,
-
-      "pos": 0
-    },
-
-    {
-      "letter": "b",
-
-      "status": 1,
-
-      "pos": 1
-    },
-
-    {
-      "letter": "a",
-
-      "status": 1,
-
-      "pos": 2
-    },
-
-    {
-      "letter": "c",
-
-      "status": 2,
-
-      "pos": 3
-    },
-
-    {
-      "letter": "a",
-
+      "letter": "A",
       "status": 0,
-
-      "pos": 4
+      "postion": 0
+    },
+    {
+      "letter": "B",
+      "status": 1,
+      "postion": 1
+    },
+    {
+      "letter": "A",
+      "status": 2,
+      "postion": 2
+    },
+    {
+      "letter": "C",
+      "status": 1,
+      "postion": 3
+    },
+    {
+      "letter": "A",
+      "status": 0,
+      "postion": 4
     }
   ]
 }

@@ -4,38 +4,37 @@
       <div class="col d-flex flex-column align-items-center">
         <h1>BIENVENIDO A ADIVINA LA PALABRA</h1>
         <br /><br />
-        <div class="row">
-          <input
+        <div class="row mb-5">
+          <div
+            class="casilla"
             *ngFor="let letter of word; let index = index"
             [ngClass]="{
-              letter: true,
-             
-              vacio: letter.length === 0,
-              letter_grey: wordStatus[index] === 0,
-              letter_green: wordStatus[index] === 1,
-              letter_yellow: wordStatus[index] === 2,
+              yellow: wordStatus[index] === 'CONTAINED' ,
+              green: wordStatus[index] === 'MATCHED' ,
+              grey: wordStatus[index] === 'NOT_MATCHED',
+              selected: positionInput === index,
               
             }"
-            type="text"
-            name="pos.{{ index }}"
-            maxlength="1"
-            class="input-group-sm form-control m-1"
-            style="text-transform: uppercase; width: 50px"
-            [ngModel]="letter"
-            onkeydown="return false"
-          />
+            (click)="getPosition(index)"
+          >
+            {{ letter }}
+          </div>
         </div>
-        <br /><br />
       </div>
     </div>
   </div>
   <div class="container-fluid">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mb-5">
       <div class="col-md-6 text-center">
         <button
           type="button"
           class="btn btn-light btn-lg m-1 px-4 py-3"
-          *ngFor="let tecla of teclado"
+          *ngFor="let tecla of teclado; let index = index"
+          [ngClass]="{
+            yellow: tecladoStatus[index] === 'CONTAINED' ,
+            green: tecladoStatus[index] === 'MATCHED' ,
+            grey: tecladoStatus[index] === 'NOT_MATCHED',
+          }"
           (click)="writeLetter(tecla)"
           [disabled]="disableKeyboard"
         >
@@ -61,7 +60,11 @@
             />
           </svg>
         </button>
-        <button type="submit" class="btn btn-primary btn-l m-1 px-4 py-3">
+        <button
+          type="submit"
+          class="btn btn-primary btn-l m-1 px-4 py-3"
+          [disabled]="word[4] === '' || disableKeyboard"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
