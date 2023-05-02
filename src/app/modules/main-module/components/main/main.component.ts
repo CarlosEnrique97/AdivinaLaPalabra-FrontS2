@@ -20,7 +20,6 @@ import { DialogWinComponent } from 'src/app/components/dialog-win/dialog-win.com
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  
   word = ['', '', '', '', ''];
 
   letterStatus: LetterStatus[] = [];
@@ -158,8 +157,18 @@ export class MainComponent implements OnInit {
     this.wordStatus.forEach((value) => {
       if (value != 'MATCHED') winValue = false;
     });
-    if (winValue){
+    if (winValue) {
       this.dialog.open(DialogWinComponent);
+    } else {
+      if (this.attempstCounter === 5) {
+        this.dialog.open(DialogComponent, {
+          data: {
+            text: 'Has perdido una partida más looser, espabila!!!',
+            createButton: false,
+          },
+        });
+        this.gameService.$disableKeyboard.next(true);
+      }
     }
   }
 }

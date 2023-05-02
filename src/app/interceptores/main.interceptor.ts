@@ -36,7 +36,6 @@ export class MainInterceptor implements HttpInterceptor {
     this.dialog.open(DialogComponent, {
       data: {
         text: messageError,
-
         createButton: true,
       },
     });
