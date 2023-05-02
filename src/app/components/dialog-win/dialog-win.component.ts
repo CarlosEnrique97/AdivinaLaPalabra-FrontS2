@@ -10,20 +10,21 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./dialog-win.component.scss'],
 })
 export class DialogWinComponent {
-  text = '';
+  winGameMessage: string =
+    'Enhorabuena has acertado la palabra, pero... ¿podrás con la siguiente?';
 
   createButton = true;
 
-  textBtn = '';
+  buttonNextGame: string = '¿Te atreves a otra partida piltrafilla?';
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogWinComponent) {}
 
   ngOnInit() {
-    this.text = this.data.text;
+    this.winGameMessage = this.data.winGameMessage;
 
     this.createButton = this.data.createButton;
 
-    this.textBtn = this.data.textBtn;
+    this.buttonNextGame = this.data.buttonNextGame;
   }
 
   refresh() {
