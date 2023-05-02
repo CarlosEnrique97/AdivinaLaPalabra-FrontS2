@@ -9,7 +9,6 @@ import { TECLADO, WINVALUE } from 'src/assets/datos/datos';
 import { MatDialog } from '@angular/material/dialog';
 
 import { DialogComponent } from 'src/app/components/dialog/dialog.component';
-import { Observable } from 'rxjs';
 
 import { DialogWinComponent } from 'src/app/components/dialog-win/dialog-win.component';
 
@@ -53,8 +52,6 @@ export class MainComponent implements OnInit {
 
   emptyLetter = '';
 
-  wordComplete = this.palabraModel.toString();
-
   constructor(private gameService: GameService, private dialog: MatDialog) {}
 
   ngOnInit() {
@@ -76,7 +73,6 @@ export class MainComponent implements OnInit {
         this.validatePosition();
       },
     });
-    this.letterStatus.forEach((x) => this.wordStatus.push(x.status));
   }
 
   writeLetter(tecla: string) {
