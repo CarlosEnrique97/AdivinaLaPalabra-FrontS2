@@ -14,11 +14,11 @@
 }
 .contenedorTeclado {
   height: 280px;
-  width: 600px;
+  width: 35em;
 }
 .teclasTeclado {
   background-color: white;
-  width: 3rem;
+  width: 8%;
   height: 3.75rem;
   border-radius: 5px;
   margin: 4px;
@@ -27,10 +27,10 @@
   font-size: 20px;
   align-items: center;
 }
-@media only screen and (min-width: 300px) {
-  .teclasTeclado {
-    width: 8%;
-    height: 3rem;
+@media only screen and (min-width: 600px) {
+  .contenedorTeclado {
+    height: 280px;
+    width: 35em;
   }
 }
 .casilla {
