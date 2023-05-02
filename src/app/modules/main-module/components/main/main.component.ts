@@ -4,7 +4,7 @@ import { LetterStatus, Palabra } from '../../../../interfaces/palabra';
 
 import { GameService } from 'src/app/services/game.service';
 
-import { TECLADO} from 'src/assets/datos/datos';
+import { TECLADO, WINVALUE } from 'src/assets/datos/datos';
 
 import { MatDialog } from '@angular/material/dialog';
 
@@ -26,7 +26,7 @@ export class MainComponent implements OnInit {
 
   wordStatus: string[] = [];
 
-  winValue = true;
+  winValue = WINVALUE;
 
   positionInput = 0;
 
@@ -60,6 +60,7 @@ export class MainComponent implements OnInit {
         this.disableKeyboard = response;
       },
     });
+    this.checkWin();
   }
 
   sendWord() {
@@ -152,9 +153,22 @@ export class MainComponent implements OnInit {
   }
 
   checkWin() {
-    this.wordStatus.forEach((value) => {
-      if (value != 'MATCHED') this.winValue = false;
+    let resultado = this.wordStatus.join(',');
+
+    if (resultado.toLocaleUpperCase() === this.winValue) {
+      this.openDialogWin(
+        'Enhorabuena has acertado la palabra, pero... ¿podrás con la siguiente?'
+      );
+    }
+  }
+
+  private openDialogWin(data: string) {
+    this.dialog.open(DialogWinComponent, {
+      data: {
+        text: data,
+        createButton: true,
+        textBtn: '¿Te atreves a otra partida piltrafilla?',
+      },
     });
-    if (this.winValue) this.dialog.open(DialogWinComponent);
   }
 }

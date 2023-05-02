@@ -16,7 +16,6 @@ export class MainInterceptor implements HttpInterceptor {
 
   intercept(
     request: HttpRequest<any>,
-
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
