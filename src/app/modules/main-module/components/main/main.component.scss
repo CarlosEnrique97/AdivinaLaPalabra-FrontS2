@@ -13,7 +13,7 @@
   color: white;
 }
 .contenedorTeclado {
-  height: 280px;
+  height: 8%;
   width: 35em;
 }
 .teclasTeclado {
@@ -27,12 +27,7 @@
   font-size: 20px;
   align-items: center;
 }
-@media only screen and (min-width: 600px) {
-  .contenedorTeclado {
-    height: 280px;
-    width: 35em;
-  }
-}
+
 .casilla {
   background-color: white;
   height: 50px;
