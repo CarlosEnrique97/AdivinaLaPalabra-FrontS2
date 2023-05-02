@@ -10,7 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MainInterceptor } from './interceptores/main.interceptor';
-import { DialogWinComponent } from './components/dialogWin/dialog-win.component';
+import { DialogWinComponent } from './components/dialog-win/dialog-win.component';
 
 @NgModule({
   declarations: [

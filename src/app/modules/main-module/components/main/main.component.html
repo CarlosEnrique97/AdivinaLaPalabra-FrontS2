@@ -3,14 +3,17 @@
     <div class="row justify-content-center">
       <div class="col d-flex flex-column align-items-center">
         <h1>BIENVENIDO A ADIVINA LA PALABRA</h1>
-        <div class="row mt-4">
+        <br /><br />
+        <div class="row mb-5">
           <div
             class="casilla"
             *ngFor="let letter of word; let i = index"
             [ngClass]="{
-              yellow: wordStatus[i] == 'CONTAINED' ,
-              green: wordStatus[i] == 'MATCHED' ,
-              selected: positionInput == i,
+              yellow: wordStatus[i] === 'CONTAINED' ,
+              green: wordStatus[i] === 'MATCHED' ,
+              grey: wordStatus[i] === 'NOT_MATCHED',
+              selected: positionInput === i,
+              
             }"
             (click)="getPosition(i)"
           >
@@ -22,13 +25,18 @@
   </div>
 
   <div class="container-fluid">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mb-5">
       <div class="col-md-6 text-center">
         <button
           type="button"
           class="btn btn-light btn-lg m-1 px-4 py-3"
-          *ngFor="let key of keyboard; let i = index"
-          (click)="writeLetter(key)"
+          *ngFor="let tecla of teclado; let i = index"
+          [ngClass]="{
+            yellow: tecladoStatus[i] === 'CONTAINED' ,
+            green: tecladoStatus[i] === 'MATCHED' ,
+            grey: tecladoStatus[i] === 'NOT_MATCHED',
+          }"
+          (click)="writeLetter(tecla)"
           [disabled]="disableKeyboard"
           [ngClass]="{
             yellow: wordStatus[i] == 'CONTAINED' ,
@@ -37,7 +45,7 @@
         >
           {{ key }}
         </button>
-        
+
         <button
           type="button"
           class="btn btn-light btn-lg m-1 px-4 py-3"
