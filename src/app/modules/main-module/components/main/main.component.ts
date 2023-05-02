@@ -4,7 +4,7 @@ import { LetterStatus, Palabra } from '../../../../interfaces/palabra';
 
 import { GameService } from 'src/app/services/game.service';
 
-import { TECLADO} from 'src/assets/datos/datos';
+import { TECLADO } from 'src/assets/datos/datos';
 
 import { MatDialog } from '@angular/material/dialog';
 
@@ -20,13 +20,12 @@ import { DialogWinComponent } from 'src/app/components/dialog-win/dialog-win.com
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
+  
   word = ['', '', '', '', ''];
 
   letterStatus: LetterStatus[] = [];
 
   wordStatus: string[] = [];
-
-  winValue = true;
 
   positionInput = 0;
 
@@ -110,7 +109,7 @@ export class MainComponent implements OnInit {
   private setTecladoStatus() {
     this.letterStatus.forEach((posicion) => {
       const index = this.teclado.findIndex((value) => {
-        return value === posicion.letter;
+        return value.toLowerCase() === posicion.letter;
       });
       if (this.tecladoStatus[index] !== 'MATCHED') {
         this.tecladoStatus[index] = posicion.status;
@@ -152,9 +151,10 @@ export class MainComponent implements OnInit {
   }
 
   checkWin() {
+    let winValue = true;
     this.wordStatus.forEach((value) => {
-      if (value != 'MATCHED') this.winValue = false;
+      if (value != 'MATCHED') winValue = false;
     });
-    if (this.winValue) this.dialog.open(DialogWinComponent);
+    if (winValue) this.dialog.open(DialogWinComponent);
   }
 }
