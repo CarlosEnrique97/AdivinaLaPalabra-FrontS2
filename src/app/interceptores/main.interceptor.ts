@@ -21,15 +21,22 @@ export class MainInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error) => {
-        return throwError(this.MessageError(error));
+        console.log(error);
+
+        if (error.status === 0) {
+          error.error.message = 'Ups, ha ocurrido un fallo';
+        }
+
+        return throwError(this.MessageError(error.error.message));
       })
     );
   }
 
-  MessageError(error: any) {
+  MessageError(messageError: string) {
     this.dialog.open(DialogComponent, {
       data: {
-        text: error.error.message,
+        text: messageError,
+
         createButton: true,
       },
     });

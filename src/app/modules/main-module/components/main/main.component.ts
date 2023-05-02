@@ -51,6 +51,8 @@ export class MainComponent implements OnInit {
 
   emptyLetter = '';
 
+  attempstCounter = 0;
+
   constructor(private gameService: GameService, private dialog: MatDialog) {}
 
   ngOnInit() {
@@ -151,10 +153,13 @@ export class MainComponent implements OnInit {
   }
 
   checkWin() {
+    this.attempstCounter++;
     let winValue = true;
     this.wordStatus.forEach((value) => {
       if (value != 'MATCHED') winValue = false;
     });
-    if (winValue) this.dialog.open(DialogWinComponent);
+    if (winValue){
+      this.dialog.open(DialogWinComponent);
+    }
   }
 }
