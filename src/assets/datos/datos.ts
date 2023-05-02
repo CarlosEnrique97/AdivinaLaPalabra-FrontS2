@@ -27,3 +27,7 @@ export const TECLADO: string[] = [
   'Y',
   'Z',
 ];
+
+export const WINVALUE : String = "MATCHED,MATCHED,MATCHED,MATCHED,MATCHED";
+
+export const STATUS : String = "NOT_CONTAINED,MATCHED,CONTAINED"

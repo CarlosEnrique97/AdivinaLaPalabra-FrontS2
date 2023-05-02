@@ -2,7 +2,7 @@
   height: 50px;
   width: 50px;
   border-radius: 5px;
-  border: 1px solid black;
+  border: 1px solid rgb(25, 14, 179);
   margin: 5px;
   text-transform: uppercase;
   justify-content: center;
@@ -13,35 +13,19 @@
   &.selected {
     border: 3px solid green;
   }
-  
-  &green {
-    background-color: green;
-    text-align: center;
-    color: white;
-    font-size: 25px;
-  }
-
-  &yellow {
-    background-color: rgb(255, 221, 0);
-    text-align: center;
-    color: white;
-    font-size: 25px;
-  }
-
-  &grey {
-    background-color: rgb(78, 78, 78);
-    text-align: center;
-    color: white;
-    font-size: 25px;
-  }
 }
 
-.casilla{
-  border-radius: 5px;
-  height: 50px;
-  border: 1px solid grey;
-  &.selected{
-    border-color: blue;
-  }
+.green {
+  background-color: green;
+  text-align: center;
+  color: white;
+  font-size: 25px;
+}
+
+.yellow {
+  background-color: rgb(215, 176, 3);
+  text-align: center;
+  color: white;
+  font-size: 25px;
 }
 

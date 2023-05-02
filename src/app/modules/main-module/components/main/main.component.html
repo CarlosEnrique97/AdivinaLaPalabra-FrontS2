@@ -3,26 +3,20 @@
     <div class="row justify-content-center">
       <div class="col d-flex flex-column align-items-center">
         <h1>BIENVENIDO A ADIVINA LA PALABRA</h1>
-
-        <br /><br />
-
-        <div class="row">
+        <div class="row mt-4">
           <div
             class="casilla"
-            *ngFor="let letter of word; let index = index"
+            *ngFor="let letter of word; let i = index"
             [ngClass]="{
-              yellow: wordStatus[index] === 'CONTAINED' ,
-              green: wordStatus[index] === 'MATCHED' ,
-              selected: positionInput === index,
-              grey: true
+              yellow: wordStatus[i] == 'CONTAINED' ,
+              green: wordStatus[i] == 'MATCHED' ,
+              selected: positionInput == i,
             }"
-            (click)="getPosition(index)"
+            (click)="getPosition(i)"
           >
             {{ letter }}
           </div>
         </div>
-
-        <br /><br />
       </div>
     </div>
   </div>
@@ -33,13 +27,17 @@
         <button
           type="button"
           class="btn btn-light btn-lg m-1 px-4 py-3"
-          *ngFor="let tecla of teclado"
-          (click)="writeLetter(tecla)"
+          *ngFor="let key of keyboard; let i = index"
+          (click)="writeLetter(key)"
           [disabled]="disableKeyboard"
+          [ngClass]="{
+            yellow: wordStatus[i] == 'CONTAINED' ,
+            green: wordStatus[i] == 'MATCHED'
+          }"
         >
-          {{ tecla }}
+          {{ key }}
         </button>
-
+        
         <button
           type="button"
           class="btn btn-light btn-lg m-1 px-4 py-3"

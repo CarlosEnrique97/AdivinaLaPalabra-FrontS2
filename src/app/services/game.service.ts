@@ -11,10 +11,11 @@ import { GameID, LetterStatus, Palabra } from '../interfaces/palabra';
 export class GameService {
   wordExist: any;
   baseURL = 'http://10.102.31.7:8080/';
-  id = 0;
+  id = "";
+
   constructor(private http: HttpClient) {}
 
-  $id: BehaviorSubject<GameID> = new BehaviorSubject<GameID>({ game_id: 0 });
+  $id: BehaviorSubject<GameID> = new BehaviorSubject<GameID>({ game_id: "" });
   $disableKeyboard: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   getWordIfExist(wordInsert: string): Observable<boolean> {

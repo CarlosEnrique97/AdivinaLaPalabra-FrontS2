@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
-import { LetterStatus, Palabra } from '../../../../interfaces/palabra';
-
+import { KeyBoardStatus, LetterStatus, Palabra } from '../../../../interfaces/palabra';
 import { GameService } from 'src/app/services/game.service';
-
-import { TECLADO } from 'src/assets/datos/datos';
-
+import { STATUS, TECLADO, WINVALUE } from 'src/assets/datos/datos';
 import { MatDialog } from '@angular/material/dialog';
-
 import { DialogComponent } from 'src/app/components/dialog/dialog.component';
+import { DialogWinComponent } from 'src/app/components/dialogWin/dialog-win.component';
 
 @Component({
   selector: 'app-main',
@@ -38,9 +34,20 @@ export class MainComponent implements OnInit {
     pos4: '',
   };
 
+  winValue = WINVALUE;
+
   disableKeyboard: boolean = false;
 
-  teclado: string[] = TECLADO;
+  keyboard: string[] = TECLADO;
+
+  statusKeyboard: KeyBoardStatus[] = [];
+
+  keyStatus: KeyBoardStatus = {
+    letter: "",
+    status: ""
+  }
+
+  status = STATUS; 
 
   isDelete = true;
 
@@ -56,13 +63,32 @@ export class MainComponent implements OnInit {
     });
   }
 
+  checkWin() {
+    let resultado = this.wordStatus.join(',');
+    if (resultado.toLocaleUpperCase() === this.winValue) {
+      this.openDialogWin('Enhorabuena has acertado la palabra, pero... ¿podrás con la siguiente?');
+    }
+  }
+
   sendWord() {
     this.gameService.getWordIfExist(this.word.join('')).subscribe({
       next: (response: any) => {
-        if (!response.wordExists) this.openDialog();
+        if (!response.wordExists){
+          this.openDialog('La palabra no Existe');
+          return;
+        }
         this.validatePosition();
       },
     });
+  }
+
+  saveLetterStatusKeyboard(){
+    let i = 0;
+    let status: string[] = this.status.split(",")
+    this.keyboard.forEach((x) => {
+    this.statusKeyboard.push(this.checkStatusKey(x,this.letterStatus[i],status[i]))
+      i++;
+    })
   }
 
   writeLetter(tecla: string) {
@@ -70,13 +96,38 @@ export class MainComponent implements OnInit {
     this.positionInput = this.findCorrectIndex();
   }
 
+  deleteLetter() {
+    this.changePositionWhenDelete();
+
+    this.word[this.positionInput] = '';
+  }
+
   getPosition(position: number) {
     this.positionInput = position;
   }
 
-  private openDialog() {
+  private checkStatusKey(letter: string, letterStatus: LetterStatus, status: string): KeyBoardStatus{
+    if(letter === letterStatus.letter && letterStatus.status === status){
+      return this.keyStatus = {
+        letter: letter,
+        status: status
+      }
+    };
+    return this.keyStatus = {
+      letter: "",
+      status: ""
+    };
+  }
+
+  private openDialog(data: string) {
     this.dialog.open(DialogComponent, {
-      data: { text: 'La palabra no existe', createButton: true },
+      data: { text: data, createButton: false, textBtn: "Recargar" },
+    });
+  }
+
+  private openDialogWin(data: string) {
+    this.dialog.open(DialogWinComponent, {
+      data: { text: data, createButton: true, textBtn: "¿Te atreves a otra partida piltrafilla?"},
     });
   }
 
@@ -87,6 +138,7 @@ export class MainComponent implements OnInit {
       next: (response: LetterStatus[]) => {
         this.letterStatus = response;
         this.setStatus();
+        this.checkWin();
       },
     });
   }
@@ -103,7 +155,7 @@ export class MainComponent implements OnInit {
     });
   }
 
-  changePositionWhenDelete() {
+  private changePositionWhenDelete() {
     if (this.word[this.positionInput] !== '') {
       return;
     }
@@ -121,13 +173,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  deleteLetter() {
-    this.changePositionWhenDelete();
-
-    this.word[this.positionInput] = '';
-  }
-
-  setValuesWord() {
+  private setValuesWord() {
     this.wordSend.pos0 = this.word[0];
 
     this.wordSend.pos1 = this.word[1];
