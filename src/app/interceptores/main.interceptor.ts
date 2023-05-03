@@ -21,8 +21,6 @@ export class MainInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error) => {
-        console.log(error);
-
         if (error.status === 0) {
           error.error.message = 'Ups, ha ocurrido un fallo';
         }

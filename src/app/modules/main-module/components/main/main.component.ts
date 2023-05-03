@@ -52,6 +52,8 @@ export class MainComponent implements OnInit {
 
   attempstCounter = 0;
 
+  tries = false;
+
   constructor(private gameService: GameService, private dialog: MatDialog) {}
 
   ngOnInit() {
@@ -160,7 +162,8 @@ export class MainComponent implements OnInit {
     if (winValue) {
       this.dialog.open(DialogWinComponent);
     } else {
-      if (this.attempstCounter === 5) {
+      console.log(this.checkTries())
+      if (this.checkTries()) {
         this.dialog.open(DialogComponent, {
           data: {
             text: 'Has perdido una partida más looser, espabila!!!',
@@ -170,5 +173,16 @@ export class MainComponent implements OnInit {
         this.gameService.$disableKeyboard.next(true);
       }
     }
+  }
+
+  checkTries(){
+    this.gameService.getAttempts().subscribe({
+      next: (response: any) => {
+        this.tries=response.cantMore
+        console.log(this.tries);
+        return this.tries
+      },
+    });
+    return this.tries;
   }
 }

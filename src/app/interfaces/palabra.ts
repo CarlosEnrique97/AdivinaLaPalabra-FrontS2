@@ -1,5 +1,5 @@
 export type GameID = {
-  game_id: number;
+  game_id: string;
 };
 
 export type LetterStatus = {
