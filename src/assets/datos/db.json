@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "validatePosition": [
     {
       "letter": "a",
@@ -28,33 +27,5 @@
     }
   ]
 }
-=======
-    "validatePosition":[
-        {
-            "letter":"A",
-            "status":0,
-            "postion":0
-        },
-        {
-            "letter":"B",
-            "status":1,
-            "postion":1
-        },
-        {
-            "letter":"A",
-            "status":2,
-            "postion":2
-        },
-        {
-            "letter":"C",
-            "status":1,
-            "postion":3
-        },
-        {
-            "letter":"A",
-            "status":0,
-            "postion":4
-        }
-    ]
-}
->>>>>>> 31f83d467c8714bd29e4cef32dc6cb223070aaab
+
+

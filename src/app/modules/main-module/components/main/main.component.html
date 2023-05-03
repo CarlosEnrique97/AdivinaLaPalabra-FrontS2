@@ -23,12 +23,12 @@
       </div>
     </div>
   </div>
-  <div class="container-fluid">
-    <div class="row justify-content-center mb-5">
-      <div class="col-md-7 text-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="text-center contenedorTeclado">
         <button
           type="button"
-          class="btn btn-light btn-lg m-1 px-4 py-3"
+          class="btn btn-light btn-lg teclasTeclado"
           *ngFor="let tecla of teclado; let index = index"
           [ngClass]="{
             yellow: tecladoStatus[index] === 'CONTAINED' ,
@@ -42,7 +42,7 @@
         </button>
         <button
           type="button"
-          class="btn btn-light btn-lg m-1 px-4 py-3"
+          class="btn btn-light btn-lg teclasTeclado"
           (click)="deleteLetter()"
           [disabled]="disableKeyboard"
         >
@@ -62,7 +62,7 @@
         </button>
         <button
           type="submit"
-          class="btn btn-primary btn-l m-1 px-4 py-3"
+          class="btn btn-primary btn-l m-1 px-3 py-3"
           [disabled]="word[4] === '' || disableKeyboard"
         >
           <svg
