@@ -29,7 +29,6 @@ export class MainInterceptor implements HttpInterceptor {
 
   messageError(error: any) {
     let message = this.errorMessageDefault;
-    console.log(error);
     if (error.status !== 0) {
       message = error.error.message;
     }
