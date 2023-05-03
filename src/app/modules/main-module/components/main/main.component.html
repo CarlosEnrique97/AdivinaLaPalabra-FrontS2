@@ -4,35 +4,45 @@
       <div class="col d-flex flex-column align-items-center">
         <h1>BIENVENIDO A ADIVINA LA PALABRA</h1>
         <br /><br />
-        <input
-          type="text"
-          class="input-group-sm form-control w-25"
-          name="nombre"
-          maxlength="5"
-          placeholder="Escribe una palabra"
-          style="text-transform: uppercase"
-          [(ngModel)]="palabraModel.nombre"
-          required
-          disabled
-        />
+        <div class="row mb-4">
+          <div
+            class="casilla"
+            *ngFor="let letter of word; let index = index"
+            [ngClass]="{
+              yellow: wordStatus[index] === 'CONTAINED' ,
+              green: wordStatus[index] === 'MATCHED' ,
+              grey: wordStatus[index] === 'NOT_MATCHED',
+              selected: positionInput === index,
+              
+            }"
+            (click)="getPosition(index)"
+          >
+            {{ letter }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="container-fluid">
+  <div class="container">
     <div class="row justify-content-center">
-      <div class="col-md-6 text-center">
+      <div class="text-center contenedorTeclado">
         <button
           type="button"
-          class="btn btn-light btn-lg m-1 px-4 py-3"
-          *ngFor="let tecla of teclado"
-          (click)="sendLetter(tecla)"
+          class="btn btn-light btn-lg teclasTeclado"
+          *ngFor="let tecla of teclado; let index = index"
+          [ngClass]="{
+            yellow: tecladoStatus[index] === 'CONTAINED' ,
+            green: tecladoStatus[index] === 'MATCHED' ,
+            grey: tecladoStatus[index] === 'NOT_MATCHED',
+          }"
+          (click)="writeLetter(tecla)"
           [disabled]="disableKeyboard"
         >
           {{ tecla }}
         </button>
         <button
           type="button"
-          class="btn btn-light btn-lg m-1 px-4 py-3"
+          class="btn btn-light btn-lg teclasTeclado"
           (click)="deleteLetter()"
           [disabled]="disableKeyboard"
         >
@@ -52,8 +62,8 @@
         </button>
         <button
           type="submit"
-          class="btn btn-primary btn-l m-1 px-4 py-3"
-          [disabled]="palabraModel.nombre.length < 5 || disableKeyboard"
+          class="btn btn-primary btn-l m-1 px-3 py-3"
+          [disabled]="word[4] === '' || disableKeyboard"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
