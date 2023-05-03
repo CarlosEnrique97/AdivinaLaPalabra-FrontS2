@@ -36,6 +36,6 @@ export class MainInterceptor implements HttpInterceptor {
         createButton: true,
       },
     });
-    this.gameService.$disableKeyboard.next(true);
+    this.gameService.$disableKeyboard.next(false);
   }
 }

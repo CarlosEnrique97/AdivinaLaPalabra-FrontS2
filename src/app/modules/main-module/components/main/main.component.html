@@ -4,16 +4,16 @@
       <div class="col d-flex flex-column align-items-center">
         <h1>BIENVENIDO A ADIVINA LA PALABRA</h1>
         <br /><br />
-        <div class="row mb-5">
+        <div class="row mb-3" *ngFor="let round of rounds; let a = index" id={{a}}>
           <div
             class="casilla"
-            *ngFor="let letter of word; let i = index"
+            id={{i}}
+            *ngFor="let letter of rounds[a].wordRound; let i= index"
             [ngClass]="{
               yellow: wordStatus[i] === 'CONTAINED' ,
               green: wordStatus[i] === 'MATCHED' ,
               grey: wordStatus[i] === 'NOT_MATCHED',
               selected: positionInput === i,
-              
             }"
             (click)="getPosition(i)"
           >
@@ -23,29 +23,23 @@
       </div>
     </div>
   </div>
-
   <div class="container-fluid">
     <div class="row justify-content-center mb-5">
-      <div class="col-md-6 text-center">
+      <div class="col-md-7 text-center">
         <button
           type="button"
           class="btn btn-light btn-lg m-1 px-4 py-3"
-          *ngFor="let tecla of teclado; let i = index"
+          *ngFor="let tecla of teclado; let index = index"
           [ngClass]="{
-            yellow: tecladoStatus[i] === 'CONTAINED' ,
-            green: tecladoStatus[i] === 'MATCHED' ,
-            grey: tecladoStatus[i] === 'NOT_MATCHED',
+            yellow: tecladoStatus[index] === 'CONTAINED' ,
+            green: tecladoStatus[index] === 'MATCHED' ,
+            grey: tecladoStatus[index] === 'NOT_MATCHED',
           }"
           (click)="writeLetter(tecla)"
           [disabled]="disableKeyboard"
-          [ngClass]="{
-            yellow: wordStatus[i] == 'CONTAINED' ,
-            green: wordStatus[i] == 'MATCHED'
-          }"
         >
-          {{ key }}
+          {{ tecla }}
         </button>
-
         <button
           type="button"
           class="btn btn-light btn-lg m-1 px-4 py-3"
@@ -83,7 +77,6 @@
               d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"
             />
           </svg>
-
           Enviar
         </button>
       </div>

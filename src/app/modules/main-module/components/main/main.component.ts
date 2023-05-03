@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { LetterStatus, Palabra } from '../../../../interfaces/palabra';
+
+import { LetterStatus, Palabra, Rounds } from '../../../../interfaces/palabra';
+
 import { GameService } from 'src/app/services/game.service';
 
 import { TECLADO, WINVALUE } from 'src/assets/datos/datos';
 
 import { MatDialog } from '@angular/material/dialog';
+
 import { DialogComponent } from 'src/app/components/dialog/dialog.component';
-import { DialogWinComponent } from 'src/app/components/dialogWin/dialog-win.component';
+
+import { DialogWinComponent } from 'src/app/components/dialog-win/dialog-win.component';
 
 @Component({
   selector: 'app-main',
@@ -16,7 +20,7 @@ import { DialogWinComponent } from 'src/app/components/dialogWin/dialog-win.comp
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  word = ['', '', '', '', ''];
+  
 
   letterStatus: LetterStatus[] = [];
 
@@ -40,13 +44,23 @@ export class MainComponent implements OnInit {
 
   disableKeyboard: boolean = false;
 
-  keyboard: string[] = TECLADO; 
+  teclado: string[] = TECLADO;
 
   tecladoStatus: string[] = [];
 
   isDelete = true;
 
   emptyLetter = '';
+
+  round: Rounds = {
+    wordRound: ['', '', '', '', ''],
+    wordStatusRound: [],
+    tecladoStatusRound: [],
+  }
+
+  rounds: Rounds[] = [this.round];
+
+  word = this.round.wordRound;
 
   constructor(private gameService: GameService, private dialog: MatDialog) {}
 
@@ -57,9 +71,11 @@ export class MainComponent implements OnInit {
       },
     });
     this.checkWin();
+    console.log(this.rounds)
   }
 
   sendWord() {
+    console.log(this.word);
     this.gameService.getWordIfExist(this.word.join('')).subscribe({
       next: (response: any) => {
         if (!response.wordExists) {
@@ -69,49 +85,23 @@ export class MainComponent implements OnInit {
         this.validatePosition();
       },
     });
-  }
-
-  saveLetterStatusKeyboard(){
-    let i = 0;
-    let status: string[] = this.status.split(",")
-    this.keyboard.forEach((x) => {
-    this.statusKeyboard.push(this.checkStatusKey(x,this.letterStatus[i],status[i]))
-      i++;
-    })
+    this.newRound()
   }
 
   writeLetter(tecla: string) {
     this.word[this.positionInput] = tecla;
     this.positionInput = this.findCorrectIndex();
+    console.log(this.positionInput+ " Posicion Selecionada sin Raton")
   }
-
 
   getPosition(position: number) {
     this.positionInput = position;
+    console.log(this.positionInput+ " Posicion Selecionada Con Raton")
   }
 
-  private checkStatusKey(letter: string, letterStatus: LetterStatus, status: string): KeyBoardStatus{
-    if(letter === letterStatus.letter && letterStatus.status === status){
-      return this.keyStatus = {
-        letter: letter,
-        status: status
-      }
-    };
-    return this.keyStatus = {
-      letter: "",
-      status: ""
-    };
-  }
-
-  private openDialog(data: string) {
+  private openDialog() {
     this.dialog.open(DialogComponent, {
-      data: { text: data, createButton: false, textBtn: "Recargar" },
-    });
-  }
-
-  private openDialogWin(data: string) {
-    this.dialog.open(DialogWinComponent, {
-      data: { text: data, createButton: true, textBtn: "¿Te atreves a otra partida piltrafilla?"},
+      data: { text: 'La palabra no existe', createButton: true },
     });
   }
 
@@ -148,9 +138,11 @@ export class MainComponent implements OnInit {
     return this.word.findIndex((value) => {
       return value === '';
     });
+
+
   }
 
-  private changePositionWhenDelete() {
+  changePositionWhenDelete() {
     if (this.word[this.positionInput] !== '') {
       return;
     }
@@ -195,5 +187,20 @@ export class MainComponent implements OnInit {
         textBtn: '¿Te atreves a otra partida piltrafilla?',
       },
     });
+  }
+
+  newRound(){
+    this.word = ['', '', '', '', '']
+    let newRound: Rounds = {
+      wordRound: this.word,
+      wordStatusRound: this.wordStatus,
+      tecladoStatusRound: this.tecladoStatus
+    }
+    if(this.rounds.length < 5){
+      this.rounds.push(newRound)
+    }else{
+      alert("Has palmado")
+    }
+   console.log(this.rounds)
   }
 }
