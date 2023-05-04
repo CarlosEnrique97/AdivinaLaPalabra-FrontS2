@@ -1,0 +1,35 @@
+<h1 class="text-center">Logeate para acceder</h1>
+<br><br>
+<form
+  class="text-center"
+  (ngSubmit)="login()"
+  [formGroup]="userForm"
+  autocomplete="off"
+>
+  <!-- Email input -->
+  <div class="form-outline mb-4">
+    <label class="form-label" 
+      ><h4>Nombre de usuario</h4></label
+    >
+    <br />
+    <input type="text" name="username" class="form-control-lg" formControlName="username"/>
+  </div>
+
+  <!-- Password input -->
+  <div class="form-outline mb-4">
+    <label class="form-label" 
+      ><h4>Contraseña</h4></label
+    >
+    <br />
+    <input type="password" name="password" class="form-control-lg" formControlName="password" />
+  </div>
+
+  <!-- Submit button -->
+  <button
+    type="submit"
+    [disabled]="userForm.invalid"
+    class="btn btn-primary btn-block mb-4"
+  >
+    Logearse
+  </button>
+</form>
