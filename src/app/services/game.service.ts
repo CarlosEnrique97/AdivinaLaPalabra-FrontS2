@@ -14,6 +14,7 @@ export class GameService {
   constructor(private http: HttpClient) {}
 
   $disableKeyboard: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  $tries: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   getWordIfExist(wordInsert: string): Observable<boolean> {
     return this.http.get<boolean>(
@@ -21,10 +22,20 @@ export class GameService {
     );
   }
 
-  getAttempts(): Observable<boolean>  {
+  getAttempts(): Observable<boolean> {
     return this.http.get<boolean>(
-      this.baseURL.concat('checkFiveAttempts/' + this.id)
+      this.baseURL.concat('checkAttemptsInRange/' + this.id)
     );
+  }
+
+  getCorrectWord(): Observable<string> {
+    return this.http.get<string>(
+      this.baseURL.concat('getCorrectWord/' + this.id)
+    );
+  }
+
+  setTries(val: boolean) {
+    this.$tries.next(val);
   }
 
   newGame() {

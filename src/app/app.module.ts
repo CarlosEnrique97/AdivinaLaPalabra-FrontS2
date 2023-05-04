@@ -11,6 +11,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MainInterceptor } from './interceptores/main.interceptor';
 import { DialogWinComponent } from './components/dialog-win/dialog-win.component';
+import { DialogLostComponent } from './components/dialog-lost/dialog-lost.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { DialogWinComponent } from './components/dialog-win/dialog-win.component
     FooterComponent,
     DialogComponent,
     DialogWinComponent,
+    DialogLostComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,8 +9,6 @@ import { GameService } from './services/game.service';
 export class AppComponent {
   title = 'AdivinaLaPalabra-Front';
 
-
-
   constructor(private gameService: GameService) {}
 
   ngOnInit() {

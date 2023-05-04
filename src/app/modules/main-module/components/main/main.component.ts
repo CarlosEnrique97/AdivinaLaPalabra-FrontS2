@@ -9,8 +9,8 @@ import { TECLADO } from 'src/assets/datos/datos';
 import { MatDialog } from '@angular/material/dialog';
 
 import { DialogComponent } from 'src/app/components/dialog/dialog.component';
-
 import { DialogWinComponent } from 'src/app/components/dialog-win/dialog-win.component';
+import { DialogLostComponent } from 'src/app/components/dialog-lost/dialog-lost.component';
 
 @Component({
   selector: 'app-main',
@@ -50,9 +50,7 @@ export class MainComponent implements OnInit {
 
   emptyLetter = '';
 
-  attempstCounter = 0;
-
-  tries = false;
+  tries: boolean = true;
 
   constructor(private gameService: GameService, private dialog: MatDialog) {}
 
@@ -68,15 +66,17 @@ export class MainComponent implements OnInit {
     this.gameService.getWordIfExist(this.word.join('')).subscribe({
       next: (response: any) => {
         if (!response.wordExists) {
-          this.openDialog();
+          this.openDialogNoExist();
           return;
         }
         this.validatePosition();
       },
     });
+    
   }
 
   writeLetter(tecla: string) {
+    if (this.findCorrectIndex() === -1) return;
     this.word[this.positionInput] = tecla;
     this.positionInput = this.findCorrectIndex();
   }
@@ -85,7 +85,7 @@ export class MainComponent implements OnInit {
     this.positionInput = position;
   }
 
-  private openDialog() {
+  private openDialogNoExist() {
     this.dialog.open(DialogComponent, {
       data: { text: 'La palabra no existe', createButton: true },
     });
@@ -154,35 +154,38 @@ export class MainComponent implements OnInit {
   }
 
   checkWin() {
-    this.attempstCounter++;
     let winValue = true;
     this.wordStatus.forEach((value) => {
       if (value != 'MATCHED') winValue = false;
     });
     if (winValue) {
       this.dialog.open(DialogWinComponent);
-    } else {
-      console.log(this.checkTries())
-      if (this.checkTries()) {
-        this.dialog.open(DialogComponent, {
-          data: {
-            text: 'Has perdido una partida más looser, espabila!!!',
-            createButton: false,
-          },
-        });
-        this.gameService.$disableKeyboard.next(true);
-      }
+      return;
     }
+    this.checkTries();
   }
 
-  checkTries(){
+  checkTries() {
     this.gameService.getAttempts().subscribe({
       next: (response: any) => {
-        this.tries=response.cantMore
-        console.log(this.tries);
-        return this.tries
+        if (!response.canMoreAttempts) {
+          this.gameLost();
+        }
       },
     });
-    return this.tries;
   }
+
+  gameLost() {
+    let correctWord="";
+    this.gameService.getCorrectWord().subscribe({
+      next: (response:any) => {
+         correctWord=response.correctWord;
+         this.dialog.open(DialogLostComponent, {
+          data: { text: correctWord}
+        });
+      }
+    })
+    this.gameService.$disableKeyboard.next(true);
+  }
+
 }
