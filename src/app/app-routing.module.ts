@@ -5,19 +5,26 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'main',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
-    path:'main',
-    loadChildren: () => 
-       import('./modules/main-module/main-module.module').then(
+    path: 'main',
+    loadChildren: () =>
+      import('./modules/main-module/main-module.module').then(
         (module) => module.MainModuleModule
-      )
-  }
+      ),
+  },
+  {
+    path: 'game-historic',
+    loadChildren: () =>
+      import('./components/gameHistoric/game-historic.module').then(
+        (module) => module.GameHistoricModule
+      ),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
