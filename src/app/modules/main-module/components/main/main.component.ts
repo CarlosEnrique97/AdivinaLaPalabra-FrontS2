@@ -91,8 +91,9 @@ export class MainComponent implements OnInit {
     this.rounds[this.contRound].positionInput = this.findCorrectIndex();
   }
 
-  getPosition(position: number) {
-    this.rounds[this.contRound].positionInput = position;
+  getPosition(idCasilla: number, idRound: number) {
+    if(idRound === this.contRound)
+    this.rounds[this.contRound].positionInput = idCasilla;
   }
 
   deleteLetter() {
