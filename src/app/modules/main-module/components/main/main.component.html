@@ -4,15 +4,14 @@
       <div class="col d-flex flex-column align-items-center">
         <h1>BIENVENIDO A ADIVINA LA PALABRA</h1>
         <br /><br />
-        <div class="row mb-3" *ngFor="let round of rounds; let a = index" id={{a}}>
+        <div class="row mb-3" *ngFor="let round of rounds; let a = index">
           <div
             class="casilla"
-            id={{i}}
             *ngFor="let letter of rounds[a].wordRound; let i= index"
             [ngClass]="{
-              yellow: wordStatus[i] === 'CONTAINED' ,
-              green: wordStatus[i] === 'MATCHED' ,
-              grey: wordStatus[i] === 'NOT_MATCHED',
+              yellow: rounds[a].wordStatusRound[i] === 'CONTAINED' ,
+              green: rounds[a].wordStatusRound[i] === 'MATCHED' ,
+              grey: rounds[a].wordStatusRound[i] === 'NOT_MATCHED',
               selected: positionInput === i,
             }"
             (click)="getPosition(i)"

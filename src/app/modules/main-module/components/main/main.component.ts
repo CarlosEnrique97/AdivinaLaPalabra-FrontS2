@@ -20,8 +20,6 @@ import { DialogWinComponent } from 'src/app/components/dialog-win/dialog-win.com
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  
-
   letterStatus: LetterStatus[] = [];
 
   wordStatus: string[] = [];
@@ -42,6 +40,10 @@ export class MainComponent implements OnInit {
     pos4: '',
   };
 
+  positionSelec: number = 0;
+
+  contRound = 0;
+
   disableKeyboard: boolean = false;
 
   teclado: string[] = TECLADO;
@@ -55,8 +57,7 @@ export class MainComponent implements OnInit {
   round: Rounds = {
     wordRound: ['', '', '', '', ''],
     wordStatusRound: [],
-    tecladoStatusRound: [],
-  }
+  };
 
   rounds: Rounds[] = [this.round];
 
@@ -70,12 +71,9 @@ export class MainComponent implements OnInit {
         this.disableKeyboard = response;
       },
     });
-    this.checkWin();
-    console.log(this.rounds)
   }
 
   sendWord() {
-    console.log(this.word);
     this.gameService.getWordIfExist(this.word.join('')).subscribe({
       next: (response: any) => {
         if (!response.wordExists) {
@@ -85,18 +83,20 @@ export class MainComponent implements OnInit {
         this.validatePosition();
       },
     });
-    this.newRound()
   }
 
   writeLetter(tecla: string) {
     this.word[this.positionInput] = tecla;
     this.positionInput = this.findCorrectIndex();
-    console.log(this.positionInput+ " Posicion Selecionada sin Raton")
   }
 
   getPosition(position: number) {
     this.positionInput = position;
-    console.log(this.positionInput+ " Posicion Selecionada Con Raton")
+  }
+
+  deleteLetter() {
+    this.changePositionWhenDelete();
+    this.word[this.positionInput] = '';
   }
 
   private openDialog() {
@@ -113,20 +113,22 @@ export class MainComponent implements OnInit {
         this.setStatus();
         this.setTecladoStatus();
         this.checkWin();
+        this.contRound++;
       },
     });
   }
 
   private setStatus() {
     for (let i = 0; i < this.letterStatus.length; i++) {
-      this.wordStatus[i] = this.letterStatus[i].status;
+      this.rounds[this.contRound].wordStatusRound[i] =
+        this.letterStatus[i].status;
     }
   }
 
   private setTecladoStatus() {
     this.letterStatus.forEach((posicion) => {
       const index = this.teclado.findIndex((value) => {
-        return value === posicion.letter;
+        return value.toLocaleLowerCase() === posicion.letter;
       });
       if (this.tecladoStatus[index] !== 'MATCHED') {
         this.tecladoStatus[index] = posicion.status;
@@ -138,11 +140,9 @@ export class MainComponent implements OnInit {
     return this.word.findIndex((value) => {
       return value === '';
     });
-
-
   }
 
-  changePositionWhenDelete() {
+  private changePositionWhenDelete() {
     if (this.word[this.positionInput] !== '') {
       return;
     }
@@ -156,26 +156,22 @@ export class MainComponent implements OnInit {
     }
   }
 
-  deleteLetter() {
-    this.changePositionWhenDelete();
-    this.word[this.positionInput] = '';
+  private setValuesWord() {
+    this.wordSend.pos0 = this.rounds[this.contRound].wordRound[0];
+    this.wordSend.pos1 = this.rounds[this.contRound].wordRound[1];
+    this.wordSend.pos2 = this.rounds[this.contRound].wordRound[2];
+    this.wordSend.pos3 = this.rounds[this.contRound].wordRound[3];
+    this.wordSend.pos4 = this.rounds[this.contRound].wordRound[4];
   }
 
-  setValuesWord() {
-    this.wordSend.pos0 = this.word[0];
-    this.wordSend.pos1 = this.word[1];
-    this.wordSend.pos2 = this.word[2];
-    this.wordSend.pos3 = this.word[3];
-    this.wordSend.pos4 = this.word[4];
-  }
-
-  checkWin() {
+  private checkWin() {
     let resultado = this.wordStatus.join(',');
-
     if (resultado.toLocaleUpperCase() === this.winValue) {
       this.openDialogWin(
         'Enhorabuena has acertado la palabra, pero... ¿podrás con la siguiente?'
       );
+    } else {
+      this.newRound();
     }
   }
 
@@ -189,18 +185,17 @@ export class MainComponent implements OnInit {
     });
   }
 
-  newRound(){
-    this.word = ['', '', '', '', '']
+  private newRound() {
+    this.word = ['', '', '', '', ''];
+    this.wordStatus = ['', '', '', '', ''];
     let newRound: Rounds = {
       wordRound: this.word,
       wordStatusRound: this.wordStatus,
-      tecladoStatusRound: this.tecladoStatus
+    };
+    if (this.rounds.length < 5) {
+      this.rounds.push(newRound);
+    } else {
+      alert('Has palmado');
     }
-    if(this.rounds.length < 5){
-      this.rounds.push(newRound)
-    }else{
-      alert("Has palmado")
-    }
-   console.log(this.rounds)
   }
 }
