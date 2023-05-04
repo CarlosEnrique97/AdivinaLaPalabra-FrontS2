@@ -1,15 +1,18 @@
-<h1 mat-dialog-title>Perdiste</h1>
+<h1 mat-dialog-title class="text-center">Perdiste!!!</h1>
 
-<div mat-dialog-content>{{ LostMessage }}
-  <p>La palabra correcta era: {{correctWord}}</p></div>
+<div mat-dialog-content class="text-center">
+  {{ LostMessage }}
+  <p>La palabra correcta era:</p>
+  <h2>{{ correctWord }}</h2>
+</div>
 
-<div *ngIf="createButton" mat-dialog-actions align="end">
-    <button
-      class="btn btn-primary"
-      mat-button
-      mat-dialog-close
-      (click)="refresh()"
-    >
-      {{ buttonNextGame }} <i class="bi bi-arrow-clockwise"></i>
-    </button>
-  </div>
+<div *ngIf="createButton" mat-dialog-actions align="center">
+  <button
+    class="btn btn-primary"
+    mat-button
+    mat-dialog-close
+    (click)="refresh()"
+  >
+    {{ buttonNextGame }}
+  </button>
+</div>

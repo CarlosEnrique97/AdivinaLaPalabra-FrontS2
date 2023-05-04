@@ -14,6 +14,9 @@ import { GameService } from '../services/game.service';
 export class MainInterceptor implements HttpInterceptor {
   private errorMessageDefault =
     'Ups, ha habido un error de conexión, por favor inténtelo de nuevo mas tarde';
+
+  errorNoConection = 0;
+
   constructor(private dialog: MatDialog, private gameService: GameService) {}
 
   intercept(
@@ -29,7 +32,7 @@ export class MainInterceptor implements HttpInterceptor {
 
   messageError(error: any) {
     let message = this.errorMessageDefault;
-    if (error.status !== 0) {
+    if (error.status !== this.errorNoConection) {
       message = error.error.message;
     }
     this.showError(message);

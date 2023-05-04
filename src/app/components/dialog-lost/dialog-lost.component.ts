@@ -11,7 +11,7 @@ export class DialogLostComponent {
 
   createButton = true;
 
-  buttonNextGame: string = '¿Te atreves a otra partida piltrafilla?';
+  buttonNextGame: string = '¿Lo vuelves a intentar?';
 
   correctWord="";
   text = "";
