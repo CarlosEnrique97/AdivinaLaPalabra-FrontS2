@@ -158,7 +158,6 @@ export class MainComponent implements OnInit {
     this.wordStatus.forEach((value) => {
       if (value != 'MATCHED') winValue = false;
     });
-    winValue = true;
     if (winValue) {
       this.dialog.open(DialogWinComponent);
       this.gameService.$disableKeyboard.next(true);
