@@ -12,7 +12,7 @@
               yellow: rounds[a].wordStatusRound[i] === 'CONTAINED' ,
               green: rounds[a].wordStatusRound[i] === 'MATCHED' ,
               grey: rounds[a].wordStatusRound[i] === 'NOT_MATCHED',
-              selected: positionInput === i,
+              selected: rounds[a].positionInput === i,
             }"
             (click)="getPosition(i)"
           >

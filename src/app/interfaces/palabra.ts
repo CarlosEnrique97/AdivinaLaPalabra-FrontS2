@@ -19,4 +19,5 @@ export type Palabra = {
 export interface Rounds {
   wordRound: string[],
   wordStatusRound: string[],
+  positionInput: number
 }

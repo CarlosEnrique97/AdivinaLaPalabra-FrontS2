@@ -57,6 +57,7 @@ export class MainComponent implements OnInit {
   round: Rounds = {
     wordRound: ['', '', '', '', ''],
     wordStatusRound: [],
+    positionInput: 0
   };
 
   rounds: Rounds[] = [this.round];
@@ -86,17 +87,17 @@ export class MainComponent implements OnInit {
   }
 
   writeLetter(tecla: string) {
-    this.word[this.positionInput] = tecla;
-    this.positionInput = this.findCorrectIndex();
+    this.word[this.rounds[this.contRound].positionInput] = tecla;
+    this.rounds[this.contRound].positionInput = this.findCorrectIndex();
   }
 
   getPosition(position: number) {
-    this.positionInput = position;
+    this.rounds[this.contRound].positionInput = position;
   }
 
   deleteLetter() {
     this.changePositionWhenDelete();
-    this.word[this.positionInput] = '';
+    this.word[this.rounds[this.contRound].positionInput] = '';
   }
 
   private openDialog() {
@@ -143,15 +144,15 @@ export class MainComponent implements OnInit {
   }
 
   private changePositionWhenDelete() {
-    if (this.word[this.positionInput] !== '') {
+    if (this.word[this.rounds[this.contRound].positionInput] !== '') {
       return;
     }
-    if (this.positionInput > this.word.length - 1 || this.positionInput < 0) {
-      this.positionInput = this.word.length - 1;
+    if (this.rounds[this.contRound].positionInput > this.word.length - 1 || this.rounds[this.contRound].positionInput < 0) {
+      this.rounds[this.contRound].positionInput = this.word.length - 1;
       return;
     }
-    if (this.positionInput > 0) {
-      this.positionInput--;
+    if (this.rounds[this.contRound].positionInput > 0) {
+      this.rounds[this.contRound].positionInput--;
       return;
     }
   }
@@ -191,6 +192,7 @@ export class MainComponent implements OnInit {
     let newRound: Rounds = {
       wordRound: this.word,
       wordStatusRound: this.wordStatus,
+      positionInput: 0
     };
     if (this.rounds.length < 5) {
       this.rounds.push(newRound);
