@@ -10,8 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MainInterceptor } from './interceptores/main.interceptor';
-import { DialogWinComponent } from './components/dialog-win/dialog-win.component';
-import { DialogLostComponent } from './components/dialog-lost/dialog-lost.component';
+import { DialogFinishComponent } from './components/dialog-finish/dialog-finish.component';
 
 @NgModule({
   declarations: [
@@ -19,8 +18,7 @@ import { DialogLostComponent } from './components/dialog-lost/dialog-lost.compon
     NavbarComponent,
     FooterComponent,
     DialogComponent,
-    DialogWinComponent,
-    DialogLostComponent,
+    DialogFinishComponent
   ],
   imports: [
     BrowserModule,

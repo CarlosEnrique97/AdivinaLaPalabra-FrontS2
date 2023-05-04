@@ -9,8 +9,8 @@ import { TECLADO } from 'src/assets/datos/datos';
 import { MatDialog } from '@angular/material/dialog';
 
 import { DialogComponent } from 'src/app/components/dialog/dialog.component';
-import { DialogWinComponent } from 'src/app/components/dialog-win/dialog-win.component';
-import { DialogLostComponent } from 'src/app/components/dialog-lost/dialog-lost.component';
+
+import { DialogFinishComponent } from 'src/app/components/dialog-finish/dialog-finish.component';
 
 @Component({
   selector: 'app-main',
@@ -72,7 +72,6 @@ export class MainComponent implements OnInit {
         this.validatePosition();
       },
     });
-    
   }
 
   writeLetter(tecla: string) {
@@ -159,7 +158,13 @@ export class MainComponent implements OnInit {
       if (value != 'MATCHED') winValue = false;
     });
     if (winValue) {
-      this.dialog.open(DialogWinComponent);
+      this.dialog.open(DialogFinishComponent, {
+        data: {
+          title: 'Has ganado!!!',
+          text: 'Enhorabuena has acertado con la palabra, pero... ¿podrás con la siguiente?',
+          button: '¿Te atreves a otra partida piltrafilla?',
+        },
+      });
       this.gameService.$disableKeyboard.next(true);
       return;
     }
@@ -177,16 +182,20 @@ export class MainComponent implements OnInit {
   }
 
   gameLost() {
-    let correctWord="";
+    let correctWord = '';
     this.gameService.getCorrectWord().subscribe({
-      next: (response:any) => {
-         correctWord=response.correctWord;
-         this.dialog.open(DialogLostComponent, {
-          data: { text: correctWord}
+      next: (response: any) => {
+        correctWord = response.correctWord;
+        this.dialog.open(DialogFinishComponent, {
+          data: {
+            title: 'Perdiste!!!',
+            text: 'Has perdido una partida más looser, espabila!!!, la palabra correcta era:',
+            correctWord: correctWord,
+            button: '¿Que tal looser, lo vuelves a intentar?',
+          },
         });
-      }
-    })
+      },
+    });
     this.gameService.$disableKeyboard.next(true);
   }
-
 }
