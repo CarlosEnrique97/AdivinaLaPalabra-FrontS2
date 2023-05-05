@@ -15,3 +15,10 @@ export type Palabra = {
   pos3: string;
   pos4: string;
 };
+
+export type DataDialog = {
+  title: string;
+  text: string;
+  correctWord: string;
+  button: string;
+}

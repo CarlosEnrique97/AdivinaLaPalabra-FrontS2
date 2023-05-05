@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { LetterStatus, Palabra } from '../../../../interfaces/palabra';
+import {
+  LetterStatus,
+  Palabra,
+  DataDialog,
+} from '../../../../interfaces/palabra';
 
 import { GameService } from 'src/app/services/game.service';
 
@@ -52,6 +56,15 @@ export class MainComponent implements OnInit {
 
   tries: boolean = true;
 
+  dataDialog: DataDialog = {
+    title: '',
+    text: '',
+    correctWord: '',
+    button: '',
+  };
+
+  winValue = true;
+
   constructor(private gameService: GameService, private dialog: MatDialog) {}
 
   ngOnInit() {
@@ -78,6 +91,11 @@ export class MainComponent implements OnInit {
     if (this.findCorrectIndex() === -1) return;
     this.word[this.positionInput] = tecla;
     this.positionInput = this.findCorrectIndex();
+  }
+  
+  deleteLetter() {
+    this.changePositionWhenDelete();
+    this.word[this.positionInput] = '';
   }
 
   getPosition(position: number) {
@@ -125,7 +143,7 @@ export class MainComponent implements OnInit {
     });
   }
 
-  changePositionWhenDelete() {
+  private changePositionWhenDelete() {
     if (this.word[this.positionInput] !== '') {
       return;
     }
@@ -139,12 +157,7 @@ export class MainComponent implements OnInit {
     }
   }
 
-  deleteLetter() {
-    this.changePositionWhenDelete();
-    this.word[this.positionInput] = '';
-  }
-
-  setValuesWord() {
+  private setValuesWord() {
     this.wordSend.pos0 = this.word[0];
     this.wordSend.pos1 = this.word[1];
     this.wordSend.pos2 = this.word[2];
@@ -152,26 +165,19 @@ export class MainComponent implements OnInit {
     this.wordSend.pos4 = this.word[4];
   }
 
-  checkWin() {
-    let winValue = true;
+  private checkWin() {
+    this.winValue = true;
     this.wordStatus.forEach((value) => {
-      if (value != 'MATCHED') winValue = false;
+      if (value != 'MATCHED') this.winValue = false;
     });
-    if (winValue) {
-      this.dialog.open(DialogFinishComponent, {
-        data: {
-          title: 'Has ganado!!!',
-          text: 'Enhorabuena has acertado con la palabra, pero... ¿podrás con la siguiente?',
-          button: '¿Te atreves a otra partida piltrafilla?',
-        },
-      });
-      this.gameService.$disableKeyboard.next(true);
+    if (this.winValue) {
+      this.decideWinorLost('');
       return;
     }
     this.checkTries();
   }
 
-  checkTries() {
+  private checkTries() {
     this.gameService.getAttempts().subscribe({
       next: (response: any) => {
         if (!response.canMoreAttempts) {
@@ -181,21 +187,42 @@ export class MainComponent implements OnInit {
     });
   }
 
-  gameLost() {
+  private gameLost() {
     let correctWord = '';
     this.gameService.getCorrectWord().subscribe({
       next: (response: any) => {
         correctWord = response.correctWord;
-        this.dialog.open(DialogFinishComponent, {
-          data: {
-            title: 'Perdiste!!!',
-            text: 'Has perdido una partida más looser, espabila!!!, la palabra correcta era:',
-            correctWord: correctWord,
-            button: '¿Que tal looser, lo vuelves a intentar?',
-          },
-        });
+        this.decideWinorLost(correctWord);
       },
     });
+  }
+
+  private decideWinorLost(correctword: string) {
+    if (this.winValue) {
+      this.dataDialog.title = 'Has ganado!!!';
+      this.dataDialog.text =
+        'Enhorabuena has acertado con la palabra, pero... ¿podrás con la siguiente?';
+      this.dataDialog.correctWord = correctword;
+      this.dataDialog.button = '¿Te atreves a otra partida piltrafilla?';
+      this.dialog.open(DialogFinishComponent, {
+        data: this.dataDialog,
+      });
+      this.disableKeyboardChange();
+      return;
+    }
+    this.dataDialog.title = 'Has perdido!!!';
+    this.dataDialog.text =
+      'Has perdido una partida más looser, espabila!!!, la palabra correcta era';
+    this.dataDialog.correctWord = correctword;
+    this.dataDialog.button = '¿Que tal looser, lo vuelves a intentar?';
+
+    this.dialog.open(DialogFinishComponent, {
+      data: this.dataDialog,
+    });
+    this.disableKeyboardChange();
+  }
+
+  private disableKeyboardChange() {
     this.gameService.$disableKeyboard.next(true);
   }
 }
