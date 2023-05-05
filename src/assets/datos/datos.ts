@@ -27,7 +27,3 @@ export const TECLADO: string[] = [
   'N',
   'M',
 ];
-
-export const WINVALUE = 'MATCHED,MATCHED,MATCHED,MATCHED,MATCHED';
-
-export const ERRORCONECTION = 0;
