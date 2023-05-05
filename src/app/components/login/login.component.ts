@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -32,9 +31,7 @@ export class LoginComponent{
     let bytespassword= new TextEncoder().encode(password)
     let passwordEncrypt = btoa(String.fromCharCode(...new Uint8Array(bytespassword)));
 
-    this.authservice.login(usernameEncrypt,passwordEncrypt).subscribe((data) => {
-      console.log(data);
-    });
+    this.authservice.mostrar();
   }
 
 }
