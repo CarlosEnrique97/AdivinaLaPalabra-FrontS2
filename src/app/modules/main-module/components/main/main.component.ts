@@ -16,7 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 
 import { DialogFinishComponent } from 'src/app/components/dialog-finish/dialog-finish.component';
-import { WIN_GAME_DIALOG } from 'src/assets/datos/constdialog';
+import { LOST_GAME_DIALOG, WIN_GAME_DIALOG } from 'src/assets/datos/constdialog';
 
 @Component({
   selector: 'app-main',
@@ -56,13 +56,6 @@ export class MainComponent implements OnInit {
 
   tries: boolean = true;
 
-  dataDialog: DataDialog = {
-    title: '',
-    text: '',
-    correctWord: '',
-    button: '',
-  };
-
   winValue = true;
   round: Rounds = {
     wordRound: ['', '', '', '', ''],
@@ -76,15 +69,6 @@ export class MainComponent implements OnInit {
 
   word = this.round.wordRound;
 
-  LOST_GAME_DIALOG: DataDialog = {
-    title: 'Has perdido!!!',
-
-    text: 'Has perdido una partida más looser, espabila!!!, la palabra correcta era',
-
-    correctWord: '',
-
-    button: '¿Que tal looser, lo vuelves a intentar?',
-  };
   constructor(private gameService: GameService, private dialog: MatDialog) {}
 
   ngOnInit() {
@@ -227,10 +211,10 @@ export class MainComponent implements OnInit {
   }
 
   private decideWinorLost(correctword: string) {
-    this.LOST_GAME_DIALOG.correctWord = correctword;
+    LOST_GAME_DIALOG.correctWord = correctword;
     const dialogInfo: DataDialog = this.winValue
       ? WIN_GAME_DIALOG
-      : this.LOST_GAME_DIALOG;
+      : LOST_GAME_DIALOG;
     this.dialog.open(DialogFinishComponent, { data: dialogInfo });
     this.disableKeyboardChange();
   }

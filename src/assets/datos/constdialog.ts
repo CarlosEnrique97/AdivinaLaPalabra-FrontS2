@@ -1,6 +1,4 @@
-import { DataDialog } from "src/app/interfaces/palabra";
-
-export const WIN_GAME_DIALOG: DataDialog = {
+export const WIN_GAME_DIALOG = {
 
     title:"Has ganado!!!",
     
@@ -11,4 +9,14 @@ export const WIN_GAME_DIALOG: DataDialog = {
     button:"¿Te atreves a otra partida piltrafilla?",
 
 }
+
+export let LOST_GAME_DIALOG = {
+    title: 'Has perdido!!!',
+
+    text: 'Has perdido una partida más looser, espabila!!!, la palabra correcta era',
+
+    correctWord: '',
+
+    button: '¿Que tal looser, lo vuelves a intentar?',
+  };
 
