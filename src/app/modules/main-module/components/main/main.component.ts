@@ -30,14 +30,10 @@ export class MainComponent implements OnInit {
 
   wordSend: Palabra = {
     pos0: '',
-
     pos1: '',
-
     pos2: '',
-
     pos3: '',
-
-    pos4: '',
+    pos4: ''
   };
 
   positionSelec: number = 0;
@@ -57,7 +53,7 @@ export class MainComponent implements OnInit {
   round: Rounds = {
     wordRound: ['', '', '', '', ''],
     wordStatusRound: [],
-    positionInput: 0
+    positionInput: 0,
   };
 
   rounds: Rounds[] = [this.round];
@@ -86,6 +82,7 @@ export class MainComponent implements OnInit {
         this.validatePosition();
       },
     });
+    this.setValuesWord()
   }
 
   writeLetter(tecla: string) {
@@ -94,11 +91,9 @@ export class MainComponent implements OnInit {
   }
 
   getPosition(idCasilla: number, idRound: number) {
-    if(idRound === this.contRound){
-      this.rounds[this.contRound].positionInput = idCasilla;
-      this.positionRoundLetter = this.rounds[this.contRound].positionInput
-    }
-    console.log(this.positionRoundLetter)
+    if (idRound !== this.contRound) return;
+    this.rounds[this.contRound].positionInput = idCasilla;
+    this.positionRoundLetter = this.rounds[this.contRound].positionInput;
   }
 
   deleteLetter() {
@@ -125,11 +120,9 @@ export class MainComponent implements OnInit {
   }
 
   private setStatus() {
-    let pos = 0;
-    this.letterStatus.forEach((value) => {
-      this.rounds[this.contRound].wordStatusRound[pos] = value.status;
-      pos++;
-    })
+    this.letterStatus.forEach((value, index) => {
+      this.rounds[this.contRound].wordStatusRound[index] = value.status;
+    });
   }
 
   private setTecladoStatus() {
@@ -150,10 +143,15 @@ export class MainComponent implements OnInit {
   }
 
   private changePositionWhenDelete() {
-    if (this.rounds[this.contRound].wordRound[this.positionRoundLetter] !== '') {
+    if (
+      this.rounds[this.contRound].wordRound[this.positionRoundLetter] !== ''
+    ) {
       return;
     }
-    if (this.positionRoundLetter > this.word.length - 1 || this.positionRoundLetter < 0) {
+    if (
+      this.positionRoundLetter > this.word.length - 1 ||
+      this.positionRoundLetter < 0
+    ) {
       this.positionRoundLetter = this.word.length - 1;
       return;
     }
@@ -164,9 +162,9 @@ export class MainComponent implements OnInit {
   }
 
   private setValuesWord() {
-    for (let i = 0; i < 5; i++) {
-      this.wordSend[`pos${i}`] = this.rounds[this.contRound].wordRound[i];
-    }
+    Object.keys(this.wordSend).forEach((key, index) => {
+      this.wordSend[key as keyof Palabra] = this.rounds[this.contRound].wordRound[index];
+    }); 
   }
 
   private checkWin() {
@@ -197,7 +195,7 @@ export class MainComponent implements OnInit {
     let newRound: Rounds = {
       wordRound: this.word,
       wordStatusRound: this.wordStatus,
-      positionInput: 0
+      positionInput: 0,
     };
     this.rounds.push(newRound);
   }
