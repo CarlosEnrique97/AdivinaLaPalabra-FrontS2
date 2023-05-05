@@ -164,11 +164,9 @@ export class MainComponent implements OnInit {
   }
 
   private setValuesWord() {
-      this.wordSend.pos0 = this.rounds[this.contRound].wordRound[0];
-      this.wordSend.pos1 = this.rounds[this.contRound].wordRound[1];
-      this.wordSend.pos2 = this.rounds[this.contRound].wordRound[2];
-      this.wordSend.pos3 = this.rounds[this.contRound].wordRound[3];
-      this.wordSend.pos4 = this.rounds[this.contRound].wordRound[4];
+    for (let i = 0; i < 5; i++) {
+      this.wordSend[`pos${i}`] = this.rounds[this.contRound].wordRound[i];
+    }
   }
 
   private checkWin() {
