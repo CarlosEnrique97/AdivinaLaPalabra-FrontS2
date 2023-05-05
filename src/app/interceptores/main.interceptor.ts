@@ -34,7 +34,7 @@ export class MainInterceptor implements HttpInterceptor {
     }
     this.showError(message);
 
-    this.gameService.$disableKeyboard.next(false);
+    this.gameService.$disableKeyboard.next(true);
   }
   showError(message: string) {
     this.dialog.open(DialogComponent, {

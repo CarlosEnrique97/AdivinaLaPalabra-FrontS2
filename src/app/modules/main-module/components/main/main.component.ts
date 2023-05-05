@@ -82,7 +82,6 @@ export class MainComponent implements OnInit {
         this.validatePosition();
       },
     });
-    this.setValuesWord()
   }
 
   writeLetter(tecla: string) {
@@ -195,7 +194,7 @@ export class MainComponent implements OnInit {
     let newRound: Rounds = {
       wordRound: this.word,
       wordStatusRound: this.wordStatus,
-      positionInput: 0,
+      positionInput: 0
     };
     this.rounds.push(newRound);
   }
