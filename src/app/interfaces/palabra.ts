@@ -22,3 +22,9 @@ export type DataDialog = {
   correctWord: string;
   button: string;
 }
+
+export interface Rounds {
+  wordRound: string[],
+  wordStatusRound: string[],
+  positionInput: number
+}
