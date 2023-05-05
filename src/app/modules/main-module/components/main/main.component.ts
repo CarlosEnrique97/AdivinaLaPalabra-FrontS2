@@ -57,6 +57,7 @@ export class MainComponent implements OnInit {
   tries: boolean = true;
 
   winValue = true;
+
   round: Rounds = {
     wordRound: ['', '', '', '', ''],
     wordStatusRound: [],
