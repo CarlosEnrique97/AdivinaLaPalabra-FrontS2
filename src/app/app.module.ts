@@ -11,6 +11,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MainInterceptor } from './interceptores/main.interceptor';
 import { DialogFinishComponent } from './components/dialog-finish/dialog-finish.component';
+import { GameHistoricModule } from './components/gameHistoric/game-historic.module';
 
 @NgModule({
   declarations: [
@@ -26,13 +27,16 @@ import { DialogFinishComponent } from './components/dialog-finish/dialog-finish.
     HttpClientModule,
     MainModuleModule,
     BrowserAnimationsModule,
-    MatDialogModule
+    MatDialogModule,
+    GameHistoricModule,
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: MainInterceptor,
-    multi: true
-  }],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MainInterceptor,
+      multi: true,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
