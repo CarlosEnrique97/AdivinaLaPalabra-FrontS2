@@ -1,5 +1,5 @@
 export type GameID = {
-  game_id: number;
+  game_id: string;
 };
 
 export type LetterStatus = {
@@ -15,6 +15,13 @@ export type Palabra = {
   pos3: string;
   pos4: string;
 };
+
+export type DataDialog = {
+  title: string;
+  text: string;
+  correctWord: string;
+  button: string;
+}
 
 export interface Rounds {
   wordRound: string[],

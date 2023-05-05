@@ -11,11 +11,12 @@ import { GameID, LetterStatus, Palabra } from '../interfaces/palabra';
 export class GameService {
   wordExist: any;
   baseURL = 'http://10.102.30.50:8080/';
-  id = 0;
+  id: string = '';
+
   constructor(private http: HttpClient) {}
 
-  $id: BehaviorSubject<GameID> = new BehaviorSubject<GameID>({ game_id: 0});
   $disableKeyboard: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  $tries: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   getWordIfExist(wordInsert: string): Observable<boolean> {
     return this.http.get<boolean>(
@@ -23,19 +24,26 @@ export class GameService {
     );
   }
 
-  getId() {
-    this.$id.subscribe({
-      next: (response: GameID) => {
-        this.id = response.game_id;
-      },
-    });
+  getAttempts(): Observable<boolean> {
+    return this.http.get<boolean>(
+      this.baseURL.concat('checkAttemptsInRange/' + this.id)
+    );
+  }
+
+  getCorrectWord(): Observable<string> {
+    return this.http.get<string>(
+      this.baseURL.concat('getCorrectWord/' + this.id)
+    );
+  }
+
+  setTries(val: boolean) {
+    this.$tries.next(val);
   }
 
   newGame() {
-    this.getId();
     this.http.get<GameID>(this.baseURL.concat('newGame')).subscribe({
       next: (response: GameID) => {
-        this.$id.next(response);
+        this.id = response.game_id;
       },
     });
   }

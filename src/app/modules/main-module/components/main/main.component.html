@@ -11,7 +11,7 @@
               yellow: rounds[idRound].wordStatusRound[idCasilla] === 'CONTAINED' ,
               green: rounds[idRound].wordStatusRound[idCasilla] === 'MATCHED' ,
               grey: rounds[idRound].wordStatusRound[idCasilla] === 'NOT_MATCHED',
-              selected: positionRoundLetter === idCasilla,
+              selected: rounds[idRound].positionInput === idCasilla,
             }"
             (click)="getPosition(idCasilla,idRound)"
           >
