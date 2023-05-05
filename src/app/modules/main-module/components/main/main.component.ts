@@ -16,7 +16,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 
 import { DialogFinishComponent } from 'src/app/components/dialog-finish/dialog-finish.component';
-import { LOST_GAME_DIALOG, WIN_GAME_DIALOG } from 'src/assets/datos/constdialog';
+import {
+  LOST_GAME_DIALOG,
+  WIN_GAME_DIALOG,
+} from 'src/assets/datos/constdialog';
 
 @Component({
   selector: 'app-main',
@@ -212,11 +215,15 @@ export class MainComponent implements OnInit {
   }
 
   private decideWinorLost(correctword: string) {
-    LOST_GAME_DIALOG.correctWord = correctword;
-    const dialogInfo: DataDialog = this.winValue
-      ? WIN_GAME_DIALOG
-      : LOST_GAME_DIALOG;
+    let dialogInfo: DataDialog = WIN_GAME_DIALOG;
+
+    if (!this.winValue) {
+      dialogInfo = LOST_GAME_DIALOG;
+      dialogInfo.correctWord = correctword;
+    }
+
     this.dialog.open(DialogFinishComponent, { data: dialogInfo });
+
     this.disableKeyboardChange();
   }
 
