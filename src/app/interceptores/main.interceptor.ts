@@ -9,6 +9,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { DialogComponent } from '../components/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { GameService } from '../services/game.service';
+import { ERRORCONECTION } from 'src/assets/datos/datos';
 
 @Injectable()
 export class MainInterceptor implements HttpInterceptor {
@@ -20,8 +21,7 @@ export class MainInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error) => {
-        console.log(error)
-        if(error.status === 0){
+        if(error.status === ERRORCONECTION){
           error.error.message = "Ups, ha ocurrido un fallo"
         }
         return throwError(this.MessageError(error.error.message));

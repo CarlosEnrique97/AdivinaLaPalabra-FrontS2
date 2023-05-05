@@ -62,6 +62,8 @@ export class MainComponent implements OnInit {
 
   rounds: Rounds[] = [this.round];
 
+  positionRoundLetter: number = 0;
+
   word = this.round.wordRound;
 
   constructor(private gameService: GameService, private dialog: MatDialog) {}
@@ -87,18 +89,21 @@ export class MainComponent implements OnInit {
   }
 
   writeLetter(tecla: string) {
-    this.word[this.rounds[this.contRound].positionInput] = tecla;
-    this.rounds[this.contRound].positionInput = this.findCorrectIndex();
+    this.word[this.positionRoundLetter] = tecla;
+    this.positionRoundLetter = this.findCorrectIndex();
   }
 
   getPosition(idCasilla: number, idRound: number) {
-    if(idRound === this.contRound)
-    this.rounds[this.contRound].positionInput = idCasilla;
+    if(idRound === this.contRound){
+      this.rounds[this.contRound].positionInput = idCasilla;
+      this.positionRoundLetter = this.rounds[this.contRound].positionInput
+    }
+    console.log(this.positionRoundLetter)
   }
 
   deleteLetter() {
     this.changePositionWhenDelete();
-    this.word[this.rounds[this.contRound].positionInput] = '';
+    this.word[this.positionRoundLetter] = '';
   }
 
   private openDialog() {
@@ -115,16 +120,16 @@ export class MainComponent implements OnInit {
         this.setStatus();
         this.setTecladoStatus();
         this.checkWin();
-        this.contRound++;
       },
     });
   }
 
   private setStatus() {
-    for (let i = 0; i < this.letterStatus.length; i++) {
-      this.rounds[this.contRound].wordStatusRound[i] =
-        this.letterStatus[i].status;
-    }
+    let pos = 0;
+    this.letterStatus.forEach((value) => {
+      this.rounds[this.contRound].wordStatusRound[pos] = value.status;
+      pos++;
+    })
   }
 
   private setTecladoStatus() {
@@ -139,31 +144,31 @@ export class MainComponent implements OnInit {
   }
 
   private findCorrectIndex() {
-    return this.word.findIndex((value) => {
+    return this.rounds[this.contRound].wordRound.findIndex((value) => {
       return value === '';
     });
   }
 
   private changePositionWhenDelete() {
-    if (this.word[this.rounds[this.contRound].positionInput] !== '') {
+    if (this.rounds[this.contRound].wordRound[this.positionRoundLetter] !== '') {
       return;
     }
-    if (this.rounds[this.contRound].positionInput > this.word.length - 1 || this.rounds[this.contRound].positionInput < 0) {
-      this.rounds[this.contRound].positionInput = this.word.length - 1;
+    if (this.positionRoundLetter > this.word.length - 1 || this.positionRoundLetter < 0) {
+      this.positionRoundLetter = this.word.length - 1;
       return;
     }
-    if (this.rounds[this.contRound].positionInput > 0) {
-      this.rounds[this.contRound].positionInput--;
+    if (this.positionRoundLetter > 0) {
+      this.positionRoundLetter--;
       return;
     }
   }
 
   private setValuesWord() {
-    this.wordSend.pos0 = this.rounds[this.contRound].wordRound[0];
-    this.wordSend.pos1 = this.rounds[this.contRound].wordRound[1];
-    this.wordSend.pos2 = this.rounds[this.contRound].wordRound[2];
-    this.wordSend.pos3 = this.rounds[this.contRound].wordRound[3];
-    this.wordSend.pos4 = this.rounds[this.contRound].wordRound[4];
+      this.wordSend.pos0 = this.rounds[this.contRound].wordRound[0];
+      this.wordSend.pos1 = this.rounds[this.contRound].wordRound[1];
+      this.wordSend.pos2 = this.rounds[this.contRound].wordRound[2];
+      this.wordSend.pos3 = this.rounds[this.contRound].wordRound[3];
+      this.wordSend.pos4 = this.rounds[this.contRound].wordRound[4];
   }
 
   private checkWin() {
@@ -174,6 +179,7 @@ export class MainComponent implements OnInit {
       );
     } else {
       this.newRound();
+      this.contRound++;
     }
   }
 
@@ -195,10 +201,6 @@ export class MainComponent implements OnInit {
       wordStatusRound: this.wordStatus,
       positionInput: 0
     };
-    if (this.rounds.length < 5) {
-      this.rounds.push(newRound);
-    } else {
-      alert('Has palmado');
-    }
+    this.rounds.push(newRound);
   }
 }
