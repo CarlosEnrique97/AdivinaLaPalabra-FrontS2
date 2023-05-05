@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 
 import { DialogFinishComponent } from 'src/app/components/dialog-finish/dialog-finish.component';
+import { WIN_GAME_DIALOG } from 'src/assets/datos/constdialog';
 
 @Component({
   selector: 'app-main',
@@ -75,6 +76,15 @@ export class MainComponent implements OnInit {
 
   word = this.round.wordRound;
 
+  LOST_GAME_DIALOG: DataDialog = {
+    title: 'Has perdido!!!',
+
+    text: 'Has perdido una partida más looser, espabila!!!, la palabra correcta era',
+
+    correctWord: '',
+
+    button: '¿Que tal looser, lo vuelves a intentar?',
+  };
   constructor(private gameService: GameService, private dialog: MatDialog) {}
 
   ngOnInit() {
@@ -156,18 +166,21 @@ export class MainComponent implements OnInit {
   }
 
   private changePositionWhenDelete() {
-    if (this.word[this.rounds[this.contRound].positionInput] !== '') {
+    const positionLetter = this.rounds[this.contRound].positionInput;
+
+    if (this.word[positionLetter] !== '') {
       return;
     }
-    if (
-      this.rounds[this.contRound].positionInput > this.word.length - 1 ||
-      this.rounds[this.contRound].positionInput < 0
-    ) {
+
+    if (positionLetter > this.word.length - 1 || positionLetter < 0) {
       this.rounds[this.contRound].positionInput = this.word.length - 1;
+
       return;
     }
-    if (this.rounds[this.contRound].positionInput > 0) {
+
+    if (positionLetter > 0) {
       this.rounds[this.contRound].positionInput--;
+
       return;
     }
   }
@@ -214,27 +227,11 @@ export class MainComponent implements OnInit {
   }
 
   private decideWinorLost(correctword: string) {
-    if (this.winValue) {
-      this.dataDialog.title = 'Has ganado!!!';
-      this.dataDialog.text =
-        'Enhorabuena has acertado con la palabra, pero... ¿podrás con la siguiente?';
-      this.dataDialog.correctWord = correctword;
-      this.dataDialog.button = '¿Te atreves a otra partida piltrafilla?';
-      this.dialog.open(DialogFinishComponent, {
-        data: this.dataDialog,
-      });
-      this.disableKeyboardChange();
-      return;
-    }
-    this.dataDialog.title = 'Has perdido!!!';
-    this.dataDialog.text =
-      'Has perdido una partida más looser, espabila!!!, la palabra correcta era';
-    this.dataDialog.correctWord = correctword;
-    this.dataDialog.button = '¿Que tal looser, lo vuelves a intentar?';
-
-    this.dialog.open(DialogFinishComponent, {
-      data: this.dataDialog,
-    });
+    this.LOST_GAME_DIALOG.correctWord = correctword;
+    const dialogInfo: DataDialog = this.winValue
+      ? WIN_GAME_DIALOG
+      : this.LOST_GAME_DIALOG;
+    this.dialog.open(DialogFinishComponent, { data: dialogInfo });
     this.disableKeyboardChange();
   }
 
