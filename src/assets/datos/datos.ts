@@ -29,3 +29,5 @@ export const TECLADO: string[] = [
 ];
 
 export const WINVALUE = 'MATCHED,MATCHED,MATCHED,MATCHED,MATCHED';
+
+export const ERRORCONECTION = 0;

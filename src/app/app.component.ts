@@ -12,6 +12,6 @@ export class AppComponent {
   constructor(private gameService: GameService) {}
 
   ngOnInit() {
-    this.gameService.newGame();
+  this.gameService.newGame()
   }
 }

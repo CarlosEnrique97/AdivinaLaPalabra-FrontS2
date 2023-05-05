@@ -2,20 +2,18 @@
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col d-flex flex-column align-items-center">
-        <h1>BIENVENIDO A ADIVINA LA PALABRA</h1>
-        <br /><br />
-        <div class="row mb-4">
+        <h1 class="mb-5">BIENVENIDO A ADIVINA LA PALABRA</h1>
+        <div class="row mb-3" *ngFor="let round of rounds; let idRound = index">
           <div
             class="casilla"
-            *ngFor="let letter of word; let index = index"
+            *ngFor="let letter of rounds[idRound].wordRound; let idCasilla= index"
             [ngClass]="{
-              yellow: wordStatus[index] === 'CONTAINED' ,
-              green: wordStatus[index] === 'MATCHED' ,
-              grey: wordStatus[index] === 'NOT_MATCHED',
-              selected: positionInput === index,
-              
+              yellow: rounds[idRound].wordStatusRound[idCasilla] === 'CONTAINED' ,
+              green: rounds[idRound].wordStatusRound[idCasilla] === 'MATCHED' ,
+              grey: rounds[idRound].wordStatusRound[idCasilla] === 'NOT_MATCHED',
+              selected: positionRoundLetter === idCasilla,
             }"
-            (click)="getPosition(index)"
+            (click)="getPosition(idCasilla,idRound)"
           >
             {{ letter }}
           </div>

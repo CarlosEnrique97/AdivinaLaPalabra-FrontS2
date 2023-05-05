@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { LetterStatus, Palabra } from '../../../../interfaces/palabra';
+import { LetterStatus, Palabra, Rounds } from '../../../../interfaces/palabra';
 
 import { GameService } from 'src/app/services/game.service';
 
@@ -20,8 +20,6 @@ import { DialogWinComponent } from 'src/app/components/dialog-win/dialog-win.com
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  word = ['', '', '', '', ''];
-
   letterStatus: LetterStatus[] = [];
 
   wordStatus: string[] = [];
@@ -32,15 +30,15 @@ export class MainComponent implements OnInit {
 
   wordSend: Palabra = {
     pos0: '',
-
     pos1: '',
-
     pos2: '',
-
     pos3: '',
-
-    pos4: '',
+    pos4: ''
   };
+
+  positionSelec: number = 0;
+
+  contRound = 0;
 
   disableKeyboard: boolean = false;
 
@@ -52,6 +50,18 @@ export class MainComponent implements OnInit {
 
   emptyLetter = '';
 
+  round: Rounds = {
+    wordRound: ['', '', '', '', ''],
+    wordStatusRound: [],
+    positionInput: 0,
+  };
+
+  rounds: Rounds[] = [this.round];
+
+  positionRoundLetter: number = 0;
+
+  word = this.round.wordRound;
+
   constructor(private gameService: GameService, private dialog: MatDialog) {}
 
   ngOnInit() {
@@ -60,7 +70,6 @@ export class MainComponent implements OnInit {
         this.disableKeyboard = response;
       },
     });
-    this.checkWin();
   }
 
   sendWord() {
@@ -76,12 +85,19 @@ export class MainComponent implements OnInit {
   }
 
   writeLetter(tecla: string) {
-    this.word[this.positionInput] = tecla;
-    this.positionInput = this.findCorrectIndex();
+    this.word[this.positionRoundLetter] = tecla;
+    this.positionRoundLetter = this.findCorrectIndex();
   }
 
-  getPosition(position: number) {
-    this.positionInput = position;
+  getPosition(idCasilla: number, idRound: number) {
+    if (idRound !== this.contRound) return;
+    this.rounds[this.contRound].positionInput = idCasilla;
+    this.positionRoundLetter = this.rounds[this.contRound].positionInput;
+  }
+
+  deleteLetter() {
+    this.changePositionWhenDelete();
+    this.word[this.positionRoundLetter] = '';
   }
 
   private openDialog() {
@@ -103,15 +119,15 @@ export class MainComponent implements OnInit {
   }
 
   private setStatus() {
-    for (let i = 0; i < this.letterStatus.length; i++) {
-      this.wordStatus[i] = this.letterStatus[i].status;
-    }
+    this.letterStatus.forEach((value, index) => {
+      this.rounds[this.contRound].wordStatusRound[index] = value.status;
+    });
   }
 
   private setTecladoStatus() {
     this.letterStatus.forEach((posicion) => {
       const index = this.teclado.findIndex((value) => {
-        return value === posicion.letter;
+        return value.toLocaleLowerCase() === posicion.letter;
       });
       if (this.tecladoStatus[index] !== 'MATCHED') {
         this.tecladoStatus[index] = posicion.status;
@@ -120,45 +136,45 @@ export class MainComponent implements OnInit {
   }
 
   private findCorrectIndex() {
-    return this.word.findIndex((value) => {
+    return this.rounds[this.contRound].wordRound.findIndex((value) => {
       return value === '';
     });
   }
 
-  changePositionWhenDelete() {
-    if (this.word[this.positionInput] !== '') {
+  private changePositionWhenDelete() {
+    if (
+      this.rounds[this.contRound].wordRound[this.positionRoundLetter] !== ''
+    ) {
       return;
     }
-    if (this.positionInput > this.word.length - 1 || this.positionInput < 0) {
-      this.positionInput = this.word.length - 1;
+    if (
+      this.positionRoundLetter > this.word.length - 1 ||
+      this.positionRoundLetter < 0
+    ) {
+      this.positionRoundLetter = this.word.length - 1;
       return;
     }
-    if (this.positionInput > 0) {
-      this.positionInput--;
+    if (this.positionRoundLetter > 0) {
+      this.positionRoundLetter--;
       return;
     }
   }
 
-  deleteLetter() {
-    this.changePositionWhenDelete();
-    this.word[this.positionInput] = '';
+  private setValuesWord() {
+    Object.keys(this.wordSend).forEach((key, index) => {
+      this.wordSend[key as keyof Palabra] = this.rounds[this.contRound].wordRound[index];
+    }); 
   }
 
-  setValuesWord() {
-    this.wordSend.pos0 = this.word[0];
-    this.wordSend.pos1 = this.word[1];
-    this.wordSend.pos2 = this.word[2];
-    this.wordSend.pos3 = this.word[3];
-    this.wordSend.pos4 = this.word[4];
-  }
-
-  checkWin() {
+  private checkWin() {
     let resultado = this.wordStatus.join(',');
-
     if (resultado.toLocaleUpperCase() === this.winValue) {
       this.openDialogWin(
         'Enhorabuena has acertado la palabra, pero... ¿podrás con la siguiente?'
       );
+    } else {
+      this.newRound();
+      this.contRound++;
     }
   }
 
@@ -170,5 +186,16 @@ export class MainComponent implements OnInit {
         textBtn: '¿Te atreves a otra partida piltrafilla?',
       },
     });
+  }
+
+  private newRound() {
+    this.word = ['', '', '', '', ''];
+    this.wordStatus = ['', '', '', '', ''];
+    let newRound: Rounds = {
+      wordRound: this.word,
+      wordStatusRound: this.wordStatus,
+      positionInput: 0
+    };
+    this.rounds.push(newRound);
   }
 }

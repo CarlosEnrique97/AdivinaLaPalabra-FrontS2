@@ -15,3 +15,9 @@ export type Palabra = {
   pos3: string;
   pos4: string;
 };
+
+export interface Rounds {
+  wordRound: string[],
+  wordStatusRound: string[],
+  positionInput: number
+}

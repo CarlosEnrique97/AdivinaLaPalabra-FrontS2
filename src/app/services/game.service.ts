@@ -1,5 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { Injectable } from '@angular/core';
+
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GameID, LetterStatus, Palabra } from '../interfaces/palabra';
 
@@ -12,7 +14,7 @@ export class GameService {
   id = 0;
   constructor(private http: HttpClient) {}
 
-  $id: BehaviorSubject<GameID> = new BehaviorSubject<GameID>({ game_id: 0 });
+  $id: BehaviorSubject<GameID> = new BehaviorSubject<GameID>({ game_id: 0});
   $disableKeyboard: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   getWordIfExist(wordInsert: string): Observable<boolean> {
