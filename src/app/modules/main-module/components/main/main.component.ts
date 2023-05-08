@@ -84,15 +84,17 @@ export class MainComponent implements OnInit {
         this.validatePosition();
       },
     });
+    this.newRound();
+    this.contRound++;
   }
 
   writeLetter(tecla: string) {
-    this.word[this.rounds[this.contRound].positionInput] = tecla;
+    this.rounds[this.contRound].wordRound[this.rounds[this.contRound].positionInput] = tecla;
     this.rounds[this.contRound].positionInput = this.findCorrectIndex();
   }
 
   getPosition(idCasilla: number, idRound: number) {
-    if(idRound === this.contRound)
+    if(idRound !== this.contRound) return;
     this.rounds[this.contRound].positionInput = idCasilla;
   }
 
@@ -115,16 +117,14 @@ export class MainComponent implements OnInit {
         this.setStatus();
         this.setTecladoStatus();
         this.checkWin();
-        this.contRound++;
       },
     });
   }
 
   private setStatus() {
-    for (let i = 0; i < this.letterStatus.length; i++) {
-      this.rounds[this.contRound].wordStatusRound[i] =
-        this.letterStatus[i].status;
-    }
+    this.letterStatus.forEach((value,index) =>{
+      this.rounds[this.contRound].wordStatusRound[index] = value.status
+    })
   }
 
   private setTecladoStatus() {
@@ -145,25 +145,25 @@ export class MainComponent implements OnInit {
   }
 
   private changePositionWhenDelete() {
-    if (this.word[this.rounds[this.contRound].positionInput] !== '') {
+    const positionLetter = this.rounds[this.contRound].positionInput;
+8
+    if (this.word[positionLetter] !== '') {
       return;
     }
-    if (this.rounds[this.contRound].positionInput > this.word.length - 1 || this.rounds[this.contRound].positionInput < 0) {
+    if (positionLetter > this.word.length - 1 || positionLetter < 0) {
       this.rounds[this.contRound].positionInput = this.word.length - 1;
       return;
     }
-    if (this.rounds[this.contRound].positionInput > 0) {
+    if (positionLetter > 0) {
       this.rounds[this.contRound].positionInput--;
       return;
     }
   }
 
   private setValuesWord() {
-    this.wordSend.pos0 = this.rounds[this.contRound].wordRound[0];
-    this.wordSend.pos1 = this.rounds[this.contRound].wordRound[1];
-    this.wordSend.pos2 = this.rounds[this.contRound].wordRound[2];
-    this.wordSend.pos3 = this.rounds[this.contRound].wordRound[3];
-    this.wordSend.pos4 = this.rounds[this.contRound].wordRound[4];
+    Object.keys(this.wordSend).forEach((key, index) => {
+      this.wordSend[key as keyof Palabra] = this.rounds[this.contRound].wordRound[index];
+    }); 
   }
 
   private checkWin() {
@@ -174,6 +174,7 @@ export class MainComponent implements OnInit {
       );
     } else {
       this.newRound();
+      this.contRound++;
     }
   }
 
@@ -195,10 +196,6 @@ export class MainComponent implements OnInit {
       wordStatusRound: this.wordStatus,
       positionInput: 0
     };
-    if (this.rounds.length < 5) {
       this.rounds.push(newRound);
-    } else {
-      alert('Has palmado');
-    }
   }
 }
