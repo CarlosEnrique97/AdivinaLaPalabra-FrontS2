@@ -17,6 +17,7 @@ export class GameService {
 
   $disableKeyboard: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
+
   getWordIfExist(wordInsert: string): Observable<boolean> {
     return this.http.get<boolean>(
       this.baseURL.concat('checkIfWordExists/' + wordInsert)

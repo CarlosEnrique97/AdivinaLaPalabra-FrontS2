@@ -13,7 +13,9 @@ import { MainInterceptor } from './interceptores/main.interceptor';
 import { DialogFinishComponent } from './components/dialog-finish/dialog-finish.component';
 import { GameHistoricModule } from './components/gameHistoric/game-historic.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 import { LoginComponent } from './components/login/login.component';
+
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { LoginComponent } from './components/login/login.component';
     ReactiveFormsModule,
     GameHistoricModule,
   ],
-  providers: [{
+  providers: [CookieService,
+    {
     provide: HTTP_INTERCEPTORS,
     useClass: MainInterceptor,
     multi: true

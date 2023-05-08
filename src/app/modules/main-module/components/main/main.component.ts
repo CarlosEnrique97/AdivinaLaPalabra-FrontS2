@@ -93,6 +93,8 @@ export class MainComponent implements OnInit {
         this.validatePosition();
       },
     });
+    this.newRound();
+    this.contRound++;
   }
 
   writeLetter(tecla: string) {
@@ -165,7 +167,6 @@ export class MainComponent implements OnInit {
 
       return;
     }
-
     if (positionLetter > 0) {
       this.rounds[this.contRound].positionInput--;
 
