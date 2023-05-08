@@ -5,32 +5,32 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent{
-
+export class LoginComponent {
   userForm: FormGroup = this.formBuilder.group({
-    username:[null,[Validators.required]],
-    password:[null,[Validators.required]]
+    username: [null, [Validators.required]],
+    password: [null, [Validators.required]],
   });
 
-  formValue:any;
+  formValue: any;
 
-  constructor(private formBuilder: FormBuilder, public router: Router){}
+  constructor(private formBuilder: FormBuilder, public router: Router) {}
 
+  login() {
+    const username = this.userForm.value.username;
+    let usernameEncrypt = this.encrypt(username)
 
-  login(){
+    const password = this.userForm.value.password;
+    let passwordEncrypt = this.encrypt(password)
 
-    const username = this.userForm.value.username
-    let bytesusername= new TextEncoder().encode(username)
-    let usernameEncrypt = btoa(String.fromCharCode(...new Uint8Array(bytesusername)));
-    
-    const password = this.userForm.value.password
-    let bytespassword= new TextEncoder().encode(password)
-    let passwordEncrypt = btoa(String.fromCharCode(...new Uint8Array(bytespassword)));
-    
-    const user= { name: usernameEncrypt, password: passwordEncrypt};
+    const user = { name: usernameEncrypt, password: passwordEncrypt };
 
+    console.log(user);
   }
 
+  encrypt(word: string) {
+    let byteword = new TextEncoder().encode(word);
+    return btoa(String.fromCharCode(...new Uint8Array(byteword)));
+  }
 }
