@@ -32,9 +32,7 @@ export class GameService {
   }
 
   getCorrectWord(): Observable<string> {
-    return this.http.get<string>(
-      baseUrl.concat('getCorrectWord/' + this.id)
-    );
+    return this.http.get<string>(baseUrl.concat('getCorrectWord/' + this.id));
   }
 
   newGame() {

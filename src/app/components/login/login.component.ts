@@ -24,14 +24,13 @@ export class LoginComponent {
 
   login() {
     const username = this.userForm.value.username;
-    let usernameEncrypt = this.encrypt(username)
+    let usernameEncrypt = this.encrypt(username);
 
     const password = this.userForm.value.password;
-    let passwordEncrypt = this.encrypt(password)
+    let passwordEncrypt = this.encrypt(password);
 
     const user = { name: usernameEncrypt, password: passwordEncrypt };
 
-    
     this.authservice.login(user).subscribe({
       next: (response: any) => {
         const token = response.token;
