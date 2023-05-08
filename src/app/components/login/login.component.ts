@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,11 @@ export class LoginComponent {
 
   formValue: any;
 
-  constructor(private formBuilder: FormBuilder, public router: Router) {}
+  constructor(
+    private authservice: AuthService,
+    private formBuilder: FormBuilder,
+    public router: Router
+  ) {}
 
   login() {
     const username = this.userForm.value.username;
@@ -25,6 +30,14 @@ export class LoginComponent {
     let passwordEncrypt = this.encrypt(password)
 
     const user = { name: usernameEncrypt, password: passwordEncrypt };
+
+    
+    this.authservice.login(user).subscribe({
+      next: (response: any) => {
+        const token = response.token;
+        this.router.navigateByUrl('/main');
+      },
+    });
   }
 
   encrypt(word: string) {
