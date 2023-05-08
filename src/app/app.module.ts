@@ -12,6 +12,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MainInterceptor } from './interceptores/main.interceptor';
 import { DialogFinishComponent } from './components/dialog-finish/dialog-finish.component';
 import { GameHistoricModule } from './components/gameHistoric/game-historic.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,8 @@ import { GameHistoricModule } from './components/gameHistoric/game-historic.modu
     NavbarComponent,
     FooterComponent,
     DialogComponent,
-    DialogFinishComponent
+    DialogFinishComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -28,15 +31,18 @@ import { GameHistoricModule } from './components/gameHistoric/game-historic.modu
     MainModuleModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
     GameHistoricModule,
   ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MainInterceptor,
-      multi: true,
-    },
-  ],
-  bootstrap: [AppComponent],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: MainInterceptor,
+    multi: true
+  },
+],
+
+  bootstrap: [AppComponent]
+
 })
 export class AppModule {}
