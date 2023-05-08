@@ -5,7 +5,7 @@ import {
   HttpHandler,
   HttpRequest,
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -16,6 +16,7 @@ export class Logininterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    
     const token = localStorage.getItem('token');
 
     if (token != null) {
@@ -25,7 +26,7 @@ export class Logininterceptor implements HttpInterceptor {
       return next.handle(TokenReq);
     } else {
       this.router.navigate(['login']);
-      return throwError('No se encontró token válido.');
+      return next.handle(req);
     }
   }
 }

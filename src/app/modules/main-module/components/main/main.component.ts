@@ -72,7 +72,6 @@ export class MainComponent implements OnInit {
         this.validatePosition();
       },
     });
-    
   }
 
   writeLetter(tecla: string) {
@@ -177,16 +176,15 @@ export class MainComponent implements OnInit {
   }
 
   gameLost() {
-    let correctWord="";
+    let correctWord = '';
     this.gameService.getCorrectWord().subscribe({
-      next: (response:any) => {
-         correctWord=response.correctWord;
-         this.dialog.open(DialogLostComponent, {
-          data: { text: correctWord}
+      next: (response: any) => {
+        correctWord = response.correctWord;
+        this.dialog.open(DialogLostComponent, {
+          data: { text: correctWord },
         });
-      }
-    })
+      },
+    });
     this.gameService.$disableKeyboard.next(true);
   }
-
 }
