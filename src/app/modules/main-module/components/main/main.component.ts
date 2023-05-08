@@ -1,16 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 
-import { LetterStatus, Palabra } from '../../../../interfaces/palabra';
+import {
+  LetterStatus,
+  Palabra,
+  Rounds,
+  DataDialog,
+} from '../../../../interfaces/palabra';
 
 import { GameService } from 'src/app/services/game.service';
 
-import { TECLADO, WINVALUE } from 'src/assets/datos/datos';
+import { TECLADO } from 'src/assets/datos/datos';
 
 import { MatDialog } from '@angular/material/dialog';
 
 import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 
-import { DialogWinComponent } from 'src/app/components/dialog-win/dialog-win.component';
+import { DialogFinishComponent } from 'src/app/components/dialog-finish/dialog-finish.component';
+import {
+  LOST_GAME_DIALOG,
+  WIN_GAME_DIALOG,
+} from 'src/assets/datos/constdialog';
 
 @Component({
   selector: 'app-main',
@@ -20,27 +29,23 @@ import { DialogWinComponent } from 'src/app/components/dialog-win/dialog-win.com
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  word = ['', '', '', '', ''];
-
   letterStatus: LetterStatus[] = [];
 
   wordStatus: string[] = [];
-
-  winValue = WINVALUE;
 
   positionInput = 0;
 
   wordSend: Palabra = {
     pos0: '',
-
     pos1: '',
-
     pos2: '',
-
     pos3: '',
-
     pos4: '',
   };
+
+  positionSelec: number = 0;
+
+  contRound = 0;
 
   disableKeyboard: boolean = false;
 
@@ -52,6 +57,22 @@ export class MainComponent implements OnInit {
 
   emptyLetter = '';
 
+  tries: boolean = true;
+
+  winValue = true;
+
+  round: Rounds = {
+    wordRound: ['', '', '', '', ''],
+    wordStatusRound: [],
+    positionInput: 0,
+  };
+
+  rounds: Rounds[] = [this.round];
+
+  positionRoundLetter: number = 0;
+
+  word = this.round.wordRound;
+
   constructor(private gameService: GameService, private dialog: MatDialog) {}
 
   ngOnInit() {
@@ -60,14 +81,13 @@ export class MainComponent implements OnInit {
         this.disableKeyboard = response;
       },
     });
-    this.checkWin();
   }
 
   sendWord() {
     this.gameService.getWordIfExist(this.word.join('')).subscribe({
       next: (response: any) => {
         if (!response.wordExists) {
-          this.openDialog();
+          this.openDialogNoExist();
           return;
         }
         this.validatePosition();
@@ -76,15 +96,23 @@ export class MainComponent implements OnInit {
   }
 
   writeLetter(tecla: string) {
-    this.word[this.positionInput] = tecla;
-    this.positionInput = this.findCorrectIndex();
+    if (this.findCorrectIndex() === -1) return;
+    this.word[this.rounds[this.contRound].positionInput] = tecla;
+    this.rounds[this.contRound].positionInput = this.findCorrectIndex();
   }
 
-  getPosition(position: number) {
-    this.positionInput = position;
+  deleteLetter() {
+    this.changePositionWhenDelete();
+    this.word[this.rounds[this.contRound].positionInput] = '';
   }
 
-  private openDialog() {
+  getPosition(idCasilla: number, idRound: number) {
+    if (idRound !== this.contRound) return;
+    this.rounds[this.contRound].positionInput = idCasilla;
+    this.positionRoundLetter = this.rounds[this.contRound].positionInput;
+  }
+
+  private openDialogNoExist() {
     this.dialog.open(DialogComponent, {
       data: { text: 'La palabra no existe', createButton: true },
     });
@@ -103,15 +131,15 @@ export class MainComponent implements OnInit {
   }
 
   private setStatus() {
-    for (let i = 0; i < this.letterStatus.length; i++) {
-      this.wordStatus[i] = this.letterStatus[i].status;
-    }
+    this.letterStatus.forEach((value, index) => {
+      this.rounds[this.contRound].wordStatusRound[index] = value.status;
+    });
   }
 
   private setTecladoStatus() {
     this.letterStatus.forEach((posicion) => {
       const index = this.teclado.findIndex((value) => {
-        return value === posicion.letter;
+        return value.toLocaleLowerCase() === posicion.letter;
       });
       if (this.tecladoStatus[index] !== 'MATCHED') {
         this.tecladoStatus[index] = posicion.status;
@@ -120,55 +148,97 @@ export class MainComponent implements OnInit {
   }
 
   private findCorrectIndex() {
-    return this.word.findIndex((value) => {
+    return this.rounds[this.contRound].wordRound.findIndex((value) => {
       return value === '';
     });
   }
 
-  changePositionWhenDelete() {
-    if (this.word[this.positionInput] !== '') {
+  private changePositionWhenDelete() {
+    const positionLetter = this.rounds[this.contRound].positionInput;
+
+    if (this.word[positionLetter] !== '') {
       return;
     }
-    if (this.positionInput > this.word.length - 1 || this.positionInput < 0) {
-      this.positionInput = this.word.length - 1;
+
+    if (positionLetter > this.word.length - 1 || positionLetter < 0) {
+      this.rounds[this.contRound].positionInput = this.word.length - 1;
+
       return;
     }
-    if (this.positionInput > 0) {
-      this.positionInput--;
+
+    if (positionLetter > 0) {
+      this.rounds[this.contRound].positionInput--;
+
       return;
     }
   }
 
-  deleteLetter() {
-    this.changePositionWhenDelete();
-    this.word[this.positionInput] = '';
+  private setValuesWord() {
+    Object.keys(this.wordSend).forEach((key, index) => {
+      this.wordSend[key as keyof Palabra] =
+        this.rounds[this.contRound].wordRound[index];
+    });
   }
 
-  setValuesWord() {
-    this.wordSend.pos0 = this.word[0];
-    this.wordSend.pos1 = this.word[1];
-    this.wordSend.pos2 = this.word[2];
-    this.wordSend.pos3 = this.word[3];
-    this.wordSend.pos4 = this.word[4];
-  }
-
-  checkWin() {
-    let resultado = this.wordStatus.join(',');
-
-    if (resultado.toLocaleUpperCase() === this.winValue) {
-      this.openDialogWin(
-        'Enhorabuena has acertado la palabra, pero... ¿podrás con la siguiente?'
-      );
+  private checkWin() {
+    this.winValue = true;
+    this.wordStatus.forEach((value) => {
+      if (value != 'MATCHED') this.winValue = false;
+    });
+    if (this.winValue) {
+      this.decideWinorLost('');
+      return;
     }
+    this.checkTries();
+    this.newRound();
+    this.contRound++;
   }
 
-  private openDialogWin(data: string) {
-    this.dialog.open(DialogWinComponent, {
-      data: {
-        text: data,
-        createButton: true,
-        textBtn: '¿Te atreves a otra partida piltrafilla?',
+  private checkTries() {
+    this.gameService.getAttempts().subscribe({
+      next: (response: any) => {
+        if (!response.canMoreAttempts) {
+          this.gameLost();
+        }
       },
     });
+  }
+
+  private gameLost() {
+    let correctWord = '';
+    this.gameService.getCorrectWord().subscribe({
+      next: (response: any) => {
+        correctWord = response.correctWord;
+        this.decideWinorLost(correctWord);
+      },
+    });
+  }
+
+  private decideWinorLost(correctword: string) {
+    let dialogInfo: DataDialog = WIN_GAME_DIALOG;
+
+    if (!this.winValue) {
+      dialogInfo = LOST_GAME_DIALOG;
+      dialogInfo.correctWord = correctword;
+    }
+
+    this.dialog.open(DialogFinishComponent, { data: dialogInfo });
+
+    this.disableKeyboardChange();
+  }
+
+  private disableKeyboardChange() {
+    this.gameService.$disableKeyboard.next(true);
+  }
+
+  private newRound() {
+    this.word = ['', '', '', '', ''];
+    this.wordStatus = ['', '', '', '', ''];
+    let newRound: Rounds = {
+      wordRound: this.word,
+      wordStatusRound: this.wordStatus,
+      positionInput: 0,
+    };
+    this.rounds.push(newRound);
   }
 }
