@@ -15,3 +15,16 @@ export type Palabra = {
   pos3: string;
   pos4: string;
 };
+
+export type DataDialog = {
+  title: string;
+  text: string;
+  correctWord: string;
+  button: string;
+}
+
+export interface Rounds {
+  wordRound: string[],
+  wordStatusRound: string[],
+  positionInput: number
+}

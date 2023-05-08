@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DialogWinComponent } from './dialog-win.component';
+import { DialogFinishComponent } from './dialog-finish.component';
 
-describe('DialogWinComponent', () => {
-  let component: DialogWinComponent;
-  let fixture: ComponentFixture<DialogWinComponent>;
+describe('DialogLostComponent', () => {
+  let component: DialogFinishComponent;
+  let fixture: ComponentFixture<DialogFinishComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DialogWinComponent ]
+      declarations: [ DialogFinishComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DialogWinComponent);
+    fixture = TestBed.createComponent(DialogFinishComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

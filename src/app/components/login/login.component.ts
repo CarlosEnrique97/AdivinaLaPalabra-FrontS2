@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +16,7 @@ export class LoginComponent{
 
   formValue:any;
 
-  constructor(private authservice: AuthService, private formBuilder: FormBuilder, public router: Router){}
+  constructor(private formBuilder: FormBuilder, public router: Router){}
 
 
   login(){
@@ -30,16 +29,8 @@ export class LoginComponent{
     let bytespassword= new TextEncoder().encode(password)
     let passwordEncrypt = btoa(String.fromCharCode(...new Uint8Array(bytespassword)));
     
-    const user= { name: usernameEncrypt, password: passwordEncrypt}
+    const user= { name: usernameEncrypt, password: passwordEncrypt};
 
-    this.authservice.login(user).subscribe({
-      next: (response:any)=>{
-        console.log(response.token);
-        this.router.navigateByUrl("/");
-      }
-    });
-
-    // const user=window.atob(this.authservice.mostrar());
   }
 
 }

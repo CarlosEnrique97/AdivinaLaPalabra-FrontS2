@@ -10,12 +10,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MainInterceptor } from './interceptores/main.interceptor';
-import { DialogWinComponent } from './components/dialog-win/dialog-win.component';
-import { DialogLostComponent } from './components/dialog-lost/dialog-lost.component';
-import { LoginComponent } from './components/login/login.component';
+import { DialogFinishComponent } from './components/dialog-finish/dialog-finish.component';
+import { GameHistoricModule } from './components/gameHistoric/game-historic.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Logininterceptor } from './interceptores/login.interceptor';
-
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -23,8 +21,7 @@ import { Logininterceptor } from './interceptores/login.interceptor';
     NavbarComponent,
     FooterComponent,
     DialogComponent,
-    DialogWinComponent,
-    DialogLostComponent,
+    DialogFinishComponent,
     LoginComponent
   ],
   imports: [
@@ -35,20 +32,17 @@ import { Logininterceptor } from './interceptores/login.interceptor';
     BrowserAnimationsModule,
     MatDialogModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    GameHistoricModule,
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: MainInterceptor,
     multi: true
   },
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: Logininterceptor,
-    multi: true
-  }
 ],
-  
+
   bootstrap: [AppComponent]
+
 })
 export class AppModule {}
