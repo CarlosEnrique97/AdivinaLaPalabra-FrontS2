@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class Logininterceptor implements HttpInterceptor {
+
   constructor(private router: Router) {}
 
   intercept(
@@ -21,7 +22,7 @@ export class Logininterceptor implements HttpInterceptor {
 
     if (token != null) {
       const TokenReq = req.clone({
-        params: req.params.set('Authorization', 'Bearer ' + token),
+        params: req.params.set('Authorization', 'Bearer ' + token)
       });
       return next.handle(TokenReq);
     } else {

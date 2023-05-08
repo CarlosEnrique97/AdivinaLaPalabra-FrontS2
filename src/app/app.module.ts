@@ -15,6 +15,7 @@ import { DialogLostComponent } from './components/dialog-lost/dialog-lost.compon
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Logininterceptor } from './interceptores/login.interceptor';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { Logininterceptor } from './interceptores/login.interceptor';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [{
+  providers: [CookieService,
+    {
     provide: HTTP_INTERCEPTORS,
     useClass: MainInterceptor,
     multi: true

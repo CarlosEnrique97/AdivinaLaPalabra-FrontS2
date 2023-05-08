@@ -21,3 +21,8 @@ export interface Rounds {
   wordStatusRound: string[],
   positionInput: number
 }
+
+export interface User {
+  name: string,
+  password: string
+}
