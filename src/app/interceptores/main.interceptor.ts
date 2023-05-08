@@ -12,6 +12,11 @@ import { GameService } from '../services/game.service';
 
 @Injectable()
 export class MainInterceptor implements HttpInterceptor {
+  private errorMessageDefault =
+    'Ups, ha habido un error de conexión, por favor inténtelo de nuevo mas tarde';
+
+  errorNoConection = 0;
+
   constructor(private dialog: MatDialog, private gameService: GameService) {}
 
   intercept(
@@ -20,7 +25,6 @@ export class MainInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error) => {
-        console.log(error)
         if(error.status === 0){
           error.error.message = "Ups, ha ocurrido un fallo"
         }
@@ -37,5 +41,13 @@ export class MainInterceptor implements HttpInterceptor {
       },
     });
     this.gameService.$disableKeyboard.next(false);
+  }
+  showError(message: string) {
+    this.dialog.open(DialogComponent, {
+      data: {
+        text: message,
+        createButton: true,
+      },
+    });
   }
 }

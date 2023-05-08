@@ -17,16 +17,6 @@ export class DialogWinComponent {
 
   buttonNextGame: string = '¿Te atreves a otra partida piltrafilla?';
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogWinComponent) {}
-
-  ngOnInit() {
-    this.winGameMessage = this.data.winGameMessage;
-
-    this.createButton = this.data.createButton;
-
-    this.buttonNextGame = this.data.buttonNextGame;
-  }
-
   refresh() {
     window.location.reload();
   }
