@@ -1,10 +1,39 @@
-import { Component } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+
+import { LastTenGames } from 'src/app/interfaces/palabra';
+import { GameService } from 'src/app/services/game.service';
+import { LastTenGamesDatos } from 'src/assets/datos/datos';
 
 @Component({
   selector: 'app-game-historic',
   templateUrl: './game-historic.component.html',
-  styleUrls: ['./game-historic.component.scss']
+  styleUrls: ['./game-historic.component.scss'],
 })
-export class GameHistoricComponent {
+export class GameHistoricComponent implements OnInit {
+  lastTenGames: LastTenGames[] = [];
+  constructor(private gameService: GameService) {}
 
+  ngOnInit(): void {
+    this.setLatTenGames();
+  }
+  getLastGames(): LastTenGames[] {
+    return this.lastTenGames;
+  }
+
+  setLatTenGames() {
+    this.gameService.getLastTenGames().subscribe((response: LastTenGames[]) => {
+      next: this.lastTenGames = response;
+      console.log(this.lastTenGames);
+      const datePipe = new DatePipe('en-US');
+      this.lastTenGames.forEach((item, index) => {
+        const fecha: Date | null = new Date(item.date);
+        this.lastTenGames[index].date =
+          datePipe.transform(fecha, 'dd/MM/yyyy HH:mm') ?? '';
+      });
+    });
+    this.gameService.listTenGames;
+    console.log('1 ' + this.gameService.listTenGames);
+    console.log(this.lastTenGames);
+  }
 }

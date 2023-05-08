@@ -1,7 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { GameID, LetterStatus, Palabra } from '../interfaces/palabra';
+import {
+  GameID,
+  LastTenGames,
+  LetterStatus,
+  Palabra,
+} from '../interfaces/palabra';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +15,14 @@ export class GameService {
   wordExist: any;
   baseURL = 'http://10.102.30.50:8080/';
   id = 0;
+  listTenGames: any;
+  valueListTenGames = {
+    date: 'string',
+
+    winned: false,
+
+    attempts: 0,
+  };
   constructor(private http: HttpClient) {}
 
   $id: BehaviorSubject<GameID> = new BehaviorSubject<GameID>({ game_id: 0 });
@@ -46,6 +59,12 @@ export class GameService {
       this.baseURL.concat('validatePositions/' + this.id),
       wordInsert,
       { headers }
+    );
+  }
+  getLastTenGames(): Observable<LastTenGames[]> {
+    this.getId();
+    return this.http.get<LastTenGames[]>(
+      this.baseURL.concat('getLastTenGames')
     );
   }
 }

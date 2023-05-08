@@ -15,3 +15,10 @@ export type Palabra = {
   pos3: string;
   pos4: string;
 };
+export type LastTenGames = {
+  date: string;
+
+  winned: boolean;
+
+  attempts: number;
+};
