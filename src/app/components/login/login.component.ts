@@ -25,8 +25,6 @@ export class LoginComponent {
     let passwordEncrypt = this.encrypt(password)
 
     const user = { name: usernameEncrypt, password: passwordEncrypt };
-
-    console.log(user);
   }
 
   encrypt(word: string) {
