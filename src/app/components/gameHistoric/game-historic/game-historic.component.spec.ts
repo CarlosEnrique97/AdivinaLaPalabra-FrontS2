@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DialogLostComponent } from './dialog-lost.component';
+import { GameHistoricComponent } from './game-historic.component';
 
-describe('DialogLostComponent', () => {
-  let component: DialogLostComponent;
-  let fixture: ComponentFixture<DialogLostComponent>;
+describe('GameHistoricComponent', () => {
+  let component: GameHistoricComponent;
+  let fixture: ComponentFixture<GameHistoricComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DialogLostComponent ]
+      declarations: [ GameHistoricComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DialogLostComponent);
+    fixture = TestBed.createComponent(GameHistoricComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

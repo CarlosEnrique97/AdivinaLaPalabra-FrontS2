@@ -6,11 +6,21 @@
     [routerLink]="['main']"
     alt="aaa"
   />
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" [routerLink]="['login']">Login</a>
+
+  <div class="navbar-collapse">
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item p-2 border-end">
+        <a class="nav-link" aria-current="page" routerLink="/login">Login</a>
       </li>
-      </ul>
-      </div>
+      <li class="nav-item p-2 border-end">
+        <a class="nav-link" routerLink="">Partidas</a>
+      </li>
+      <li class="nav-item p-2 border-end">
+        <a class="nav-link" routerLink="/game-historic">Histórico</a>
+      </li>
+      <li class="nav-item p-2">
+        <a class="nav-link" routerLink="">Comunidad</a>
+      </li>
+    </ul>
+  </div>
 </nav>

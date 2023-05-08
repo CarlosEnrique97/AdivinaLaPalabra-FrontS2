@@ -10,7 +10,7 @@ import { GameID, LetterStatus, Palabra } from '../interfaces/palabra';
 })
 export class GameService {
   wordExist: any;
-  baseURL = 'http://10.102.30.50:8080/';
+  baseURL = 'http://10.102.31.7:8080/';
   id: string = '';
 
   constructor(private http: HttpClient) {}

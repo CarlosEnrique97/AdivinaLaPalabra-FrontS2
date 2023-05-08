@@ -16,6 +16,13 @@ export type Palabra = {
   pos4: string;
 };
 
+export type DataDialog = {
+  title: string;
+  text: string;
+  correctWord: string;
+  button: string;
+}
+
 export interface Rounds {
   wordRound: string[],
   wordStatusRound: string[],

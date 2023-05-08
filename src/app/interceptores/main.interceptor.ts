@@ -25,22 +25,19 @@ export class MainInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((error) => {
-        if(error.status === 0){
-          error.error.message = "Ups, ha ocurrido un fallo"
-        }
-        return throwError(this.MessageError(error.error.message));
+        return throwError(this.messageError(error));
       })
     );
   }
 
-  MessageError(messageError: string) {
-    this.dialog.open(DialogComponent, {
-      data: {
-        text: messageError,
-        createButton: true,
-      },
-    });
-    this.gameService.$disableKeyboard.next(false);
+  messageError(error: any) {
+    let message = this.errorMessageDefault;
+    if (error.status !== this.errorNoConection) {
+      message = error.error.message;
+    }
+    this.showError(message);
+
+    this.gameService.$disableKeyboard.next(true);
   }
   showError(message: string) {
     this.dialog.open(DialogComponent, {
