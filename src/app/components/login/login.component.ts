@@ -24,25 +24,24 @@ export class LoginComponent {
 
   login() {
     const username = this.userForm.value.username;
-    let bytesusername = new TextEncoder().encode(username);
-    let usernameEncrypt = btoa(
-      String.fromCharCode(...new Uint8Array(bytesusername))
-    );
+    let usernameEncrypt = this.encrypt(username)
 
     const password = this.userForm.value.password;
-    let bytespassword = new TextEncoder().encode(password);
-    let passwordEncrypt = btoa(
-      String.fromCharCode(...new Uint8Array(bytespassword))
-    );
+    let passwordEncrypt = this.encrypt(password)
 
     const user = { name: usernameEncrypt, password: passwordEncrypt };
 
+    
     this.authservice.login(user).subscribe({
       next: (response: any) => {
         const token = response.token;
-        console.log(token);
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/main');
       },
     });
+  }
+
+  encrypt(word: string) {
+    let byteword = new TextEncoder().encode(word);
+    return btoa(String.fromCharCode(...new Uint8Array(byteword)));
   }
 }

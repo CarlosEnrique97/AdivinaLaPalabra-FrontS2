@@ -3,14 +3,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
+
 import { GameID, LetterStatus, Palabra } from '../interfaces/palabra';
+
+import { baseUrl } from 'src/assets/datos/consts';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
   wordExist: any;
-  baseURL = 'http://10.102.31.7:8080/';
   id: string = '';
 
   constructor(private http: HttpClient) {}
@@ -19,24 +21,24 @@ export class GameService {
 
   getWordIfExist(wordInsert: string): Observable<boolean> {
     return this.http.get<boolean>(
-      this.baseURL.concat('checkIfWordExists/' + wordInsert)
+      baseUrl.concat('checkIfWordExists/' + wordInsert)
     );
   }
 
   getAttempts(): Observable<boolean> {
     return this.http.get<boolean>(
-      this.baseURL.concat('checkAttemptsInRange/' + this.id)
+      baseUrl.concat('checkAttemptsInRange/' + this.id)
     );
   }
 
   getCorrectWord(): Observable<string> {
     return this.http.get<string>(
-      this.baseURL.concat('getCorrectWord/' + this.id)
+      baseUrl.concat('getCorrectWord/' + this.id)
     );
   }
 
   newGame() {
-    this.http.get<GameID>(this.baseURL.concat('newGame')).subscribe({
+    this.http.get<GameID>(baseUrl.concat('newGame')).subscribe({
       next: (response: GameID) => {
         this.id = response.game_id;
       },
@@ -48,7 +50,7 @@ export class GameService {
       'Content-Type': 'application/json; charset=utf-8',
     });
     return this.http.post<LetterStatus>(
-      this.baseURL.concat('validatePositions/' + this.id),
+      baseUrl.concat('validatePositions/' + this.id),
       wordInsert,
       { headers }
     );

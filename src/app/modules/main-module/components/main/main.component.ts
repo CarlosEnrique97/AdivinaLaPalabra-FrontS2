@@ -19,7 +19,7 @@ import { DialogFinishComponent } from 'src/app/components/dialog-finish/dialog-f
 import {
   LOST_GAME_DIALOG,
   WIN_GAME_DIALOG,
-} from 'src/assets/datos/constdialog';
+} from 'src/assets/datos/consts';
 
 @Component({
   selector: 'app-main',

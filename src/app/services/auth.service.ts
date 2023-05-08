@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-const baseUrl = 'http://10.102.31.7:8080/';
+import { baseUrl } from 'src/assets/datos/consts';
 
 @Injectable({
   providedIn: 'root',
