@@ -35,7 +35,7 @@ export class LoginComponent {
     this.authservice.login(user).subscribe({
       next: (response: any) => {
         const token = response.token;
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/main');
       },
     });
   }
