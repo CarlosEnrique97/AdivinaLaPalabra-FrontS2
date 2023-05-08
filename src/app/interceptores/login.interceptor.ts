@@ -16,12 +16,14 @@ export class Logininterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    
-    const token = localStorage.getItem('token');
+    const token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiY0dGMVptRnVaRzl6IiwiaWF0IjoxNjgzMjgwNTk2LCJleHAiOjE3NzMyODA1OTZ9.j4zZFf1aC63GxV4QUizbZWQQbLh8Ve0gc1CA7Bse7K0';
 
     if (token != null) {
       const TokenReq = req.clone({
-        params: req.params.set('Authorization', 'Bearer ' + token),
+        setHeaders: {
+          Authorization: `Bearer ${token}`
+        }
       });
       return next.handle(TokenReq);
     } else {
