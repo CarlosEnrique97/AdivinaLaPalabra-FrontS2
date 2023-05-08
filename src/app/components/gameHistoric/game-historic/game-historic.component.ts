@@ -24,7 +24,6 @@ export class GameHistoricComponent implements OnInit {
   setLatTenGames() {
     this.gameService.getLastTenGames().subscribe((response: LastTenGames[]) => {
       next: this.lastTenGames = response;
-      console.log(this.lastTenGames);
       const datePipe = new DatePipe('en-US');
       this.lastTenGames.forEach((item, index) => {
         const fecha: Date | null = new Date(item.date);
@@ -33,7 +32,5 @@ export class GameHistoricComponent implements OnInit {
       });
     });
     this.gameService.listTenGames;
-    console.log('1 ' + this.gameService.listTenGames);
-    console.log(this.lastTenGames);
   }
 }
