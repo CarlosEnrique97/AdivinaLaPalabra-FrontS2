@@ -39,7 +39,6 @@ export class GameService {
     this.http.get<GameID>(this.baseURL.concat('newGame')).subscribe({
       next: (response: GameID) => {
         this.id = response.game_id;
-        console.log(this.id);
       },
     });
   }
