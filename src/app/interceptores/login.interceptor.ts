@@ -5,7 +5,7 @@ import {
   HttpHandler,
   HttpRequest,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { StorageService } from '../services/storage.service';
 
@@ -17,19 +17,18 @@ export class Logininterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    
     const token = this.storageService.getToken();
 
-    if (token != null) {
-      const TokenReq = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return next.handle(TokenReq);
-    } else {
-      this.router.navigate(['/login']);
-      return next.handle(req);
+    if (token === '') {
+      this.router.navigateByUrl('login');
+      return EMPTY;
     }
+
+    const TokenReq = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return next.handle(TokenReq);
   }
 }

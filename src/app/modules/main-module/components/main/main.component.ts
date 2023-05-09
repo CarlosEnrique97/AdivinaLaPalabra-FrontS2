@@ -16,10 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/components/dialog/dialog.component';
 
 import { DialogFinishComponent } from 'src/app/components/dialog-finish/dialog-finish.component';
-import {
-  LOST_GAME_DIALOG,
-  WIN_GAME_DIALOG,
-} from 'src/assets/datos/consts';
+import { LOST_GAME_DIALOG, WIN_GAME_DIALOG } from 'src/assets/datos/consts';
 
 @Component({
   selector: 'app-main',
@@ -30,8 +27,6 @@ import {
 })
 export class MainComponent implements OnInit {
   letterStatus: LetterStatus[] = [];
-
-  wordStatus: string[] = [];
 
   positionInput = 0;
 
@@ -76,6 +71,7 @@ export class MainComponent implements OnInit {
   constructor(private gameService: GameService, private dialog: MatDialog) {}
 
   ngOnInit() {
+    this.gameService.newGame();
     this.gameService.$disableKeyboard.subscribe({
       next: (response: boolean) => {
         this.disableKeyboard = response;
@@ -93,13 +89,13 @@ export class MainComponent implements OnInit {
         this.validatePosition();
       },
     });
-    this.newRound();
-    this.contRound++;
   }
 
   writeLetter(tecla: string) {
     if (this.findCorrectIndex() === -1) return;
-    this.word[this.rounds[this.contRound].positionInput] = tecla;
+    this.rounds[this.contRound].wordRound[
+      this.rounds[this.contRound].positionInput
+    ] = tecla;
     this.rounds[this.contRound].positionInput = this.findCorrectIndex();
   }
 
@@ -183,7 +179,7 @@ export class MainComponent implements OnInit {
 
   private checkWin() {
     this.winValue = true;
-    this.wordStatus.forEach((value) => {
+    this.rounds[this.contRound].wordStatusRound.forEach((value) => {
       if (value != 'MATCHED') this.winValue = false;
     });
     if (this.winValue) {
@@ -191,8 +187,6 @@ export class MainComponent implements OnInit {
       return;
     }
     this.checkTries();
-    this.newRound();
-    this.contRound++;
   }
 
   private checkTries() {
@@ -200,7 +194,10 @@ export class MainComponent implements OnInit {
       next: (response: any) => {
         if (!response.canMoreAttempts) {
           this.gameLost();
+          return;
         }
+        this.newRound();
+        this.contRound++;
       },
     });
   }
@@ -234,10 +231,10 @@ export class MainComponent implements OnInit {
 
   private newRound() {
     this.word = ['', '', '', '', ''];
-    this.wordStatus = ['', '', '', '', ''];
+    let wordStatus = ['', '', '', '', ''];
     let newRound: Rounds = {
       wordRound: this.word,
-      wordStatusRound: this.wordStatus,
+      wordStatusRound: wordStatus,
       positionInput: 0,
     };
     this.rounds.push(newRound);
