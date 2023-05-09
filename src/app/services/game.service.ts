@@ -10,12 +10,13 @@ import {
   Palabra,
 } from '../interfaces/palabra';
 
+import { baseUrl } from 'src/assets/datos/consts';
+
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
   wordExist: any;
-  baseURL = 'http://10.102.30.50:8080/';
 
   listTenGames: any;
   valueListTenGames = {
@@ -34,24 +35,22 @@ export class GameService {
 
   getWordIfExist(wordInsert: string): Observable<boolean> {
     return this.http.get<boolean>(
-      this.baseURL.concat('checkIfWordExists/' + wordInsert)
+      baseUrl.concat('checkIfWordExists/' + wordInsert)
     );
   }
 
   getAttempts(): Observable<boolean> {
     return this.http.get<boolean>(
-      this.baseURL.concat('checkAttemptsInRange/' + this.id)
+      baseUrl.concat('checkAttemptsInRange/' + this.id)
     );
   }
 
   getCorrectWord(): Observable<string> {
-    return this.http.get<string>(
-      this.baseURL.concat('getCorrectWord/' + this.id)
-    );
+    return this.http.get<string>(baseUrl.concat('getCorrectWord/' + this.id));
   }
 
   newGame() {
-    this.http.get<GameID>(this.baseURL.concat('newGame')).subscribe({
+    this.http.get<GameID>(baseUrl.concat('newGame')).subscribe({
       next: (response: GameID) => {
         this.id = response.game_id;
       },
@@ -63,14 +62,14 @@ export class GameService {
       'Content-Type': 'application/json; charset=utf-8',
     });
     return this.http.post<LetterStatus>(
-      this.baseURL.concat('validatePositions/' + this.id),
+      baseUrl.concat('validatePositions/' + this.id),
       wordInsert,
       { headers }
     );
   }
   getLastTenGames(): Observable<LastTenGames[]> {
     return this.http.get<LastTenGames[]>(
-      this.baseURL.concat('getLastTenGames/' + this.id)
+      baseUrl.concat('getLastTenGames/' + this.id)
     );
   }
 }

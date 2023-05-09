@@ -12,6 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MainInterceptor } from './interceptores/main.interceptor';
 import { DialogFinishComponent } from './components/dialog-finish/dialog-finish.component';
 import { GameHistoricModule } from './components/gameHistoric/game-historic.module';
+import { Logininterceptor } from './interceptores/login.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginComponent } from './components/login/login.component';
@@ -24,7 +25,7 @@ import { LoginComponent } from './components/login/login.component';
     FooterComponent,
     DialogComponent,
     DialogFinishComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,9 +44,13 @@ import { LoginComponent } from './components/login/login.component';
     useClass: MainInterceptor,
     multi: true
   },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: Logininterceptor,
+    multi: true,
+  },
 ],
 
   bootstrap: [AppComponent]
-
 })
 export class AppModule {}
