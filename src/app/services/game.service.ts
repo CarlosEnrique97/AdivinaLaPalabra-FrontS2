@@ -3,20 +3,34 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
-import { GameID, LetterStatus, Palabra } from '../interfaces/palabra';
+import {
+  GameID,
+  LastTenGames,
+  LetterStatus,
+  Palabra,
+} from '../interfaces/palabra';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameService {
   wordExist: any;
-  baseURL = 'http://10.102.31.7:8080/';
+  baseURL = 'http://10.102.30.50:8080/';
+
+  listTenGames: any;
+  valueListTenGames = {
+    date: 'string',
+
+    winned: false,
+
+    attempts: 0,
+  };
+
   id: string = '';
 
   constructor(private http: HttpClient) {}
 
   $disableKeyboard: BehaviorSubject<boolean> = new BehaviorSubject(false);
-
 
   getWordIfExist(wordInsert: string): Observable<boolean> {
     return this.http.get<boolean>(
@@ -52,6 +66,11 @@ export class GameService {
       this.baseURL.concat('validatePositions/' + this.id),
       wordInsert,
       { headers }
+    );
+  }
+  getLastTenGames(): Observable<LastTenGames[]> {
+    return this.http.get<LastTenGames[]>(
+      this.baseURL.concat('getLastTenGames/' + this.id)
     );
   }
 }
