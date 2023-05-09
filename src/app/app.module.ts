@@ -14,7 +14,9 @@ import { DialogFinishComponent } from './components/dialog-finish/dialog-finish.
 import { GameHistoricModule } from './components/gameHistoric/game-historic.module';
 import { Logininterceptor } from './interceptores/login.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 import { LoginComponent } from './components/login/login.component';
+
 
 @NgModule({
   declarations: [
@@ -36,19 +38,19 @@ import { LoginComponent } from './components/login/login.component';
     ReactiveFormsModule,
     GameHistoricModule,
   ],
-  providers: [
+  providers: [CookieService,
     {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MainInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: Logininterceptor,
-      multi: true,
-    },
-  ],
+    provide: HTTP_INTERCEPTORS,
+    useClass: MainInterceptor,
+    multi: true
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: Logininterceptor,
+    multi: true,
+  },
+],
 
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
