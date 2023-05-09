@@ -28,7 +28,6 @@ import { LOST_GAME_DIALOG, WIN_GAME_DIALOG } from 'src/assets/datos/consts';
 export class MainComponent implements OnInit {
   letterStatus: LetterStatus[] = [];
 
-
   positionInput = 0;
 
   wordSend: Palabra = {

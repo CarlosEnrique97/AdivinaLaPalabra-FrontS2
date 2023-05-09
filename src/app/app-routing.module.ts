@@ -13,11 +13,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/main-module/main-module.module').then(
         (module) => module.MainModuleModule
-      )
+      ),
   },
   {
-    path:'login',
-    component: LoginComponent
+    path: 'login',
+    component: LoginComponent,
   },
   {
     path: 'game-historic',
