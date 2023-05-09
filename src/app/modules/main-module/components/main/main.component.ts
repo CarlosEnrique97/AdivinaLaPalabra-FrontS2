@@ -93,8 +93,6 @@ export class MainComponent implements OnInit {
         this.validatePosition();
       },
     });
-    this.newRound();
-    this.contRound++;
   }
 
   writeLetter(tecla: string) {
