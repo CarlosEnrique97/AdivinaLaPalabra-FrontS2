@@ -1,35 +1,74 @@
-<h1 class="text-center">Logeate para jugar</h1>
-<br><br>
-<form
-  class="text-center"
-  (ngSubmit)="login()"
-  [formGroup]="userForm"
-  autocomplete="off"
->
-  <!-- Email input -->
-  <div class="form-outline mb-4">
-    <label class="form-label" 
-      ><h4>Nombre de usuario</h4></label
-    >
-    <br />
-    <input type="text" name="username" class="form-control-lg" formControlName="username"/>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 mb-5">
+      <h1 class="text-center">Inicar Sesión para jugar</h1>
+    </div>
   </div>
+  <div class="row">
+    <div class="col-12">
+      <form
+        class="text-center"
+        (ngSubmit)="login()"
+        [formGroup]="userForm"
+        autocomplete="off"
+      >
+        <!-- Email input -->
+        <div class="row">
+          <div class="form-outline mb-4">
+            <div class="col-12">
+              <label class="form-label"><h4>Nombre de usuario</h4></label>
+            </div>
+            <div class="col-12">
+              <input
+                type="text"
+                name="username"
+                class="form-control-lg"
+                formControlName="username"
+              />
+            </div>
+            <div class="col-12">
+              <span
+                *ngIf="identifyErrorUser(userForm.get('username'))"
+                id="Error"
+                class="form-text text-danger"
+              >
+                {{ messageErrorUser }}
+              </span>
+            </div>
+          </div>
+        </div>
 
-  <!-- Password input -->
-  <div class="form-outline mb-4">
-    <label class="form-label" 
-      ><h4>Contraseña</h4></label
-    >
-    <br />
-    <input type="password" name="password" class="form-control-lg" formControlName="password" />
+        <!-- Password input -->
+        <div class="row">
+          <div class="form-outline mb-4">
+            <div class="col-12">
+              <label class="form-label"><h4>Contraseña</h4></label>
+            </div>
+            <div class="col-12">
+              <input
+                type="password"
+                name="password"
+                class="form-control-lg"
+                formControlName="password"
+              />
+            </div>
+            <div class="col-12">
+              <span
+                *ngIf="identifyErrorPassword(userForm.get('password'))"
+                id="Error"
+                class="form-text text-danger"
+              >
+                {{ messageErrorPassword }}</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block mb-4">
+          Logearse
+        </button>
+      </form>
+    </div>
   </div>
-
-  <!-- Submit button -->
-  <button
-    type="submit"
-    [disabled]="userForm.invalid"
-    class="btn btn-primary btn-block mb-4"
-  >
-    Logearse
-  </button>
-</form>
+</div>

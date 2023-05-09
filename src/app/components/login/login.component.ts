@@ -11,9 +11,30 @@ import { StorageService } from 'src/app/services/storage.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
+  minUserNameLenght = 4;
+  minPasswordLenght = 6;
+  maxPasswordLenght = 12;
+  messageErrorUser = '';
+  messageErrorPassword = '';
+  validatorError = false;
+
   userForm: FormGroup = this.formBuilder.group({
-    username: [null, [Validators.required]],
-    password: [null, [Validators.required]],
+    username: [
+      null,
+      [
+        Validators.required,
+        Validators.minLength(this.minUserNameLenght),
+        Validators.pattern('[a-z A-Z]*'),
+      ],
+    ],
+    password: [
+      null,
+      [
+        Validators.required,
+        Validators.minLength(this.minPasswordLenght),
+        Validators.maxLength(this.maxPasswordLenght),
+      ],
+    ],
   });
 
   formValue: any;
@@ -26,15 +47,15 @@ export class LoginComponent {
   ) {}
 
   login() {
-    const username = this.userForm.value.username;
-    let usernameEncrypt = this.encrypt(username)
+    if (!this.userForm.valid) {
+      return;
+    }
+    this.doLogin();
+  }
 
-    const password = this.userForm.value.password;
-    let passwordEncrypt = this.encrypt(password)
+  private doLogin() {
+    let user: User = this.getLoginParams();
 
-    const user: User = { name: usernameEncrypt, password: passwordEncrypt };
-
-    
     this.authservice.login(user).subscribe({
       next: (response: any) => {
         this.storageService.setToken(response.token);
@@ -43,8 +64,50 @@ export class LoginComponent {
     });
   }
 
-  encrypt(word: string) {
+  private getLoginParams(): User {
+    const username = this.userForm.value.username;
+    let usernameEncrypt = this.encrypt(username);
+
+    const password = this.userForm.value.password;
+    let passwordEncrypt = this.encrypt(password);
+
+    return { name: usernameEncrypt, password: passwordEncrypt };
+  }
+
+  private encrypt(word: string) {
     let byteword = new TextEncoder().encode(word);
     return btoa(String.fromCharCode(...new Uint8Array(byteword)));
+  }
+
+  identifyErrorUser(error: any): boolean{
+    if(error.errors?.['required'] === true && this.userForm.controls['username']?.touched){
+      this.messageErrorUser = 'El Campo es requerido';
+      return true;
+    }
+    if(error.errors?.['pattern']){
+      this.messageErrorUser = 'No puede contener Caracteres Especiales';
+      return true;
+    }
+    if(error.errors?.['minlength']){
+      this.messageErrorUser = 'Debe de tener al menos '+this.minUserNameLenght+ " caracteres";
+      return true;
+    }
+    return false;
+  }
+
+  identifyErrorPassword(error: any): boolean{
+    if(error.errors?.['required'] === true && this.userForm.controls['password']?.touched){
+      this.messageErrorPassword = 'El Campo es requerido';
+      return true;
+    }
+    if(error.errors?.['minlength']){
+      this.messageErrorPassword = 'Debe de tener al menos '+this.minPasswordLenght+ " caracteres";
+      return true;
+    }
+    if(error.errors?.['maxlength']){
+      this.messageErrorPassword = 'No debe superar '+this.maxPasswordLenght+' caracteres';
+      return true;
+    }
+    return false;
   }
 }
