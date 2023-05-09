@@ -28,7 +28,7 @@
             </div>
             <div class="col-12">
               <span
-                *ngIf="identifyErrorUser(userForm.get('username'))"
+                *ngIf="identifyError('username',userForm.get('username'))"
                 id="Error"
                 class="form-text text-danger"
               >
@@ -54,7 +54,7 @@
             </div>
             <div class="col-12">
               <span
-                *ngIf="identifyErrorPassword(userForm.get('password'))"
+                *ngIf="identifyError('password',userForm.get('password'))"
                 id="Error"
                 class="form-text text-danger"
               >

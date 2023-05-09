@@ -16,7 +16,7 @@ export class LoginComponent {
   maxPasswordLenght = 12;
   messageErrorUser = '';
   messageErrorPassword = '';
-  validatorError = false;
+  messageError = '';
 
   userForm: FormGroup = this.formBuilder.group({
     username: [
@@ -79,33 +79,31 @@ export class LoginComponent {
     return btoa(String.fromCharCode(...new Uint8Array(byteword)));
   }
 
-  identifyErrorUser(error: any): boolean{
-    if(error.errors?.['required'] === true && this.userForm.controls['username']?.touched){
+  identifyError(field: string, error: any): boolean {
+    if (
+      error.errors?.['required'] === true &&
+      this.userForm.controls[field]?.touched
+    ) {
       this.messageErrorUser = 'El Campo es requerido';
-      return true;
-    }
-    if(error.errors?.['pattern']){
-      this.messageErrorUser = 'No puede contener Caracteres Especiales';
-      return true;
-    }
-    if(error.errors?.['minlength']){
-      this.messageErrorUser = 'Debe de tener al menos '+this.minUserNameLenght+ " caracteres";
-      return true;
-    }
-    return false;
-  }
-
-  identifyErrorPassword(error: any): boolean{
-    if(error.errors?.['required'] === true && this.userForm.controls['password']?.touched){
       this.messageErrorPassword = 'El Campo es requerido';
       return true;
     }
-    if(error.errors?.['minlength']){
-      this.messageErrorPassword = 'Debe de tener al menos '+this.minPasswordLenght+ " caracteres";
+    if (error.errors?.['pattern'] && this.userForm.controls[field]?.touched) {
+      this.messageErrorUser = 'No puede contener Caracteres Especiales';
       return true;
     }
-    if(error.errors?.['maxlength']){
-      this.messageErrorPassword = 'No debe superar '+this.maxPasswordLenght+' caracteres';
+    if (error.errors?.['minlength'] && this.userForm.controls[field]?.touched) {
+      if (field === 'username') {
+        this.messageErrorUser =
+          'Debe de tener al menos ' + this.minUserNameLenght + ' caracteres';
+      }
+      this.messageErrorPassword =
+        'Debe de tener al menos ' + this.minPasswordLenght + ' caracteres';
+      return true;
+    }
+    if (error.errors?.['maxlength'] && this.userForm.controls[field]?.touched) {
+      this.messageErrorPassword =
+        'No debe superar ' + this.maxPasswordLenght + ' caracteres';
       return true;
     }
     return false;
