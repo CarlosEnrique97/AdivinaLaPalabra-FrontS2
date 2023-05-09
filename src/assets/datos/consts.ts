@@ -20,3 +20,4 @@ export let LOST_GAME_DIALOG = {
     button: '¿Que tal looser, lo vuelves a intentar?',
   };
 
+export const baseUrl = "http://10.102.31.7:8080/"

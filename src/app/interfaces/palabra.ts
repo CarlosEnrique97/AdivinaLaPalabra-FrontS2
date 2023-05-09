@@ -21,15 +21,22 @@ export type DataDialog = {
   text: string;
   correctWord: string;
   button: string;
-}
+};
 
 export interface Rounds {
-  wordRound: string[],
-  wordStatusRound: string[],
-  positionInput: number
+  wordRound: string[];
+  wordStatusRound: string[];
+  positionInput: number;
 }
 
 export interface User {
-  name: string,
-  password: string
+  name: string;
+  password: string;
 }
+export type LastTenGames = {
+  date: string;
+
+  winned: boolean;
+
+  attempts: number;
+};
