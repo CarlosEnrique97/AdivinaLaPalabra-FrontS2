@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { LastTenGames } from 'src/app/interfaces/palabra';
 import { GameService } from 'src/app/services/game.service';
-import { LastTenGamesDatos } from 'src/assets/datos/datos';
 
 @Component({
   selector: 'app-game-historic',
