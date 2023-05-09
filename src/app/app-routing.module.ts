@@ -22,8 +22,8 @@ const routes: Routes = [
   {
     path: 'game-historic',
     loadChildren: () =>
-      import('./components/gameHistoric/game-historic.module').then(
-        (module) => module.GameHistoricModule
+      import('./modules/game-historic-module/game-historic-module.module').then(
+        (module) => module.GameHistoricModuleModule
       ),
   },
 ];
