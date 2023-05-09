@@ -91,13 +91,13 @@ export class MainComponent implements OnInit {
           return;
         }
         this.validatePosition();
-      },
+      }
     });
   }
 
   writeLetter(tecla: string) {
     if (this.findCorrectIndex() === -1) return;
-    this.word[this.rounds[this.contRound].positionInput] = tecla;
+    this.rounds[this.contRound].wordRound[this.rounds[this.contRound].positionInput] = tecla;
     this.rounds[this.contRound].positionInput = this.findCorrectIndex();
   }
 
@@ -126,7 +126,7 @@ export class MainComponent implements OnInit {
         this.setStatus();
         this.setTecladoStatus();
         this.checkWin();
-      },
+      }
     });
   }
 
@@ -165,7 +165,6 @@ export class MainComponent implements OnInit {
 
       return;
     }
-
     if (positionLetter > 0) {
       this.rounds[this.contRound].positionInput--;
 

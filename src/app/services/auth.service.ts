@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { baseUrl } from 'src/assets/datos/consts';
+import { User } from '../interfaces/palabra';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ import { baseUrl } from 'src/assets/datos/consts';
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  login(user: any): Observable<any> {
+  login(user: User): Observable<any> {
     return this.http.post(baseUrl + 'auth/login', user);
   }
 }
