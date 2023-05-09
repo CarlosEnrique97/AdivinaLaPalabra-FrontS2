@@ -17,6 +17,7 @@ export class Logininterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    
     const token = this.storageService.getToken();
 
     if (token != null) {
