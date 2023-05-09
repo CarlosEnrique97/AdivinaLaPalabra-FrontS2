@@ -13,13 +13,19 @@ export class MainComponent {
   constructor(private gameService: GameService) {}
 
   ngOnInit(): void {
-    
+    this.setLatTenGames();
   }
   getLastGames(): LastTenGames[] {
     return this.lastTenGames;
   }
 
-  
+  setLatTenGames() {
+    this.gameService.getLastTenGames().subscribe((response: LastTenGames[]) => {
+      next: this.lastTenGames = response;
+      this.convertDate();
+    });
+    this.gameService.listTenGames;
+  }
   convertDate() {
     const datePipe = new DatePipe('en-US');
     this.lastTenGames.forEach((item, index) => {
