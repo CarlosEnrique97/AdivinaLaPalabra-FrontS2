@@ -1,15 +1,14 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-
+import { Component } from '@angular/core';
 import { LastTenGames } from 'src/app/interfaces/palabra';
 import { GameService } from 'src/app/services/game.service';
 
 @Component({
-  selector: 'app-game-historic',
-  templateUrl: './game-historic.component.html',
-  styleUrls: ['./game-historic.component.scss'],
+  selector: 'app-main',
+  templateUrl: './main.component.html',
+  styleUrls: ['./main.component.scss']
 })
-export class GameHistoricComponent implements OnInit {
+export class MainComponent {
   lastTenGames: LastTenGames[] = [];
   constructor(private gameService: GameService) {}
 
