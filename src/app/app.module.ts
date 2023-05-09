@@ -10,8 +10,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MainInterceptor } from './interceptores/main.interceptor';
-import { DialogWinComponent } from './components/dialog-win/dialog-win.component';
+import { DialogFinishComponent } from './components/dialog-finish/dialog-finish.component';
 import { GameHistoricModule } from './components/gameHistoric/game-historic.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
+import { LoginComponent } from './components/login/login.component';
+
 
 @NgModule({
   declarations: [
@@ -19,7 +23,8 @@ import { GameHistoricModule } from './components/gameHistoric/game-historic.modu
     NavbarComponent,
     FooterComponent,
     DialogComponent,
-    DialogWinComponent,
+    DialogFinishComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -28,15 +33,19 @@ import { GameHistoricModule } from './components/gameHistoric/game-historic.modu
     MainModuleModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
     GameHistoricModule,
   ],
-  providers: [
+  providers: [CookieService,
     {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MainInterceptor,
-      multi: true,
-    },
-  ],
-  bootstrap: [AppComponent],
+    provide: HTTP_INTERCEPTORS,
+    useClass: MainInterceptor,
+    multi: true
+  },
+],
+
+  bootstrap: [AppComponent]
+
 })
 export class AppModule {}

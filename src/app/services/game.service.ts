@@ -1,5 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { Injectable } from '@angular/core';
+
 import { BehaviorSubject, Observable } from 'rxjs';
 import {
   GameID,
@@ -14,7 +16,7 @@ import {
 export class GameService {
   wordExist: any;
   baseURL = 'http://10.102.30.50:8080/';
-  id = 0;
+
   listTenGames: any;
   valueListTenGames = {
     date: 'string',
@@ -23,9 +25,11 @@ export class GameService {
 
     attempts: 0,
   };
+
+  id: string = '';
+
   constructor(private http: HttpClient) {}
 
-  $id: BehaviorSubject<GameID> = new BehaviorSubject<GameID>({ game_id: 0 });
   $disableKeyboard: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   getWordIfExist(wordInsert: string): Observable<boolean> {
@@ -34,19 +38,22 @@ export class GameService {
     );
   }
 
-  getId() {
-    this.$id.subscribe({
-      next: (response: GameID) => {
-        this.id = response.game_id;
-      },
-    });
+  getAttempts(): Observable<boolean> {
+    return this.http.get<boolean>(
+      this.baseURL.concat('checkAttemptsInRange/' + this.id)
+    );
+  }
+
+  getCorrectWord(): Observable<string> {
+    return this.http.get<string>(
+      this.baseURL.concat('getCorrectWord/' + this.id)
+    );
   }
 
   newGame() {
-    this.getId();
     this.http.get<GameID>(this.baseURL.concat('newGame')).subscribe({
       next: (response: GameID) => {
-        this.$id.next(response);
+        this.id = response.game_id;
       },
     });
   }
@@ -62,7 +69,6 @@ export class GameService {
     );
   }
   getLastTenGames(): Observable<LastTenGames[]> {
-    this.getId();
     return this.http.get<LastTenGames[]>(
       this.baseURL.concat('getLastTenGames')
     );
