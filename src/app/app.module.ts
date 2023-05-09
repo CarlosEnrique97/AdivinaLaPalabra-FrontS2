@@ -11,11 +11,11 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MainInterceptor } from './interceptores/main.interceptor';
 import { DialogFinishComponent } from './components/dialog-finish/dialog-finish.component';
-import { GameHistoricModule } from './components/gameHistoric/game-historic.module';
 import { Logininterceptor } from './interceptores/login.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { LoginComponent } from './components/login/login.component';
+import { GameHistoricModuleModule } from './modules/game-historic-module/game-historic-module.module';
 
 
 @NgModule({
@@ -36,7 +36,7 @@ import { LoginComponent } from './components/login/login.component';
     MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
-    GameHistoricModule,
+    GameHistoricModuleModule
   ],
   providers: [CookieService,
     {
