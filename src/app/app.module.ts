@@ -40,16 +40,16 @@ import { LoginComponent } from './components/login/login.component';
   ],
   providers: [CookieService,
     {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MainInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: Logininterceptor,
-      multi: true,
-    },
-  ],
+    provide: HTTP_INTERCEPTORS,
+    useClass: MainInterceptor,
+    multi: true
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: Logininterceptor,
+    multi: true,
+  },
+],
 
   bootstrap: [AppComponent]
 })

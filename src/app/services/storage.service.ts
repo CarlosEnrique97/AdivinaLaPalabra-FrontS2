@@ -5,13 +5,15 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root',
 })
 export class StorageService {
+  timeExpiration = 15;
+
   constructor(private cookies: CookieService) {}
 
   setToken(token: string) {
-    this.cookies.set('UserToken', token, 15);
+    this.cookies.set('UserToken', token, this.timeExpiration);
   }
 
-  getToken() {
+  getToken(): string | null {
     return this.cookies.get('UserToken');
   }
 }

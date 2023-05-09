@@ -19,16 +19,16 @@ export class Logininterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const token = this.storageService.getToken();
 
-    if (token != null) {
-      const TokenReq = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return next.handle(TokenReq);
-    } else {
-      this.router.navigate(['/login']);
+    if (token === '') {
+      this.router.navigateByUrl('/login');
       return next.handle(req);
     }
+
+    const TokenReq = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return next.handle(TokenReq);
   }
 }

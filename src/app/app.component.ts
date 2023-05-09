@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { GameService } from './services/game.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +8,8 @@ import { GameService } from './services/game.service';
 export class AppComponent {
   title = 'AdivinaLaPalabra-Front';
 
-  constructor(private gameService: GameService) {}
+  constructor() {}
 
   ngOnInit() {
-    this.gameService.newGame();
   }
 }

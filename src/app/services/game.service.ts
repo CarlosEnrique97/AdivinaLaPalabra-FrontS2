@@ -3,8 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
-
-import { GameID, LetterStatus, Palabra } from '../interfaces/palabra';
+import {
+  GameID,
+  LastTenGames,
+  LetterStatus,
+  Palabra,
+} from '../interfaces/palabra';
 
 import { baseUrl } from 'src/assets/datos/consts';
 
@@ -13,6 +17,16 @@ import { baseUrl } from 'src/assets/datos/consts';
 })
 export class GameService {
   wordExist: any;
+
+  listTenGames: any;
+  valueListTenGames = {
+    date: 'string',
+
+    winned: false,
+
+    attempts: 0,
+  };
+
   id: string = '';
 
   constructor(private http: HttpClient) {}
@@ -51,6 +65,11 @@ export class GameService {
       baseUrl.concat('validatePositions/' + this.id),
       wordInsert,
       { headers }
+    );
+  }
+  getLastTenGames(): Observable<LastTenGames[]> {
+    return this.http.get<LastTenGames[]>(
+      baseUrl.concat('getLastTenGames/' + this.id)
     );
   }
 }
