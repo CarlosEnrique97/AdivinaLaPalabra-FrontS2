@@ -79,33 +79,23 @@ export class LoginComponent {
     return btoa(String.fromCharCode(...new Uint8Array(byteword)));
   }
 
-  identifyError(field: string, error: any): boolean {
-    if (
-      error.errors?.['required'] === true &&
-      this.userForm.controls[field]?.touched
-    ) {
-      this.messageErrorUser = 'El Campo es requerido';
-      this.messageErrorPassword = 'El Campo es requerido';
-      return true;
+  identifyError(error: any): string | null {
+    if (error.errors?.['required'] ) {
+      return 'El Campo es requerido';
     }
-    if (error.errors?.['pattern'] && this.userForm.controls[field]?.touched) {
-      this.messageErrorUser = 'No puede contener Caracteres Especiales';
-      return true;
+    if (error.errors?.['pattern'] ) {
+      return 'No puede contener Caracteres Especiales';
     }
-    if (error.errors?.['minlength'] && this.userForm.controls[field]?.touched) {
-      if (field === 'username') {
-        this.messageErrorUser =
-          'Debe de tener al menos ' + this.minUserNameLenght + ' caracteres';
-      }
-      this.messageErrorPassword =
-        'Debe de tener al menos ' + this.minPasswordLenght + ' caracteres';
-      return true;
+    if (error.errors?.['minlength'] ) {
+      return (
+        'Debe de tener al menos ' +
+        error.errors?.['minlength'].requiredLength +
+        ' caracteres'
+      );
     }
-    if (error.errors?.['maxlength'] && this.userForm.controls[field]?.touched) {
-      this.messageErrorPassword =
-        'No debe superar ' + this.maxPasswordLenght + ' caracteres';
-      return true;
+    if (error.errors?.['maxlength'] ) {
+      return 'No debe superar ' + error.errors?.['maxlength'].requiredLength + ' caracteres';
     }
-    return false;
+    return null;
   }
 }

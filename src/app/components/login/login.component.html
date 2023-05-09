@@ -28,11 +28,12 @@
             </div>
             <div class="col-12">
               <span
-                *ngIf="identifyError('username',userForm.get('username'))"
+                *ngIf="userForm.get('username')?.errors
+                && this.userForm.controls['username']?.touched"
                 id="Error"
                 class="form-text text-danger"
               >
-                {{ messageErrorUser }}
+                {{ identifyError(userForm.get('username')) }}
               </span>
             </div>
           </div>
@@ -54,11 +55,12 @@
             </div>
             <div class="col-12">
               <span
-                *ngIf="identifyError('password',userForm.get('password'))"
+                *ngIf="userForm.get('password')?.errors
+                 && this.userForm.controls['password']?.touched"
                 id="Error"
                 class="form-text text-danger"
               >
-                {{ messageErrorPassword }}</span
+                {{identifyError(userForm.get('password')) }}</span
               >
             </div>
           </div>
