@@ -33,3 +33,11 @@ export interface User {
   name: string,
   password: string
 }
+
+export type LastTenGames = {
+  date: string;
+
+  winned: boolean;
+
+  attempts: number;
+};
