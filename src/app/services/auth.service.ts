@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { baseUrl } from 'src/assets/datos/consts';
 import { User } from '../interfaces/palabra';
-
-const baseUrl = 'http://10.102.31.7:8080/';
 
 @Injectable({
   providedIn: 'root',
