@@ -78,21 +78,25 @@ export class LoginComponent {
   }
 
   identifyError(error: any): string | null {
-    if (error.errors?.['required'] ) {
+    if (error.errors?.['required']) {
       return 'El Campo es requerido';
     }
-    if (error.errors?.['pattern'] ) {
+    if (error.errors?.['pattern']) {
       return 'No puede contener Caracteres Especiales';
     }
-    if (error.errors?.['minlength'] ) {
+    if (error.errors?.['minlength']) {
       return (
         'Debe de tener al menos ' +
         error.errors?.['minlength'].requiredLength +
         ' caracteres'
       );
     }
-    if (error.errors?.['maxlength'] ) {
-      return 'No debe superar ' + error.errors?.['maxlength'].requiredLength + ' caracteres';
+    if (error.errors?.['maxlength']) {
+      return (
+        'No debe superar ' +
+        error.errors?.['maxlength'].requiredLength +
+        ' caracteres'
+      );
     }
     return null;
   }

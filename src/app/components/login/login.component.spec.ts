@@ -7,7 +7,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { MainModuleModule } from 'src/app/modules/main-module/main-module.module';
-import { GameHistoricModule } from '../gameHistoric/game-historic.module';
 import { AuthService } from 'src/app/services/auth.service';
 import { StorageService } from 'src/app/services/storage.service';
 
@@ -28,7 +27,6 @@ fdescribe('LoginComponent', () => {
         MatDialogModule,
         FormsModule,
         ReactiveFormsModule,
-        GameHistoricModule,
       ],
       declarations: [LoginComponent],
       providers: [AuthService, StorageService],
@@ -66,19 +64,49 @@ fdescribe('LoginComponent', () => {
     const username = login.userForm.controls['username'];
     username.setValue('pepe');
     const password = login.userForm.controls['password'];
-    password.setValue('1234');
+    password.setValue('123456');
 
     expect(login.userForm.invalid).toBeFalse();
   });
 
-  it('Debe retornar palabra encriptada', () => {
+  it('Debe retornar mensaje de error para required', () => {
     const fixture = TestBed.createComponent(LoginComponent);
     const login = fixture.componentInstance;
     fixture.detectChanges();
+    
+    const error = { errors: { required: true } };
+    const result = login.identifyError(error);
+    expect(result).toEqual("El Campo es requerido");
+  });
 
-    const result = login.encrypt('pepe');
+  it('Debe retornar mensaje de error para pattern', () => {
+    const fixture = TestBed.createComponent(LoginComponent);
+    const login = fixture.componentInstance;
+    fixture.detectChanges();
+    
+    const error = { errors: { pattern: true } };
+    const result = login.identifyError(error);
+    expect(result).toEqual("No puede contener Caracteres Especiales");
+  });
 
-    expect(result).toEqual('cGVwZQ==');
+  it('Debe retornar mensaje de error para minlength', () => {
+    const fixture = TestBed.createComponent(LoginComponent);
+    const login = fixture.componentInstance;
+    fixture.detectChanges();
+    
+    const error = { errors: { minlength: { requiredLength: 5 } } };
+    const result = login.identifyError(error);
+    expect(result).toEqual("Debe de tener al menos 5 caracteres");
+  });
+
+  it('Debe retornar mensaje de error para maxlength', () => {
+    const fixture = TestBed.createComponent(LoginComponent);
+    const login = fixture.componentInstance;
+    fixture.detectChanges();
+    
+    const error = { errors: { maxlength: { requiredLength: 5 } } };
+    const result = login.identifyError(error);
+    expect(result).toEqual("No debe superar 5 caracteres");
   });
 
   xit('Debe llamar a login desde authService', () => {

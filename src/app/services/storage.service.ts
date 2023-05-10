@@ -5,7 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root',
 })
 export class StorageService {
-  timeExpiration = 15;
+  timeExpiration = 1;
 
   constructor(private cookies: CookieService) {}
 
