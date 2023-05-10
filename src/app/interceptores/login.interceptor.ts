@@ -11,6 +11,8 @@ import { StorageService } from '../services/storage.service';
 
 @Injectable()
 export class Logininterceptor implements HttpInterceptor {
+  emptyToken = "";
+
   constructor(private router: Router, private storageService: StorageService) {}
 
   intercept(
@@ -19,7 +21,7 @@ export class Logininterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const token = this.storageService.getToken();
 
-    if (token === '') {
+    if (token === this.emptyToken) {
       this.router.navigateByUrl('login');
       return EMPTY;
     }
