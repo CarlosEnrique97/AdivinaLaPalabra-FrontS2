@@ -5,7 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root',
 })
 export class StorageService {
-  timeExpiration = 15;
+  timeExpiration = 1;
 
   constructor(private cookies: CookieService) {}
 
@@ -13,7 +13,7 @@ export class StorageService {
     this.cookies.set('UserToken', token, this.timeExpiration);
   }
 
-  getToken() {
+  getToken(): string | null {
     return this.cookies.get('UserToken');
   }
 }
