@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DialogFinishComponent } from './dialog-finish.component';
 
 describe('DialogLostComponent', () => {
-  let component: DialogFinishComponent;
+  let dialog: DialogFinishComponent;
   let fixture: ComponentFixture<DialogFinishComponent>;
 
   beforeEach(async () => {
@@ -13,11 +13,11 @@ describe('DialogLostComponent', () => {
     .compileComponents();
 
     fixture = TestBed.createComponent(DialogFinishComponent);
-    component = fixture.componentInstance;
+    dialog = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('Se deberia crear', () => {
+    expect(dialog).toBeTruthy();
   });
 });
