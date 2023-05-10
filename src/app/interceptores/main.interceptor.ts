@@ -9,6 +9,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { DialogComponent } from '../components/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { GameService } from '../services/game.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class MainInterceptor implements HttpInterceptor {
@@ -16,8 +17,14 @@ export class MainInterceptor implements HttpInterceptor {
     'Ups, ha habido un error de conexión, por favor inténtelo de nuevo mas tarde';
 
   errorNoConection = 0;
+  errorTokenExpired = 401;
+  urlLogin= "http://10.102.31.7:8080/auth/login";
 
-  constructor(private dialog: MatDialog, private gameService: GameService) {}
+  constructor(
+    private router: Router,
+    private dialog: MatDialog,
+    private gameService: GameService
+  ) {}
 
   intercept(
     request: HttpRequest<any>,
@@ -32,11 +39,15 @@ export class MainInterceptor implements HttpInterceptor {
 
   messageError(error: any) {
     let message = this.errorMessageDefault;
+    if (error.status === this.errorTokenExpired && error.url !== this.urlLogin) {
+      message = 'Tu sesion ha Expirado';
+      this.showError(message);
+      this.router.navigateByUrl('/login');
+    }
     if (error.status !== this.errorNoConection) {
       message = error.error.message;
     }
     this.showError(message);
-
     this.gameService.$disableKeyboard.next(true);
   }
   showError(message: string) {
