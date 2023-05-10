@@ -77,6 +77,7 @@ export class MainComponent implements OnInit {
         this.disableKeyboard = response;
       },
     });
+    this.gameService.$disableKeyboard.next(false);
   }
 
   sendWord() {
