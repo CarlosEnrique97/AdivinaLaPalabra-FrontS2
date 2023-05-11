@@ -17,8 +17,14 @@ export class MainInterceptor implements HttpInterceptor {
     'Ups, ha habido un error de conexión, por favor inténtelo de nuevo mas tarde';
 
   errorNoConection = 0;
-errorTokenExpired = 401;
-  constructor(private router: Router,private dialog: MatDialog, private gameService: GameService) {}
+  errorTokenExpired = 401;
+  urlLogin= "http://10.102.31.7:8080/auth/login";
+
+  constructor(
+    private router: Router,
+    private dialog: MatDialog,
+    private gameService: GameService
+  ) {}
 
   intercept(
     request: HttpRequest<any>,
@@ -33,15 +39,15 @@ errorTokenExpired = 401;
 
   messageError(error: any) {
     let message = this.errorMessageDefault;
-   if(error.status === this.errorTokenExpired){
+    if (error.status === this.errorTokenExpired && error.url !== this.urlLogin) {
+      message = 'Tu sesion ha Expirado';
+      this.showError(message);
       this.router.navigateByUrl('/login');
-     return  message = "Tu sesion ha Expirado";
     }
     if (error.status !== this.errorNoConection) {
-     return message = error.error.message;
-    } 
+      message = error.error.message;
+    }
     this.showError(message);
-
     this.gameService.$disableKeyboard.next(true);
   }
   showError(message: string) {
