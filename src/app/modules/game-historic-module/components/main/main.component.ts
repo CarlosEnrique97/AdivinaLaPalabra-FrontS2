@@ -40,8 +40,8 @@ export class MainComponent {
       error: () => {
         this.setTenGames();
         this.areEnoughGames = false;
-        this.convertDate();
       },
+      complete: () => {this.convertDate()}
     });
   }
 
