@@ -69,7 +69,7 @@ export class GameService {
   }
   getLastTenGames(): Observable<LastTenGames[]> {
     return this.http.get<LastTenGames[]>(
-      baseUrl.concat('getLastTenGames/' + this.id)
+      baseUrl.concat('getLastTenGames')
     );
   }
 }
