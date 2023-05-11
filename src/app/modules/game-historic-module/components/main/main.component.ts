@@ -1,37 +1,64 @@
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { LastTenGames } from 'src/app/interfaces/palabra';
+import { Games } from 'src/app/interfaces/palabra';
 import { GameService } from 'src/app/services/game.service';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  styleUrls: ['./main.component.scss'],
 })
 export class MainComponent {
-  lastTenGames: LastTenGames[] = [];
+  Games: Games[] = [];
+
+  watchAllGames = false;
+
+  areEnoughGames = true;
+
   constructor(private gameService: GameService) {}
 
   ngOnInit(): void {
-    this.setLatTenGames();
-  }
-  getLastGames(): LastTenGames[] {
-    return this.lastTenGames;
+    this.setAllGames();
   }
 
-  setLatTenGames() {
-    this.gameService.getLastTenGames().subscribe((response: LastTenGames[]) => {
-      next: this.lastTenGames = response;
+  getLastGames(): Games[] {
+    return this.Games;
+  }
+
+  setTenGames() {
+    this.gameService.getTenGames().subscribe((response: Games[]) => {
+      this.Games = response;
       this.convertDate();
     });
-    this.gameService.listTenGames;
   }
+
+  setAllGames() {
+    this.gameService.getAllGames().subscribe({
+      next: (response) => {
+        this.Games = response;
+      },
+      error: () => {
+        this.setTenGames();
+        this.areEnoughGames = false;
+        this.convertDate();
+      },
+    });
+  }
+
   convertDate() {
     const datePipe = new DatePipe('en-US');
-    this.lastTenGames.forEach((item, index) => {
+    this.Games.forEach((item, index) => {
       const fecha: Date | null = new Date(item.date);
-      this.lastTenGames[index].date =
+      this.Games[index].date =
         datePipe.transform(fecha, 'dd/MM/yyyy HH:mm') ?? '';
     });
+  }
+
+  showAllGames() {
+    this.watchAllGames = true;
+  }
+
+  showTenGames() {
+    this.watchAllGames = false;
   }
 }

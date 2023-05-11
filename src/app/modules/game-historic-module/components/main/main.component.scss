@@ -7,10 +7,15 @@ ul {
 }
 .table {
   border-radius: 23px;
-
   background-color: rgb(255, 255, 255);
   color: rgb(17, 17, 17);
 }
+
+.scrolleable{
+  max-height: 50vh;
+  overflow: auto;
+}
+
 .container {
   width: 150vb;
 }

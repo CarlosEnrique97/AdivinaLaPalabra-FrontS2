@@ -18,7 +18,9 @@ export class MainInterceptor implements HttpInterceptor {
 
   errorNoConection = 0;
   errorTokenExpired = 401;
+  errorInsufficientGames = 406;
   urlLogin= "http://10.102.31.7:8080/auth/login";
+  urlGames= "http://10.102.31.7:8080/getAllGames";
 
   constructor(
     private router: Router,
@@ -42,12 +44,12 @@ export class MainInterceptor implements HttpInterceptor {
     if (error.status === this.errorTokenExpired && error.url !== this.urlLogin) {
       message = 'Tu sesion ha Expirado';
       this.showError(message);
-      this.router.navigateByUrl('/login');
+      this.router.navigateByUrl('login');
     }
-    if (error.status !== this.errorNoConection) {
+    if (error.status !== this.errorNoConection && error.status !== this.errorInsufficientGames) {
       message = error.error.message;
+      this.showError(message);
     }
-    this.showError(message);
     this.gameService.$disableKeyboard.next(true);
   }
   showError(message: string) {
