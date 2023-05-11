@@ -59,6 +59,7 @@ export class LoginComponent {
         this.storageService.setToken(response.token);
         this.router.navigateByUrl('/main');
       },
+      error: () => {}
     });
   }
 
