@@ -10,7 +10,7 @@ import { LastTenGames } from 'src/app/interfaces/palabra';
 
 import { HttpClientModule } from '@angular/common/http';
 
-fdescribe('MainComponent', () => {
+fdescribe('Game-historic', () => {
   let component: MainComponent;
 
   let fixture: ComponentFixture<MainComponent>;
@@ -38,7 +38,7 @@ fdescribe('MainComponent', () => {
       });
   });
 
-  it('should create', () => {
+  it('Se deberia crear', () => {
     expect(component).toBeTruthy();
   });
 
