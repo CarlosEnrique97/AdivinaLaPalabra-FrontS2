@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { GameHistoricModuleRoutingModule } from './game-historic-module-routing.module';
 import { MainComponent } from './components/main/main.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { MainComponent } from './components/main/main.component';
   ],
   imports: [
     CommonModule,
-    GameHistoricModuleRoutingModule
+    GameHistoricModuleRoutingModule,
+    HttpClientModule
   ]
 })
 export class GameHistoricModuleModule { }

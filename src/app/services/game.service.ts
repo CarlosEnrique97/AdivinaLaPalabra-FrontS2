@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import {
+  Games,
   GameID,
-  LastTenGames,
   LetterStatus,
   Palabra,
 } from '../interfaces/palabra';
@@ -18,7 +18,6 @@ import { baseUrl } from 'src/assets/datos/consts';
 export class GameService {
   wordExist: any;
 
-  listTenGames: any;
   valueListTenGames = {
     date: 'string',
 
@@ -67,9 +66,16 @@ export class GameService {
       { headers }
     );
   }
-  getLastTenGames(): Observable<LastTenGames[]> {
-    return this.http.get<LastTenGames[]>(
-      baseUrl.concat('getLastTenGames/' + this.id)
+
+  getTenGames(): Observable<Games[]> {
+    return this.http.get<Games[]>(
+      baseUrl.concat('getLastTenGames')
+    );
+  }
+
+  getAllGames(): Observable<Games[]> {
+    return this.http.get<Games[]>(
+      baseUrl.concat('getAllGames')
     );
   }
 }

@@ -5,7 +5,7 @@ import {
   HttpHandler,
   HttpRequest,
 } from '@angular/common/http';
-import { EMPTY, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { StorageService } from '../services/storage.service';
 
@@ -23,7 +23,7 @@ export class Logininterceptor implements HttpInterceptor {
 
     if (token === this.emptyToken) {
       this.router.navigateByUrl('login');
-      return EMPTY;
+      return next.handle(req);;
     }
 
     const TokenReq = req.clone({

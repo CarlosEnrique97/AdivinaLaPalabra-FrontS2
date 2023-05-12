@@ -154,11 +154,12 @@ export class MainComponent implements OnInit {
 
   private changePositionWhenDelete() {
     const positionLetter = this.rounds[this.contRound].positionInput;
-
-    if (this.word[positionLetter] !== '') {
+    if (
+      this.word[positionLetter] !== '' &&
+      this.word[positionLetter] !== undefined
+    ) {
       return;
     }
-
     if (positionLetter > this.word.length - 1 || positionLetter < 0) {
       this.rounds[this.contRound].positionInput = this.word.length - 1;
 

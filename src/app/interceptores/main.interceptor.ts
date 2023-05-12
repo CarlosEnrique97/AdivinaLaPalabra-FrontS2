@@ -10,6 +10,7 @@ import { DialogComponent } from '../components/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { GameService } from '../services/game.service';
 import { Router } from '@angular/router';
+import { baseUrl } from 'src/assets/datos/consts';
 
 @Injectable()
 export class MainInterceptor implements HttpInterceptor {
@@ -18,7 +19,9 @@ export class MainInterceptor implements HttpInterceptor {
 
   errorNoConection = 0;
   errorTokenExpired = 401;
-  urlLogin= "http://10.102.31.7:8080/auth/login";
+  errorInsufficientGames = 406;
+  urlLogin= baseUrl + "auth/login";
+  urlGames= baseUrl + "getAllGames";
 
   constructor(
     private router: Router,
@@ -40,14 +43,15 @@ export class MainInterceptor implements HttpInterceptor {
   messageError(error: any) {
     let message = this.errorMessageDefault;
     if (error.status === this.errorTokenExpired && error.url !== this.urlLogin) {
+      console.log(error.url)
       message = 'Tu sesion ha Expirado';
       this.showError(message);
-      this.router.navigateByUrl('/login');
+      this.router.navigateByUrl('login');
     }
-    if (error.status !== this.errorNoConection) {
+    if (error.status !== this.errorNoConection && error.status !== this.errorInsufficientGames) {
       message = error.error.message;
+      this.showError(message);
     }
-    this.showError(message);
     this.gameService.$disableKeyboard.next(true);
   }
   showError(message: string) {
